@@ -54,8 +54,17 @@ function setup() {
     const buffer = uint8Array.buffer;
 
     initSync(buffer)
+    const originalWebAssemblyModule = WebAssembly.Module
+    WebAssembly.Module = function (byte) {
+        console.log('Monkeypatched WebAssembly.Module')
+        const module = new originalWebAssemblyModule(byte)
+        module.byte = byte
+        return module
+    }
     let original_instantiate = WebAssembly.instantiate
     WebAssembly.instantiate = function (buffer, importObject) {
+        // handle monkeypatch of WebAssembly.Module
+        buffer = (buffer.byte) ? buffer.byte : buffer
         self.performanceList.push(p_timeToFirstInstantiate.stop())
         const this_i = i
         i += 1
@@ -84,6 +93,32 @@ function setup() {
         let response = await source;
         let body = await response.arrayBuffer();
         return WebAssembly.instantiate(body, obj);
+    }
+    const oldInstance = WebAssembly.Instance
+    WebAssembly.Instance  = function (module, importObject) {
+        console.log('Monkeypatched WebAssembly.Instance')
+        let buffer = module.byte
+        self.performanceList.push(p_timeToFirstInstantiate.stop())
+        const this_i = i
+        i += 1
+        // TODO: refactor and delete duplicate
+        const p_instantiationTime = performanceEvent(`Time to instantiate wasm module ${this_i}`)
+        console.log('WebAssembly.instantiate')
+        printWelcome()
+        self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
+        const p_instrumenting = performanceEvent(`instrumentation of wasm binary ${this_i}`)
+        const { instrumented, js } = instrument_wasm({ original: new Uint8Array(buffer) });
+        self.performanceList.push(p_instrumenting.stop())
+        wasabis.push(eval(js + '\nWasabi'))
+        buffer = new Uint8Array(instrumented)
+        importObject = importObjectWithHooks(importObject, this_i)
+        self.analysis.push(setupAnalysis(wasabis[this_i]))
+        let result
+        module = new WebAssembly.Module(buffer)
+        const instance = new oldInstance(module, importObject)
+        result = wireInstanceExports(instance, this_i)
+        self.performanceList.push(p_instantiationTime.stop())
+        return instance
     }
 }
 setup()
