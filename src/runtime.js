@@ -29,7 +29,9 @@ function setup() {
     };
 
     const wireInstanceExports = function (instance, i) {
+        console.log('instance.exports', instance.exports)
         wasabis[i].module.exports = instance.exports;
+        console.log(`wasabis[${i}]`, wasabis[i])
         wasabis[i].module.tables = [];
         wasabis[i].module.memories = [];
         wasabis[i].module.globals = [];
