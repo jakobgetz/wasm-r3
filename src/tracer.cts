@@ -3,27 +3,38 @@ import { Trace as TraceType, ConsiseTrace, ValType, ConsiseWasmEvent, WasmEvent,
 import { AnalysisI } from './analyser.cjs'
 
 export class Trace {
-    private trace: string[]
+    private trace: string
+    private socket: WebSocket
     private cache: string[] = []
 
     constructor() {
-        this.trace = []
+        this.trace = ''
+        this.socket = new WebSocket("ws://localhost:8080/trace.r3");
     }
 
     push(event: ConsiseWasmEvent | Ref) {
         const eventString = this.stringifyEvent(event)
-        if (event[0] === 'IC' || event[0] === 'IR') {
-            const cashIndex = this.cache.findIndex(v => v === eventString)
-            // const cashIndex = this.cache.findIndex(v => this.eventEquals(v, event))
-            if (cashIndex !== -1) {
-                this.trace.push(cashIndex.toString())
-                // this.trace.push([cashIndex])
-                return
-            } else {
-                this.cache.push(eventString)
+        // if (event[0] === 'IC' || event[0] === 'IR') {
+        //     const cashIndex = this.cache.findIndex(v => v === eventString)
+        //     // const cashIndex = this.cache.findIndex(v => this.eventEquals(v, event))
+        //     if (cashIndex !== -1) {
+        //         this.trace.push(cashIndex.toString())
+        //         // this.trace.push([cashIndex])
+        //         return
+        //     } else {
+        //         this.cache.push(eventString)
+        //     }
+        // }
+        this.trace += eventString
+
+        if (this.trace.length >= 1000000) {
+            if (this.socket.readyState != WebSocket.OPEN) {
+                // FIXME: await for open connection
+                console.error("websocket connection is not open")
             }
+            this.socket.send(this.trace)
+            this.trace = ''
         }
-        this.trace.push(eventString)
     }
 
     private eventEquals(e1: ConsiseWasmEvent, e2: ConsiseWasmEvent) {
@@ -127,7 +138,7 @@ export class Trace {
                 eventString += ';'
             }
         })
-        return eventString
+        return eventString + '\n'
     }
 
     static parseEvent(event: string): ConsiseWasmEvent | Ref {
@@ -479,12 +490,12 @@ export class Trace {
     }
 
     toString() {
-        return this.trace.join(`\n`)
+        return this.trace + `\n`
     }
 
     static fromString(traceString: string) {
         let self = new Trace()
-        self.trace = []
+        self.trace = ''
         let events = traceString.trim().split('\n')
         for (let event of events) {
             self.push(Trace.parseEvent(event))

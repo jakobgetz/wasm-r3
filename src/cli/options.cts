@@ -4,7 +4,7 @@ import fs from 'fs'
 export type Options = {
     headless: boolean,
     dumpPerformance: boolean,
-    dumpTrace: boolean,
+    trace: boolean,
     benchmarkPath: string,
     file: string,
     extended: boolean
