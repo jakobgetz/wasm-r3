@@ -8,6 +8,7 @@ import { initPerformance } from './performance.cjs';
 import { generateJavascript } from './js-generator.cjs';
 
 import { WebSocketServer } from 'ws';
+import { delay } from '../tests/test-utils.cjs';
 const wss = new WebSocketServer({ port: 8080 });
 
 function setupConnection(filePath: string) {
@@ -28,10 +29,11 @@ export default async function run(url: string, options: Options) {
     generateJavascript(fss.createWriteStream(options.file + '.js'), code)
     return
   }
-  setupConnection(options.benchmarkPath + 'trace.r3')
+  setupConnection('trace.r3')
   const analyser = new Analyser('./dist/src/tracer.cjs', { extended: options.extended, noRecord: options.noRecord })
   await analyser.start(url, { headless: options.headless })
   await askQuestion(`Record is running. Enter 'Stop' to stop recording: `)
+  // await delay(10000)
   console.log(`Record stopped. Downloading...`)
   const results = await analyser.stop()
   console.log('Download done. Generating Benchmark...')

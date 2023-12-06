@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { unreachable } from "./util.cjs"
 import { Trace } from "./tracer.cjs"
 import fs, { WriteStream } from "fs"
