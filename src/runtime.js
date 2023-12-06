@@ -54,6 +54,7 @@ function setup() {
     initSync(buffer)
     let original_instantiate = WebAssembly.instantiate
     WebAssembly.instantiate = function (buffer, importObject) {
+        buffer = (buffer.byte) ? buffer.byte : buffer
         // self.performanceList.push(p_timeToFirstInstantiate.stop())
         const this_i = i
         i += 1
@@ -84,6 +85,45 @@ function setup() {
         let response = await source;
         let body = await response.arrayBuffer();
         return WebAssembly.instantiate(body, obj);
+    }
+    const original_module = WebAssembly.Module
+    WebAssembly.Module = function (bytes) {
+        console.log('WebAssembly.Module')
+        const module = new original_module(bytes)
+        module.bytes = bytes
+        return module
+    }
+    const original_compile = WebAssembly.compile
+    WebAssembly.compile = async function (bytes) {
+        console.log('WebAssembly.compile')
+        const module = await original_compile(bytes)
+        module.bytes = bytes
+        return module
+    }
+    WebAssembly.compileStreaming = async function (source) {
+        console.log('WebAssembly.compileStreaming')
+        const response = await source
+        const bytes = await response.arrayBuffer()
+        return await WebAssembly.compile(bytes)
+    }
+    const original_instance = WebAssembly.Instance
+    WebAssembly.Instance = function (module, importObject) {
+        let buffer = module.bytes
+        const this_i = i
+        i += 1
+        console.log('WebAssembly.Instance')
+        printWelcome()
+        self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
+        const { instrumented, js } = instrument_wasm(new Uint8Array(buffer));
+        wasabis.push(eval(js + '\nWasabi'))
+        buffer = new Uint8Array(instrumented)
+        importObject = importObjectWithHooks(importObject, this_i)
+        self.analysis.push(setupAnalysis(wasabis[this_i]))
+        let result
+        module = new WebAssembly.Module(buffer)
+        const instance = new original_instance(module, importObject)
+        result = wireInstanceExports(instance, this_i)
+        return instance
     }
 }
 setup()

@@ -3,10 +3,10 @@ import { createMeasure, StopMeasure } from './performance.cjs'
 import fs from 'fs/promises'
 import { Trace } from './tracer.cjs'
 import acorn from 'acorn'
+import { trimFromLastOccurance } from '../tests/test-utils.cjs'
 
 export interface AnalysisI<T> {
     getResult(): T,
-    getResultChunk(size: number): T
 }
 
 export type AnalysisResult = {
@@ -14,7 +14,7 @@ export type AnalysisResult = {
     wasm: number[]
 }[]
 
-type Options = { extended: boolean }
+type Options = { extended?: boolean, noRecord?: boolean }
 export default class Analyser {
 
     private analysisPath: string
@@ -26,7 +26,7 @@ export default class Analyser {
     private p_measureUserInteraction: StopMeasure
 
 
-    constructor(analysisPath: string, options = { extended: false }) {
+    constructor(analysisPath: string, options: Options = { extended: false, noRecord: false }) {
         this.analysisPath = analysisPath
         this.options = options
     }
@@ -39,12 +39,45 @@ export default class Analyser {
         this.isRunning = true
         this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
             headless, args: [
-                '--disable-web-security',
+                // '--disable-web-security',
                 '--js-flags="--max_old_space_size=8192"'
             ]
         });
         this.page = await this.browser.newPage();
         this.page.setDefaultTimeout(120000);
+        if (this.options.noRecord !== true) {
+            await this.attachRecorder()
+        }
+
+        await this.page.goto(url, { timeout: 60000 })
+        p_measureStart()
+        this.p_measureUserInteraction = createMeasure('user interaction', { phase: 'record', description: `The time the user interacts with the webpage during recording, from the time the 'loal' event got fired in the browser until the user stopps the recording.` })
+        return this.page
+    }
+
+    async stop(): Promise<AnalysisResult> {
+        if (this.isRunning === false) {
+            throw new Error('Analyser is not running. Start the Analyser before stopping')
+        }
+        this.p_measureUserInteraction()
+        const p_measureStop = createMeasure('stop', { phase: 'record', description: `The time it takes to stop the recording, from when the user stopped the recording until all data is downloaded from the browser and the browser is closed.` })
+        this.contexts = this.contexts.concat(this.page.frames())
+        const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
+        const p_measureTraceDownload = createMeasure('trace download', { phase: 'record', description: `The time it takes to download all traces from the browser.` })
+        const traces = (await this.getResults()).map(t => trimFromLastOccurance(t, 'ER'))
+        p_measureTraceDownload()
+        const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
+        const originalWasmBuffer = await this.getBuffers()
+        p_measureBufferDownload()
+        p_measureDataDownload()
+        this.contexts = []
+        this.browser.close()
+        this.isRunning = false
+        p_measureStop()
+        return traces.map((result, i) => ({ result: result, wasm: originalWasmBuffer[i] }))
+    }
+
+    private async attachRecorder() {
         const initScript = await this.constructInitScript()
 
         await this.page.addInitScript({ content: initScript })
@@ -65,47 +98,14 @@ export default class Analyser {
             } catch {
                 route.fulfill({ response, body: script })
             }
+            // const script = response.text()
+            // const body = `${initScript}${script}`
+            // await route.fulfill({ response, body: body })
         })
         this.page.on('worker', worker => {
             this.contexts.push(worker)
         })
-
-        await this.page.goto(url, { timeout: 60000 })
-        p_measureStart()
-        this.p_measureUserInteraction = createMeasure('user interaction', { phase: 'record', description: `The time the user interacts with the webpage during recording, from the time the 'loal' event got fired in the browser until the user stopps the recording.` })
-        return this.page
     }
-
-    async stop(): Promise<AnalysisResult> {
-        if (this.isRunning === false) {
-            throw new Error('Analyser is not running. Start the Analyser before stopping')
-        }
-        this.p_measureUserInteraction()
-        const p_measureStop = createMeasure('stop', { phase: 'record', description: `The time it takes to stop the recording, from when the user stopped the recording until all data is downloaded from the browser and the browser is closed.` })
-        this.contexts = this.contexts.concat(this.page.frames())
-        const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
-        const p_measureTraceDownload = createMeasure('trace download', { phase: 'record', description: `The time it takes to download all traces from the browser.` })
-        const traces = await this.getResults()
-        p_measureTraceDownload()
-        const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
-        const originalWasmBuffer = await this.getBuffers()
-        p_measureBufferDownload()
-        p_measureDataDownload()
-        this.contexts = []
-        this.browser.close()
-        this.isRunning = false
-        p_measureStop()
-        return traces.map((result, i) => ({ result: result, wasm: originalWasmBuffer[i] }))
-    }
-
-    // private trim(traces: string[]) {
-    //     return traces.map(t => {
-    //         while (t.length >= 3 && t.slice(t.length - 3, t.length) !== 'ER;') {
-    //             t = t.slice(0, -1)
-    //         }
-    //         return t
-    //     })
-    // }
 
     private async getResults() {
         const results = await Promise.all(this.contexts.map(async (c) => {

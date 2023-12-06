@@ -13,6 +13,7 @@ import { Server } from 'http'
 import Analyser, { AnalysisResult } from '../src/analyser.cjs'
 import commandLineArgs from 'command-line-args'
 import { initPerformance } from '../src/performance.cjs'
+import { generateJavascript } from '../src/js-generator.cjs'
 
 let extended = false
 
@@ -97,7 +98,8 @@ async function runNodeTest(name: string): Promise<TestReport> {
   }
   let replayCode
   try {
-    replayCode = await new Generator().generateReplay(trace).toWriteStream(fss.createWriteStream(replayPath))
+    replayCode = await new Generator().generateReplay(trace)
+    await generateJavascript(fss.createWriteStream(replayPath), replayCode)
     await delay(0) // WTF why do I need this WHAT THE FUCK
   } catch (e: any) {
     return { testPath, success: false, reason: e.stack }
@@ -176,9 +178,6 @@ async function runOnlineTests(names: string[]) {
     'visual6502remix', // takes so long and is not automated yet
     'heatmap', // takes so long
     'image-convolute', // out of memory
-    'ffmpeg', // replay runs forever
-    'jsc', // replay runs forever
-    'sqlgui', // replay memory access out of bounds
   ]
   names = names.filter((n) => !filter.includes(n))
   for (let name of names) {
