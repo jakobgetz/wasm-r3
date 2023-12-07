@@ -83,7 +83,7 @@ export class Trace {
         }
     }
 
-    push(event: string) {
+    push(event: any) {
         this.trace.push(event)
         if (this.socketConnected && this.trace.length >= 10000) {
             this.worker.postMessage(this.trace)
@@ -134,13 +134,21 @@ export default class Analysis implements AnalysisI<Trace> {
             table_fill(location, index, value, length) { },
 
             begin_function: (location, args) => {
-                this.trace.push(`E;${location.func};${args.join('|')}`)
+                // this.trace.push(`E;${location.func};${args.join('|')}`)
+                this.trace.push('E')
+                this.trace.push(location.func)
+                for (let a of args) {
+                    this.trace.push(a)
+                }
             },
 
             store: (location, op, target, memarg, value) => {
-                // this.trace.push(`S;${op};${target.addr}`)
-                // this.trace.push(`${memarg.offset};${value}`)
                 this.trace.push(`S;${op};${target.addr};${memarg.offset};${value}`)
+                // this.trace.push(`S`)
+                // this.trace.push(op)
+                // this.trace.push(target.addr)
+                // this.trace.push(memarg.offset)
+                // this.trace.push(value)
             },
 
             memory_grow: (location, memIdx, byPages, previousSizePages) => {
@@ -148,9 +156,12 @@ export default class Analysis implements AnalysisI<Trace> {
             },
 
             load: (location, op, target, memarg, value) => {
-                // this.trace.push(`L;${op};${target.addr}`)
-                // this.trace.push(`${memarg.offset};${value}`)
                 this.trace.push(`L;${op};${target.addr};${memarg.offset};${value}`)
+                // this.trace.push(`L`)
+                // this.trace.push(op)
+                // this.trace.push(target.addr)
+                // this.trace.push(memarg.offset)
+                // this.trace.push(value)
             },
 
             global: (location, op, idx, value) => {
@@ -158,15 +169,30 @@ export default class Analysis implements AnalysisI<Trace> {
             },
 
             call_pre: (location, op, funcidx, args, tableTarget) => {
-                this.trace.push(`PR;${funcidx};${op};${tableTarget?.tableIdx};${tableTarget?.elemIdx}`)
+                // this.trace.push(`PR;${funcidx};${op};${tableTarget?.tableIdx};${tableTarget?.elemIdx}`)
+                this.trace.push(`PR`)
+                this.trace.push(funcidx)
+                this.trace.push(op)
+                this.trace.push(tableTarget?.tableIdx)
+                this.trace.push(tableTarget?.elemIdx)
             },
 
             call_post: (location, results) => {
+                // this.trace.push(`PO;${results.join('|')}`)
                 this.trace.push(`PO;${results.join('|')}`)
+                this.trace.push('PO')
+                for (let r of results) {
+                    this.trace.push(r)
+                }
             },
 
             return_: (location, values) => {
-                this.trace.push(`FR;${location.func};${values.join('|')}`)
+                // this.trace.push(`FR;${location.func};${values.join('|')}`)
+                this.trace.push('FR')
+                this.trace.push(location.func)
+                for (let v of values) {
+                    this.trace.push(v)
+                }
             },
 
             table_set: (location, target, value) => {
