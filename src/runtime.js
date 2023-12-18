@@ -63,9 +63,9 @@ function setup() {
         printWelcome()
         self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
         // const p_instrumenting = performanceEvent(`instrumentation of wasm binary ${this_i}`)
-        const { instrumented, js } = instrument_wasm(new Uint8Array(buffer));
+        const instrumented = instrument_wasm_js(new Uint8Array(buffer));
         // self.performanceList.push(p_instrumenting.stop())
-        wasabis.push(eval(js + '\nWasabi'))
+        // wasabis.push(eval(js + '\nWasabi'))
         buffer = new Uint8Array(instrumented)
         importObject = importObjectWithHooks(importObject, this_i)
         self.analysis.push(setupAnalysis(wasabis[this_i]))
