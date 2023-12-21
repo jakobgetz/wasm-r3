@@ -37,13 +37,18 @@ export default class Analyser {
         }
         const p_measureStart = createMeasure('start', { phase: 'record', description: `The time it takes start the chromium browser and open the webpage until the 'load' event is fired.` })
         this.isRunning = true
-        this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
-            headless, args: [
-                // '--disable-web-security',
-                '--js-flags="--max_old_space_size=8192"',
-                '--enable-experimental-web-platform-features'
-            ]
-        });
+        // this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
+        //     headless, args: [
+        //         // '--disable-web-security',
+        //         // '--js-flags="--max_old_space_size=8192"',
+        //         // '--enable-experimental-web-platform-features',
+        //         '--experimental-wasm-multi-memory'
+        //     ]
+        // });
+        // await chromium.connect({
+        //     wsEndpoint: 'ws://localhost:9222/devtools/browser/'
+        // })
+        this.browser = await chromium.connectOverCDP('http://localhost:9222');
         this.page = await this.browser.newPage();
         this.page.setDefaultTimeout(120000);
         if (this.options.noRecord !== true) {
@@ -160,17 +165,8 @@ export default class Analyser {
 
     private async constructInitScript() {
         const wasabiScript = await fs.readFile('./dist/wasabi.js') + '\n'
-        let analysisScript = await fs.readFile(this.analysisPath) + '\n'
-        analysisScript = analysisScript.split('Object.defineProperty(exports, "__esModule", { value: true });').join('')
-        analysisScript = analysisScript.split('exports.default = setupAnalysis;').join('')
-        analysisScript = analysisScript.split('exports.stringifyTrace = void 0;').join('')
-        analysisScript = analysisScript.split('exports.stringifyTrace = stringifyTrace;').join('')
-        analysisScript = analysisScript.split('exports.Trace = void 0;').join('')
-        analysisScript = analysisScript.split('exports.Trace = Trace;').join('')
-        analysisScript = analysisScript.split('exports.default = Analysis;').join('')
-        analysisScript = `function setupAnalysis(Wasabi) {\n ${analysisScript};\n return new Analysis(Wasabi, { extended: ${this.options.extended}})}\n`
         const setupScript = await fs.readFile('./src/runtime.js') + '\n'
-        return wasabiScript + ';' + analysisScript + ';' + setupScript + ';'
+        return wasabiScript + ';' + setupScript + ';'
     }
 
     setExtended(extended: boolean) {
