@@ -17,6 +17,13 @@ function setup() {
         console.log('---------------------------------------------')
         console.log('WebAssembly module instantiated.             ')
     }
+    let instance
+    const r3 = {
+        check_mem: () => {
+            console.log('check_mem', instance.exports.trace_byte_length.value)
+            
+        }
+    }
 
     const binaryString = atob(wasabiBinary);
     const uint8Array = new Uint8Array(binaryString.length);
@@ -27,7 +34,8 @@ function setup() {
 
     initSync(buffer)
     let original_instantiate = WebAssembly.instantiate
-    WebAssembly.instantiate = function (buffer, importObject) {
+    WebAssembly.instantiate = async function (buffer, importObject) {
+        importObject.r3 = r3
         buffer = (buffer.byte) ? buffer.byte : buffer
         const this_i = i
         i += 1
@@ -36,7 +44,8 @@ function setup() {
         self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
         const instrumented = instrument_wasm_js(new Uint8Array(buffer));
         buffer = new Uint8Array(instrumented)
-        result = original_instantiate(buffer, importObject)
+        result = await original_instantiate(buffer, importObject)
+        instance = result.instance
         return result
     };
     // replace instantiateStreaming
@@ -68,6 +77,7 @@ function setup() {
     }
     const original_instance = WebAssembly.Instance
     WebAssembly.Instance = function (module, importObject) {
+        importObject.r3 = r3
         let buffer = module.bytes
         const this_i = i
         i += 1
