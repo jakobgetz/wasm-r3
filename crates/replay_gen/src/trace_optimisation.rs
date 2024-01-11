@@ -1,9 +1,9 @@
-use walrus::{DataKind, Module};
+use walrus::{DataKind, ImportKind, Module};
 
 use crate::trace::WasmEvent;
 
 pub trait TraceOptimiser {
-    fn inspect_event(&mut self, event: &WasmEvent) -> bool;
+    fn discard_event(&mut self, event: &WasmEvent) -> bool;
 }
 
 pub struct ShadowMemory(Vec<u8>);
@@ -45,7 +45,7 @@ impl ShadowMemoryOptimiser {
 }
 
 impl TraceOptimiser for ShadowMemoryOptimiser {
-    fn inspect_event(&mut self, event: &WasmEvent) -> bool {
+    fn discard_event(&mut self, event: &WasmEvent) -> bool {
         todo!()
     }
 }
@@ -61,7 +61,69 @@ impl ShadowTableOptimiser {
 }
 
 impl TraceOptimiser for ShadowTableOptimiser {
-    fn inspect_event(&mut self, event: &WasmEvent) -> bool {
+    fn discard_event(&mut self, event: &WasmEvent) -> bool {
         todo!()
+    }
+}
+
+enum Scope {
+    Internal,
+    External(usize),
+}
+struct Union;
+pub struct CallOptimiser {
+    call_stack: Vec<Scope>,
+    import_functions: Vec<Union>,
+}
+
+impl CallOptimiser {
+    pub fn new(module: &Module) -> CallOptimiser {
+        let mut import_functions = Vec::new();
+        module.imports.iter().for_each(|i| {
+            if let ImportKind::Function(_) = i.kind {
+                import_functions.push(Union);
+            }
+        });
+        CallOptimiser { import_functions, call_stack: vec![Scope::External(0)] }
+    }
+}
+
+impl TraceOptimiser for CallOptimiser {
+    fn discard_event(&mut self, event: &WasmEvent) -> bool {
+        match event {
+            WasmEvent::FuncEntry { .. } => {
+                let mut keep = true;
+                if let Scope::Internal = self.call_stack.last().unwrap() {
+                    keep = false
+                }
+                self.call_stack.push(Scope::Internal);
+                keep
+            }
+            WasmEvent::FuncReturn => {
+                self.call_stack.pop();
+                if self.call_stack.len() == 1 {
+                    true
+                } else {
+                    false
+                }
+            }
+            WasmEvent::Call { idx } => {
+                if let None = self.import_functions.get(*idx) {
+                    false
+                } else {
+                    self.call_stack.push(Scope::External(*idx));
+                    true
+                }
+            }
+            WasmEvent::CallReturn { .. } => {
+                if let Scope::External(_) = self.call_stack.last().unwrap() {
+                    self.call_stack.pop();
+                    true
+                } else {
+                    false
+                }
+            }
+            _ => true,
+        }
     }
 }
