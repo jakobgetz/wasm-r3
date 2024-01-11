@@ -114,5 +114,11 @@ function setup() {
         const instance = new original_instance(module, importObject)
         return instance
     }
+    console.log("HELLO", r3.check_mem);
+    return r3.check_mem
 }
-setup()
+var aspifdjgsadpfkjns = setup()
+var r3_check_mem;
+if (aspifdjgsadpfkjns !== undefined) {
+    r3_check_mem = aspifdjgsadpfkjns
+}

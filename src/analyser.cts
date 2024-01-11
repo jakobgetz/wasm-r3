@@ -239,7 +239,7 @@ export class CustomAnalyser implements AnalyserI {
         this.contexts = this.contexts.concat(this.page.frames())
         const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
         const p_measureTraceDownload = createMeasure('trace download', { phase: 'record', description: `The time it takes to download all traces from the browser.` })
-        const traces = (await this.getResults()).map(t => trimFromLastOccurance(t, 'ER'))
+        const traces = (await this.getResults())
         p_measureTraceDownload()
         const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
         const originalWasmBuffer = await this.getBuffers()
@@ -249,7 +249,7 @@ export class CustomAnalyser implements AnalyserI {
         this.browser.close()
         this.isRunning = false
         p_measureStop()
-        return traces.map((result, i) => ({ result: result, wasm: originalWasmBuffer[i] }))
+        return []
     }
 
     private async attachRecorder() {
@@ -296,23 +296,15 @@ export class CustomAnalyser implements AnalyserI {
 
     private async getResults() {
         const results = await Promise.all(this.contexts.map(async (c) => {
-            const p_measureTraceDownload = createMeasure(`trace download from context: ${c.url()}`, { phase: 'record', description: `The time it takes to download the trace from the browser context: ${c.url}.` })
-            const traces = await c.evaluate(() => {
+            await c.evaluate(() => {
                 try {
                     //@ts-ignore
-                    const traces = (analysis as AnalysisI<Trace>[]).map((r, j) => {
-                        const trace = r.getResult().toString()
-                        return trace
-                    })
-                    return traces
+                    r3_check_mem()
                 } catch {
-                    return []
+                    // ok
                 }
             })
-            p_measureTraceDownload()
-            return traces.map(t => t.toString())
         }))
-        return results.flat(1)
     }
 
 

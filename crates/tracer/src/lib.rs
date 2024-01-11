@@ -75,30 +75,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
         check_mem_id,
         check_mem_id_local,
     );
-    // Instrument function entry
-    module.funcs.iter_local_mut().for_each(|(fidx, f)| {
-        let offset: &mut u32 = &mut 0;
-        let mut binding = f.builder_mut().func_body();
-        let body = binding.instrs_mut();
-        let mut gen_seq: Vec<Instruction> = vec![];
-        let opcode = 0x02;
-        let typ = generator.current_func_type.clone();
-        let params = typ.params();
-        gen_seq.append(
-            &mut InstructionsEnum::from_vec(vec![
-                generator.trace_code(opcode, offset),
-                generator.trace_func_idx(fidx, offset),
-                generator.trace_type(&typ, offset),
-                generator.save_locals(params, offset),
-                generator.increment_mem_pointer(*offset),
-            ])
-            .flatten(),
-        );
-        for instr in gen_seq.iter().rev() {
-            body.insert(0, instr.clone())
-        }
-    });
-    // Instrument everything else
+    // Instrument everything exept function entry
     module.funcs.iter_mut().for_each(|f| {
         if f.id() == check_mem_id_local {
             return;
@@ -107,6 +84,35 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
             generator.set_current_func_type(module.types.get(f.ty()).clone());
             generator.set_func_entry(true);
             ir::dfs_pre_order_mut(&mut generator, f, f.entry_block())
+        }
+    });
+    // Instrument function entry
+    module.funcs.iter_mut().for_each(|f| {
+        let fidx = f.id();
+        if fidx == check_mem_id_local {
+            return;
+        }
+        let offset: &mut u32 = &mut 0;
+        if let FunctionKind::Local(f) = &mut f.kind {
+            let mut binding = f.builder_mut().func_body();
+            let body = binding.instrs_mut();
+            let mut gen_seq: Vec<Instruction> = vec![];
+            let opcode = 0x02;
+            let typ = generator.current_func_type.clone();
+            let params = typ.params();
+            gen_seq.append(
+                &mut InstructionsEnum::from_vec(vec![
+                    generator.trace_code(opcode, offset),
+                    generator.trace_func_idx(fidx, offset),
+                    generator.trace_type(&typ, offset),
+                    generator.save_locals(params, offset),
+                    generator.increment_mem_pointer(*offset),
+                ])
+                .flatten(),
+            );
+            for instr in gen_seq.iter().rev() {
+                body.insert(0, instr.clone())
+            }
         }
     });
 
@@ -262,22 +268,22 @@ impl VisitorMut for Generator {
             let mut gen_seq: Vec<Instruction> = vec![];
             let offset: &mut u32 = &mut 0;
             // trace func entry
-            if self.func_entry == true {
-                let opcode = 0x02;
-                let typ = self.current_func_type.clone();
-                let params = typ.params();
-                gen_seq.append(
-                    &mut InstructionsEnum::from_vec(vec![
-                        self.trace_code(opcode, offset),
-                        self.trace_type(&typ, offset),
-                        // self.trace_func_idx(self.current_func, offset),
-                        self.save_locals(params, offset),
-                        self.increment_mem_pointer(*offset),
-                    ])
-                    .flatten(),
-                );
-                self.func_entry = false;
-            }
+            // if self.func_entry == true {
+            //     let opcode = 0x02;
+            //     let typ = self.current_func_type.clone();
+            //     let params = typ.params();
+            //     gen_seq.append(
+            //         &mut InstructionsEnum::from_vec(vec![
+            //             self.trace_code(opcode, offset),
+            //             self.trace_type(&typ, offset),
+            //             // self.trace_func_idx(self.current_func, offset),
+            //             self.save_locals(params, offset),
+            //             self.increment_mem_pointer(*offset),
+            //         ])
+            //         .flatten(),
+            //     );
+            //     self.func_entry = false;
+            // }
             match instr {
                 Instr::Load(load) => {
                     let (opcode, local_type) = match load.kind {
@@ -353,6 +359,7 @@ impl VisitorMut for Generator {
                         &mut InstructionsEnum::from_vec(vec![
                             self.trace_code(opcode, offset),
                             self.trace_code(typ_code, offset),
+                            self.global_get(self.mem_pointer),
                             self.get_const(Value::I32(get.global.index() as i32)),
                             self.store_val_to_trace(ValType::I32, offset),
                             self.instr(instr.clone()),
@@ -374,6 +381,7 @@ impl VisitorMut for Generator {
                         &mut InstructionsEnum::from_vec(vec![
                             self.trace_code(opcode, offset),
                             self.trace_code(typ_code, offset),
+                            self.global_get(self.mem_pointer),
                             self.get_const(Value::I32(set.global.index() as i32)),
                             self.store_val_to_trace(ValType::I32, offset),
                             self.save_stack(&[typ], offset),
@@ -502,8 +510,9 @@ impl Generator {
 
     fn trace_func_idx(&mut self, idx: FunctionId, offset: &mut u32) -> InstructionsEnum {
         InstructionsEnum::from_vec(vec![
+            self.global_get(self.mem_pointer),
             self.get_const(ir::Value::I32(idx.index() as i32)),
-            self.save_stack(&[ValType::I32], offset),
+            self.store_val_to_trace(ValType::I32, offset),
         ])
     }
 
