@@ -4,23 +4,11 @@ import Benchmark from './benchmark.cjs';
 import { askQuestion } from './util.cjs';
 import { Options } from './cli/options.cjs'
 import Generator from './replay-generator.cjs';
-import { initPerformance } from './performance.cjs';
+import { createMeasure, initPerformance } from './performance.cjs';
 import { generateJavascript } from './js-generator.cjs';
-import { AnalyserI } from './node-analyser.cjs';
-import { WebSocketServer } from 'ws';
-
-const wss = new WebSocketServer({ port: 8080 });
-
-function setupConnection(filePath: string) {
-  wss.on('connection', function connection(ws) {
-    console.log(`connection opened writing to ${filePath}`)
-    const writeStream = fss.createWriteStream(filePath)
-    ws.on('error', console.error)
-    ws.on('message', function message(data) {
-      writeStream.write(data)
-    })
-  })
-}
+import { AnalyserI } from './analyser.cjs';
+import { execSync } from 'child_process';
+import path from 'path';
 
 export default async function run(url: string, options: Options) {
   await initPerformance(url, 'manual-run', 'performance.ndjson')
@@ -31,15 +19,27 @@ export default async function run(url: string, options: Options) {
   }
   let analyser: AnalyserI
   if (options.customInstrumentation === true) {
-    setupConnection('trace.r3')
-    analyser = new CustomAnalyser()
+    console.log(`Using RUST frontend and backend`)
+    const tracePath = 'bin_trace.r3'
+    const binPath = 'binary.wasm'
+    analyser = new CustomAnalyser(tracePath)
+    await analyser.start(url, { headless: options.headless })
+    await askQuestion(`Record is running. Enter 'Stop' to stop recording: `)
+    console.log(`Record stopped. Downloading...`)
+    const results = await analyser.stop()
+    console.log('Download done. Generating Benchmark...')
+    fss.writeFileSync(binPath, new Int8Array(results[0].wasm))
+    const p_measureCodeGen = createMeasure('rust-backend', { phase: 'replay-generation', description: `The time it takes for rust backend to generate javascript` })
+    execSync(`./target/debug/replay_gen ${tracePath} ${binPath} true`);
+    execSync(`wasm-validate ${path.join(binPath, "canned.wasm")}`)
+    p_measureCodeGen()
   } else {
     analyser = new Analyser('./dist/src/tracer.cjs', { extended: options.extended, noRecord: options.noRecord })
+    await analyser.start(url, { headless: options.headless })
+    await askQuestion(`Record is running. Enter 'Stop' to stop recording: `)
+    console.log(`Record stopped. Downloading...`)
+    const results = await analyser.stop()
+    console.log('Download done. Generating Benchmark...')
+    Benchmark.fromAnalysisResult(results).save(options.benchmarkPath, { trace: options.dumpTrace, rustBackend: options.rustBackend })
   }
-  await analyser.start(url, { headless: options.headless })
-  await askQuestion(`Record is running. Enter 'Stop' to stop recording: `)
-  console.log(`Record stopped. Downloading...`)
-  const results = await analyser.stop()
-  console.log('Download done. Generating Benchmark...')
-  Benchmark.fromAnalysisResult(results).save(options.benchmarkPath, { trace: options.dumpTrace, rustBackend: options.rustBackend })
 }

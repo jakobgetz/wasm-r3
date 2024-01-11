@@ -1,15 +1,17 @@
 import { Browser, chromium, Frame, Page, Worker } from 'playwright'
 import { createMeasure, StopMeasure } from './performance.cjs'
 import fs from 'fs/promises'
+import fss from 'fs'
 import { Trace } from './tracer.cjs'
 import acorn from 'acorn'
 import { trimFromLastOccurance } from '../tests/test-utils.cjs'
+import { WebSocketServer } from 'ws';
 
 export interface AnalysisI<T> {
     getResult(): T,
 }
 
-interface AnalyserI {
+export interface AnalyserI {
     start: (url: string, options: { headless: boolean }) => Promise<Page>
     stop: () => Promise<AnalysisResult>
 }
@@ -196,8 +198,21 @@ export class CustomAnalyser implements AnalyserI {
     private p_measureUserInteraction: StopMeasure
 
 
-    constructor(options: Options = { extended: false, noRecord: false }) {
+    constructor(tracePath: string, options: Options = { extended: false, noRecord: false }) {
         this.options = options
+        const wss = new WebSocketServer({ port: 8080 });
+
+        function setupConnection(filePath: string) {
+            wss.on('connection', function connection(ws) {
+                console.log(`connection opened writing to ${filePath}`)
+                const writeStream = fss.createWriteStream(filePath)
+                ws.on('error', console.error)
+                ws.on('message', function message(data) {
+                    writeStream.write(data)
+                })
+            })
+        }
+        setupConnection(tracePath)
     }
 
     async start(url: string, { headless } = { headless: false }) {
@@ -206,17 +221,6 @@ export class CustomAnalyser implements AnalyserI {
         }
         const p_measureStart = createMeasure('start', { phase: 'record', description: `The time it takes start the chromium browser and open the webpage until the 'load' event is fired.` })
         this.isRunning = true
-        // this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
-        //     headless, args: [
-        //         // '--disable-web-security',
-        //         // '--js-flags="--max_old_space_size=8192"',
-        //         // '--enable-experimental-web-platform-features',
-        //         '--experimental-wasm-multi-memory'
-        //     ]
-        // });
-        // await chromium.connect({
-        //     wsEndpoint: 'ws://localhost:9222/devtools/browser/'
-        // })
         this.browser = await chromium.connectOverCDP('http://localhost:9222');
         this.page = await this.browser.newPage();
         this.page.setDefaultTimeout(120000);
@@ -238,9 +242,7 @@ export class CustomAnalyser implements AnalyserI {
         const p_measureStop = createMeasure('stop', { phase: 'record', description: `The time it takes to stop the recording, from when the user stopped the recording until all data is downloaded from the browser and the browser is closed.` })
         this.contexts = this.contexts.concat(this.page.frames())
         const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
-        const p_measureTraceDownload = createMeasure('trace download', { phase: 'record', description: `The time it takes to download all traces from the browser.` })
-        const traces = (await this.getResults())
-        p_measureTraceDownload()
+        await this.traceToServer()
         const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
         const originalWasmBuffer = await this.getBuffers()
         p_measureBufferDownload()
@@ -249,7 +251,7 @@ export class CustomAnalyser implements AnalyserI {
         this.browser.close()
         this.isRunning = false
         p_measureStop()
-        return []
+        return originalWasmBuffer.map((wasm) => ({ result: '', wasm }))
     }
 
     private async attachRecorder() {
@@ -294,7 +296,7 @@ export class CustomAnalyser implements AnalyserI {
         })
     }
 
-    private async getResults() {
+    private async traceToServer() {
         const results = await Promise.all(this.contexts.map(async (c) => {
             await c.evaluate(() => {
                 try {

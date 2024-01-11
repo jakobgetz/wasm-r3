@@ -106,7 +106,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
                     generator.trace_func_idx(fidx, offset),
                     generator.trace_type(&typ, offset),
                     generator.save_locals(params, offset),
-                    generator.increment_mem_pointer(*offset),
+                    generator.increment_mem_pointer(offset),
                 ])
                 .flatten(),
             );
@@ -304,7 +304,7 @@ impl VisitorMut for Generator {
                             self.save_stack(&[ValType::I32], offset),
                             self.instr(instr.clone()),
                             self.save_stack(&[local_type], offset),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -327,7 +327,7 @@ impl VisitorMut for Generator {
                             self.trace_code(opcode, offset),
                             self.save_stack(&[ValType::I32, local_type], offset),
                             self.instr(instr.clone()),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -336,13 +336,18 @@ impl VisitorMut for Generator {
                     let opcode = 0x10;
                     let return_code = 0xFF;
                     let typ = self.module_types.get_by_func(&call.func).unwrap().clone();
+                    dbg!(typ.results());
                     gen_seq.append(
                         &mut InstructionsEnum::from_vec(vec![
                             self.trace_code(opcode, offset),
                             self.trace_func_idx(call.func, offset),
+                            self.increment_mem_pointer(offset),
                             self.instr(instr.clone()),
                             self.trace_code(return_code, offset),
-                            self.increment_mem_pointer(*offset),
+                            self.trace_func_idx(call.func, offset),
+                            self.trace_type(&typ, offset),
+                            self.save_stack(typ.results(), offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -364,7 +369,7 @@ impl VisitorMut for Generator {
                             self.store_val_to_trace(ValType::I32, offset),
                             self.instr(instr.clone()),
                             self.save_stack(&[typ], offset),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -386,7 +391,7 @@ impl VisitorMut for Generator {
                             self.store_val_to_trace(ValType::I32, offset),
                             self.save_stack(&[typ], offset),
                             self.instr(instr.clone()),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -403,7 +408,7 @@ impl VisitorMut for Generator {
                             self.trace_code(opcode, offset),
                             self.save_stack(&[ValType::I32, typ], offset),
                             self.instr(instr.clone()),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -421,7 +426,7 @@ impl VisitorMut for Generator {
                             self.save_stack(&[ValType::I32], offset),
                             self.instr(instr.clone()),
                             self.save_stack(&[typ], offset),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -438,10 +443,12 @@ impl VisitorMut for Generator {
                             self.table_get(call.table),
                             self.save_stack(&[ValType::I32], offset),
                             self.trace_code(call_code, offset),
+                            self.increment_mem_pointer(offset),
                             self.instr(instr.clone()),
                             self.trace_code(return_code, offset),
+                            self.trace_type(&typ, offset),
                             self.save_stack(typ.results(), offset),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                         ])
                         .flatten(),
                     );
@@ -460,7 +467,7 @@ impl VisitorMut for Generator {
                         &mut InstructionsEnum::from_vec(vec![
                             self.trace_code(opcode, offset),
                             // self.save_stack(returns, offset),
-                            self.increment_mem_pointer(*offset),
+                            self.increment_mem_pointer(offset),
                             self.call(self.check_mem_id_local),
                             self.instr(instr.clone()),
                         ])
@@ -518,8 +525,9 @@ impl Generator {
 
     fn trace_type(&mut self, typ: &Type, offset: &mut u32) -> InstructionsEnum {
         InstructionsEnum::from_vec(vec![
+            self.global_get(self.mem_pointer),
             self.get_const(ir::Value::I32(typ.id().index() as i32)),
-            self.save_stack(&[ValType::I32], offset),
+            self.store_val_to_trace(ValType::I32, offset),
         ])
     }
 
@@ -703,13 +711,15 @@ impl Generator {
         InstructionsEnum::Single((Instr::TableGet(TableGet { table }), InstrLocId::default()))
     }
 
-    fn increment_mem_pointer(&self, amount: u32) -> InstructionsEnum {
-        InstructionsEnum::from_vec(vec![
+    fn increment_mem_pointer(&self, amount: &mut u32) -> InstructionsEnum {
+        let instrs = InstructionsEnum::from_vec(vec![
             self.global_get(self.mem_pointer),
-            self.get_const(Value::I32(amount as i32)),
+            self.get_const(Value::I32(*amount as i32)),
             self.binop(ir::BinaryOp::I32Add),
             self.global_set(self.mem_pointer),
-        ])
+        ]);
+        *amount = 0;
+        instrs
     }
 
     fn binop(&self, op: BinaryOp) -> InstructionsEnum {

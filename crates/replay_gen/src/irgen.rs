@@ -125,7 +125,7 @@ pub struct Global {
 }
 
 impl IRGenerator {
-    pub fn new(module: Module) -> Self {
+    pub fn new(module: &Module) -> Self {
         let mut func_imports = BTreeMap::new();
         func_imports.insert(
             -1,
@@ -211,13 +211,6 @@ impl IRGenerator {
         }
     }
 
-    // pub fn generate_replay(&mut self, trace: Trace) -> &Replay {
-    //     for e in trace.0 {
-    //         self.consume_event(e);
-    //     }
-    //     &self.replay
-    // }
-
     fn push_call(&mut self, event: HostEvent) {
         let idx = self.state.host_call_stack.last().unwrap();
         let current_context = self.idx_to_cxt(*idx);
@@ -283,12 +276,12 @@ impl IRGenerator {
                 });
             }
 
-            WasmEvent::ImportCall { idx } => {
+            WasmEvent::Call { idx } => {
                 self.replay.func_imports.get_mut(&idx).unwrap().bodys.push(vec![]);
                 self.state.host_call_stack.push(idx);
                 self.state.last_func = idx;
             }
-            WasmEvent::ImportReturn { idx: _idx, results } => {
+            WasmEvent::CallReturn { idx: _idx, results } => {
                 let current_fn_idx = self.state.host_call_stack.last().unwrap();
                 let r = &mut self.replay.func_imports.get_mut(&current_fn_idx).unwrap().results;
                 r.push(WriteResult { results: results.clone(), reps: 1 });

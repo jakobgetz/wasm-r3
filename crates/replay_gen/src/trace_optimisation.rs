@@ -3,7 +3,7 @@ use walrus::{DataKind, Module};
 use crate::trace::WasmEvent;
 
 pub trait TraceOptimiser {
-    fn consume_event(&mut self, event: WasmEvent) -> Option<WasmEvent>;
+    fn inspect_event(&mut self, event: &WasmEvent) -> bool;
 }
 
 pub struct ShadowMemory(Vec<u8>);
@@ -45,7 +45,23 @@ impl ShadowMemoryOptimiser {
 }
 
 impl TraceOptimiser for ShadowMemoryOptimiser {
-    fn consume_event(&mut self, event: WasmEvent) -> Option<WasmEvent> {
+    fn inspect_event(&mut self, event: &WasmEvent) -> bool {
+        todo!()
+    }
+}
+
+pub struct ShadowTableOptimiser {
+    shadow_tables: u8,
+}
+
+impl ShadowTableOptimiser {
+    pub fn new(module: &Module) -> Self {
+        Self { shadow_tables: 8 }
+    }
+}
+
+impl TraceOptimiser for ShadowTableOptimiser {
+    fn inspect_event(&mut self, event: &WasmEvent) -> bool {
         todo!()
     }
 }
