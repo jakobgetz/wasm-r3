@@ -3,7 +3,7 @@
 //! Its main job is to put the right HostEvent into a right spot.
 //! HostEvent corresponds to some event in the host context, which is classified into the effect
 //! it has on wasm state. They get translated into different host code depending on the backend.
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashMap};
 
 use walrus::Module;
 
@@ -12,6 +12,10 @@ use crate::trace::{ValType, WasmEvent, F64};
 pub struct IRGenerator {
     pub replay: Replay,
     state: State,
+    pub_functions: HashMap<usize, String>,
+    pub_tables: HashMap<usize, String>,
+    pub_globals: HashMap<usize, String>,
+    pub_memories: HashMap<usize, String>,
 }
 
 pub struct Replay {
@@ -33,12 +37,12 @@ struct State {
 #[derive(Clone, Debug)]
 pub enum HostEvent {
     ExportCall {
-        idx: i32,
+        idx: usize,
         name: String,
         params: Vec<F64>,
     },
     ExportCallTable {
-        idx: i32,
+        idx: usize,
         table_name: String,
         funcidx: i32,
         params: Vec<F64>,
@@ -126,6 +130,10 @@ pub struct Global {
 
 impl IRGenerator {
     pub fn new(module: &Module) -> Self {
+        let mut pub_functions = HashMap::new();
+        let mut pub_tables = HashMap::new();
+        let mut pub_memories = HashMap::new();
+        let mut pub_globals = HashMap::new();
         let mut func_imports = BTreeMap::new();
         func_imports.insert(
             -1,
@@ -163,6 +171,7 @@ impl IRGenerator {
                             results: vec![],
                         },
                     );
+                    pub_functions.insert(f.index(), i.name.clone());
                 }
                 walrus::ImportKind::Table(tid) => {
                     let table = module.tables.get(tid);
@@ -177,6 +186,7 @@ impl IRGenerator {
                             maximum: table.maximum,
                         },
                     );
+                    pub_tables.insert(tid.index(), i.name.clone());
                 }
                 walrus::ImportKind::Memory(mid) => {
                     let m = module.memories.get(mid);
@@ -189,11 +199,22 @@ impl IRGenerator {
                             maximum: m.maximum,
                         },
                     );
+                    pub_memories.insert(mid.index(), i.name.clone());
                 }
                 // Global is handled by the trace.
-                walrus::ImportKind::Global(_) => {}
+                walrus::ImportKind::Global(gid) => {
+                    pub_globals.insert(gid.index(), i.name.clone());
+                }
             }
         }
+        module.exports.iter().for_each(|e| {
+            match e.item {
+                walrus::ExportItem::Function(id) => pub_functions.insert(id.index(), e.name.clone()),
+                walrus::ExportItem::Table(id) => pub_tables.insert(id.index(), e.name.clone()),
+                walrus::ExportItem::Memory(id) => pub_memories.insert(id.index(), e.name.clone()),
+                walrus::ExportItem::Global(id) => pub_globals.insert(id.index(), e.name.clone()),
+            };
+        });
         Self {
             replay: Replay {
                 func_imports,
@@ -208,6 +229,10 @@ impl IRGenerator {
                 host_call_stack: vec![-1], //
                 last_func: -1,
             },
+            pub_functions,
+            pub_globals,
+            pub_memories,
+            pub_tables,
         }
     }
 
@@ -221,47 +246,53 @@ impl IRGenerator {
     pub fn consume_event(&mut self, event: WasmEvent) {
         match event {
             WasmEvent::FuncEntry { idx, params } => {
-                self.push_call(HostEvent::ExportCall { idx: idx.clone(), name: todo!(), params: params.clone() });
-            }
-            WasmEvent::FuncEntryTable { idx, tablename, tableidx: funcidx, params } => {
-                self.push_call(HostEvent::ExportCallTable {
-                    idx: idx,
-                    table_name: todo!(),
-                    funcidx,
-                    params: params.clone(),
+                self.push_call(HostEvent::ExportCall {
+                    idx,
+                    name: self.pub_functions.get(&idx).unwrap().clone(),
+                    params,
                 });
+            }
+            WasmEvent::FuncEntryTable { idx, tablename, tableidx, params } => {
+                todo!()
+                // self.push_call(HostEvent::ExportCallTable {
+                //     idx,
+                //     table_name: *self.export_tables.get(&tableidx).unwrap(),
+                //     funcidx,
+                //     params: params.clone(),
+                // });
             }
             WasmEvent::FuncReturn => {}
             WasmEvent::Load { idx, offset, data } => {
                 self.splice_event(HostEvent::MutateMemory {
                     import: self.replay.mem_imports.contains_key(&idx),
-                    name: todo!(),
+                    name: self.pub_memories.get(&idx).unwrap().clone(),
                     addr: offset,
-                    data: todo!(),
+                    data: data.into(),
                 });
             }
             WasmEvent::MemGrow { idx, amount } => {
                 self.splice_event(HostEvent::GrowMemory {
                     import: self.replay.mem_imports.contains_key(&idx),
-                    name: todo!(),
+                    name: self.pub_memories.get(&idx).unwrap().clone(),
                     amount: amount,
                 });
             }
             WasmEvent::TableGet { tableidx, idx, funcidx } => {
-                self.splice_event(HostEvent::MutateTable {
-                    tableidx: tableidx,
-                    funcidx: funcidx,
-                    import: self.replay.table_imports.contains_key(&tableidx),
-                    name: todo!(),
-                    idx: idx,
-                    func_import: self.replay.func_imports.contains_key(&funcidx),
-                    func_name: todo!(),
-                });
+                todo!()
+                // self.splice_event(HostEvent::MutateTable {
+                //     tableidx: tableidx,
+                //     funcidx: funcidx,
+                //     import: self.replay.table_imports.contains_key(&tableidx),
+                //     name: self.export_tables.get(&idx).unwrap().clone(),
+                //     idx: idx,
+                //     func_import: self.replay.func_imports.contains_key(&funcidx),
+                //     func_name: todo!(),
+                // });
             }
             WasmEvent::TableGrow { idx, amount } => {
                 self.splice_event(HostEvent::GrowTable {
                     import: self.replay.table_imports.contains_key(&idx),
-                    name: todo!(),
+                    name: self.pub_tables.get(&idx).unwrap().clone(),
                     idx: idx,
                     amount: amount,
                 });
@@ -270,13 +301,14 @@ impl IRGenerator {
                 self.splice_event(HostEvent::MutateGlobal {
                     idx: idx,
                     import: self.replay.global_imports.contains_key(&idx),
-                    name: todo!(),
+                    name: self.pub_globals.get(&idx).unwrap().clone(),
                     value: value,
                     valtype: valtype.clone(),
                 });
             }
 
             WasmEvent::Call { idx } => {
+                let idx = idx as i32;
                 self.replay.func_imports.get_mut(&idx).unwrap().bodys.push(vec![]);
                 self.state.host_call_stack.push(idx);
                 self.state.last_func = idx;
@@ -292,16 +324,16 @@ impl IRGenerator {
                     idx,
                     Global {
                         module: module.clone(),
-                        name: todo!(),
+                        name: self.pub_globals.get(&idx).unwrap().clone(),
                         value: value.clone(),
                         initial: initial.clone(),
                         mutable: mutable,
                     },
                 );
             }
-            WasmEvent::Store { offset, data } => todo!(),
-            WasmEvent::TableSet { tableidx, idx, funcidx } => todo!(),
-            WasmEvent::GlobalSet { idx, value, valtype } => todo!(),
+            WasmEvent::Store { idx, offset, data } => {}
+            WasmEvent::TableSet { tableidx, idx, funcidx } => {}
+            WasmEvent::GlobalSet { idx, value, valtype } => {}
         }
     }
     fn splice_event(&mut self, event: HostEvent) {

@@ -32,7 +32,7 @@ export default class Benchmark {
             await fs.writeFile(path.join(binPath, 'index.wasm'), Buffer.from(binary))
             if (options.rustBackend === true) {
                 const p_measureCodeGen = createMeasure('rust-backend', { phase: 'replay-generation', description: `The time it takes for rust backend to generate javascript` })
-                execSync(`./target/release/replay_gen ${diskSave} ${path.join(binPath, 'index.wasm')} false`);
+                execSync(`./target/debug/replay_gen ${diskSave} ${path.join(binPath, 'index.wasm')} false`);
                 execSync(`wasm-validate ${path.join(binPath, "canned.wasm")}`)
                 p_measureCodeGen()
             } else {

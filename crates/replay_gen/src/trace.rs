@@ -79,6 +79,17 @@ impl Into<Vec<u8>> for LoadValue {
     }
 }
 
+impl Into<Vec<F64>> for LoadValue {
+    fn into(self) -> Vec<F64> {
+        match self {
+            LoadValue::I32(n) => n.to_le_bytes().map(|b| F64(b as f64)).to_vec(),
+            LoadValue::I64(n) => n.to_le_bytes().map(|b| F64(b as f64)).to_vec(),
+            LoadValue::F32(n) => n.to_le_bytes().map(|b| F64(b as f64)).to_vec(),
+            LoadValue::F64(n) => n.to_le_bytes().map(|b| F64(b as f64)).to_vec(),
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub enum StoreValue {
     I8(i8),
@@ -154,6 +165,7 @@ pub enum WasmEvent {
         data: LoadValue,
     },
     Store {
+        idx: usize,
         offset: i32,
         data: StoreValue,
     },
@@ -163,12 +175,12 @@ pub enum WasmEvent {
     },
     TableGet {
         tableidx: usize,
-        idx: i32,
+        idx: usize,
         funcidx: i32,
     },
     TableSet {
         tableidx: usize,
-        idx: i32,
+        idx: usize,
         funcidx: i32,
     },
     TableGrow {
@@ -186,21 +198,21 @@ pub enum WasmEvent {
         valtype: ValType,
     },
     Call {
-        idx: i32,
+        idx: usize,
     },
     CallReturn {
-        idx: i32,
+        idx: usize,
         results: Vec<F64>,
     },
     // These do not correspond to a wasm instruction, but used to track control flow
     FuncEntry {
-        idx: i32,
+        idx: usize,
         params: Vec<F64>,
     },
     FuncEntryTable {
-        idx: i32,
+        idx: usize,
         tablename: String,
-        tableidx: i32,
+        tableidx: usize,
         params: Vec<F64>,
     },
     FuncReturn,
@@ -218,7 +230,7 @@ impl WasmEvent {
     pub fn decode_string(reader: &mut BufReader<File>) -> Result<Option<Self>, ErrorKind> {
         let mut event = String::new();
         match reader.read_line(&mut event) {
-            Ok(_) => Ok(Some(event.parse().map_err(|_| ErrorKind::UnknownTrace)?)),
+            Ok(_) => Ok(Some(event.parse()?)),
             Err(_) => Ok(None),
         }
     }
@@ -281,24 +293,24 @@ impl WasmEvent {
     }
 
     fn decode_table_set(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
-        let idx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.set")))?;
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.set")))?
+            as usize;
         let funcidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.set")))?;
         Ok(WasmEvent::TableSet { tableidx: 0, idx, funcidx })
     }
 
     fn decode_table_get(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
-        let idx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?;
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
+            as usize;
         let funcidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))?;
         Ok(WasmEvent::TableGet { tableidx: 0, idx, funcidx })
     }
 
     fn decode_func_entry(reader: &mut BufReader<File>, module_types: ModuleTypes) -> Result<Self, ErrorKind> {
-        let idx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for func entry")))?;
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for func entry")))?
+            as usize;
         let type_id = read_i32(reader)
             .map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode type idx for func entry")))?
             as usize;
@@ -322,8 +334,8 @@ impl WasmEvent {
     }
 
     fn decode_call_return(reader: &mut BufReader<File>, module_types: ModuleTypes) -> Result<Self, ErrorKind> {
-        let idx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx of call return")))?;
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx of call return")))?
+            as usize;
         let type_id = read_i32(reader)
             .map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode type idx of call return")))?
             as usize;
@@ -347,7 +359,8 @@ impl WasmEvent {
     }
 
     fn decode_call(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
-        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for call")))?;
+        let idx =
+            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for call")))? as usize;
         Ok(WasmEvent::Call { idx })
     }
 
@@ -363,7 +376,7 @@ impl WasmEvent {
     fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue) -> Result<Self, ErrorKind> {
         Self::decode_store_value(reader, &mut data)?;
         let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store offset")))?;
-        Ok(WasmEvent::Store { offset, data })
+        Ok(WasmEvent::Store { idx: 0, offset, data })
     }
 
     fn decode_store_value(reader: &mut BufReader<File>, data: &mut StoreValue) -> Result<(), ErrorKind> {
