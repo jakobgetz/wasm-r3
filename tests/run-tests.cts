@@ -10,10 +10,12 @@ import Benchmark from '../src/benchmark.cjs';
 //@ts-ignore
 import { instrument_wasm } from '../wasabi/wasabi_js.js'
 import { Server } from 'http'
-import { Analyser, AnalysisResult } from '../src/analyser.cjs'
+import { Analyser, AnalysisResult, CustomAnalyser } from '../src/analyser.cjs'
 import commandLineArgs from 'command-line-args'
 import { initPerformance } from '../src/performance.cjs'
 import { generateJavascript } from '../src/js-generator.cjs'
+import { textSpanContainsTextSpan } from 'typescript'
+import run from '../src/instrumenter.cjs'
 
 let extended = false
 
@@ -204,6 +206,9 @@ async function runOnlineTests(names: string[], options) {
 
 async function runOnlineTest(testPath: string, options) {
   await cleanUp(testPath)
+  if (options.custom) {
+    return testWebPageCustomInstrumentation(testPath, options);
+  }
   return testWebPage(testPath, options)
 }
 
@@ -266,6 +271,38 @@ async function runOfflineTest(name: string, options): Promise<TestReport> {
   let report = await testWebPage(testPath, options)
   server.close()
   return report
+}
+
+async function testWebPageCustomInstrumentation(testPath: string, options): Promise<TestReport> {
+  const testJsPath = path.join(testPath, 'test.js')
+  const benchmarkPath = path.join(testPath, 'benchmark')
+  const traceFilePath = path.join(testPath, 'trace.bin');
+  const replayTracePath = path.join(testPath, 'trace-replay.bin');
+  const wasmPath = path.join(benchmarkPath, 'index.wasm')
+  let analysisResult: AnalysisResult
+  try {
+    const analyser = new CustomAnalyser(traceFilePath, { benchmarkPath, javascript: true })
+    const test = await import(testJsPath)
+    analysisResult = test.default(analyser)
+    execSync(`./target/debug/replay_gen stringify ${traceFilePath} ${wasmPath} ${path.join(testPath, 'trace.r3')}`)
+    // execSync(`./target/debug/tracer ${wasmPath}`)
+    let runtime = await fs.readFile('./dist/node-runtime.js', 'utf-8');
+    let replayPath = path.join(benchmarkPath, 'replay.js')
+    let replay = await fs.readFile(replayPath, 'utf-8');
+    await fs.rm(replayPath);
+    await fs.writeFile(replayPath, `${runtime};\n${replay}`);
+    let replayBinary = await import(replayPath)
+    let check_mem = replayBinary.setup(replayTracePath)
+    const wasmBinary = await fs.readFile(wasmPath);
+    console.log("HHHHEHEHEHEHEHEH")
+    const wasm = await replayBinary.instantiate(wasmBinary)
+    replayBinary.replay(wasm)
+    check_mem();
+
+    return { testPath, success: true }
+  } catch (e) {
+    return { testPath, success: false, reason: e }
+  }
 }
 
 async function testWebPage(testPath: string, options): Promise<TestReport> {
@@ -341,7 +378,8 @@ async function testWebPage(testPath: string, options): Promise<TestReport> {
     { name: 'extended', alias: 'e', type: Boolean },
     { name: 'category', type: String, multiple: true, defaultOption: true },
     { name: 'testcases', alias: 't', type: String, multiple: true },
-    { name: 'rustBackend', alias: 'r', type: Boolean }
+    { name: 'rustBackend', alias: 'r', type: Boolean },
+    { name: 'custom', alias: 'c', type: Boolean }
   ]
   const options = commandLineArgs(optionDefinitions)
   if (options.rustBackend) {

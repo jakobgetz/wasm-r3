@@ -4,7 +4,7 @@ use replay_gen::opt::Optimiser;
 use replay_gen::trace::{ErrorKind, WasmEvent};
 use replay_gen::trace_optimisation::{CallOptimiser, ShadowMemoryOptimiser, ShadowTableOptimiser, TraceOptimiser};
 use std::fs::File;
-use std::io::{self, BufRead, BufReader};
+use std::io::{self, BufReader, BufWriter, Write};
 use std::path::Path;
 use std::{env, fs};
 use walrus::Module;
@@ -12,10 +12,21 @@ use walrus::Module;
 fn main() -> io::Result<()> {
     // TODO: use clap to parse args. currently just panics.
     let args: Vec<String> = env::args().collect();
-    let trace_path = Path::new(&args[1]);
-    let wasm_path = Path::new(&args[2]);
-    let binary = &args[3];
-    let binding = args.get(4);
+    let subcommand = &args[1];
+    if subcommand == "generate" {
+        generate(args)
+    } else if subcommand == "stringify" {
+        bin_trace_to_string_representation(args)
+    } else {
+        panic!()
+    }
+}
+
+fn generate(args: Vec<String>) -> io::Result<()> {
+    let trace_path = Path::new(&args[2]);
+    let wasm_path = Path::new(&args[3]);
+    let binary = &args[4];
+    let binding = args.get(5);
     let js_path = match &binding {
         Some(str) => Some(Path::new(str)),
         None => None,
@@ -30,28 +41,10 @@ fn main() -> io::Result<()> {
     let trace = Trace::new(trace_path, &module, binary == "true");
     trace
         .map(|e| e.unwrap())
-        // .filter(|e| shadow_mem_optimiser.inspect_event(e))
+        // .filter(|e| shadow_mem_optimiser.discard_event(e))
         // .filter(|e| shadow_table_optimiser.inspect_event(e))
         .filter(|e| call_optimiser.discard_event(e))
         .for_each(|e| generator.consume_event(e));
-
-    // let file = File::open(trace_path).unwrap();
-    // let mut reader = BufReader::new(file);
-    // let buffer = &fs::read(wasm_path).unwrap();
-    // let module = Module::from_buffer(buffer).unwrap();
-    // let mut shadow_mem_optimiser = ShadowMemoryOptimiser::new(&module);
-    // let mut generator = IRGenerator::new(&module);
-    // while let Some(event) = decode_event(&mut reader, &module, binary == "true").unwrap() {}
-    // dbg!("SUCCESS");
-    // while let Ok(event) = decode_event(&mut reader, &module, binary == "true") {
-    // println!("{}", event);
-    // drop(event);
-    // let event = match shadow_mem_optimiser.consume_event(event) {
-    //     Some(e) => e,
-    //     None => continue,
-    // };
-    // generator.consume_event(event);
-    // }
 
     // opt replay
     Optimiser::merge_fn_results(&mut generator.replay);
@@ -64,6 +57,21 @@ fn main() -> io::Result<()> {
     }
 
     Ok(())
+}
+
+fn bin_trace_to_string_representation(args: Vec<String>) -> io::Result<()> {
+    let trace_path = Path::new(&args[2]);
+    let wasm_path = Path::new(&args[3]);
+    let string_trace_path = Path::new(&args[4]);
+    let buffer = &fs::read(wasm_path).unwrap();
+    let module = Module::from_buffer(buffer).unwrap();
+    let trace = Trace::new(trace_path, &module, true);
+    let output_file = File::create(string_trace_path).unwrap();
+    let mut writer = BufWriter::new(output_file);
+    trace.for_each(|e| {
+        writer.write_fmt(format_args!("{}", e.unwrap())).unwrap();
+    });
+    writer.flush()
 }
 
 fn decode_event(reader: &mut BufReader<File>, module: &Module, binary: bool) -> Result<Option<WasmEvent>, ErrorKind> {

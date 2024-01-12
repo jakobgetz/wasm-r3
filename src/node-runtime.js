@@ -3,7 +3,7 @@
 // - setup(wasabiBinary) you need to call this to make the next function available
 // - instrument_wasm() a function that takes a wasm buffer and instruments it with wasabi.
 // - the setupAnalysis function returns a new Analysis instance when given the Wasabi object
-function setup() {
+export function setup(filePath) {
     if (self.monkeypatched === true) {
         return
     }
@@ -18,17 +18,10 @@ function setup() {
         console.log('WebAssembly module instantiated.             ')
     }
     const script = `
-        function chunkArray(array, chunkSize) {
-            const chunks = [];
-            for (let i = 0; i < array.length; i += chunkSize) {
-                chunks.push(array.slice(i, i + chunkSize));
-            }
-            return chunks;
-        }
-        const socket = new WebSocket("ws://localhost:8080/trace.r3")
+        import fs from 'fs'
         self.onmessage = function(e) {
-            console.log("SEND")
-            socket.send(e.data)
+            console.log("WRITE")
+            fs.writeFileSync('${filePath}', e)
         }
         socket.onerror = function(e) {
             console.log(e)
@@ -43,7 +36,6 @@ function setup() {
     let instance
     const r3 = {
         check_mem: () => {
-            console.log("SEND", instance.exports.trace_byte_length.value)
             const trace = instance.exports.trace.buffer.slice(0, instance.exports.trace_byte_length.value)
             worker.postMessage(trace)
         }
@@ -114,10 +106,6 @@ function setup() {
         const instance = new original_instance(module, importObject)
         return instance
     }
+    console.log("HELLO", r3.check_mem);
     return r3.check_mem
-}
-var aspifdjgsadpfkjns = setup()
-var r3_check_mem;
-if (aspifdjgsadpfkjns !== undefined) {
-    r3_check_mem = aspifdjgsadpfkjns
 }

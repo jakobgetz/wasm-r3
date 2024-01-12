@@ -157,8 +157,11 @@ impl IRGenerator {
                 },
             );
         }
-
+        let mut modules = Vec::new();
         for i in module.imports.iter() {
+            if let None = modules.iter().find(|m| i.module == **m) {
+                modules.push(i.module.clone());
+            }
             match i.kind {
                 walrus::ImportKind::Function(f) => {
                     let _ty = module.types.get(module.funcs.get(f).ty());
@@ -222,7 +225,7 @@ impl IRGenerator {
                 table_imports,
                 func_idx_to_ty,
                 global_imports: BTreeMap::new(),
-                modules: Vec::new(),
+                modules,
             },
             // -1 is the _start function
             state: State {
@@ -355,10 +358,4 @@ impl IRGenerator {
         let current_context = self.replay.func_imports.get_mut(&idx).unwrap().bodys.last_mut().unwrap();
         current_context
     }
-
-    // fn add_module(&mut self, module: &String) {
-    //     if !self.replay.modules.contains(module) {
-    //         self.replay.modules.push(module.clone());
-    //     }
-    // }
 }

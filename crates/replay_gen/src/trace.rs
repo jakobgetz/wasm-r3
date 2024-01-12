@@ -137,7 +137,7 @@ impl Into<Vec<u8>> for StoreValue {
 //     pub fn to_text_file(self, path: &Path) -> Result<(), ErrorKind> {
 //         let file = File::open(path).unwrap();
 //         let mut writer = BufWriter::new(file);
-//         self.0.iter().map(|e| format!("{}", e)).for_each(|e| {
+//         self.0.iter().map(|e| format!("{}\n", e)).for_each(|e| {
 //             let _ = writer.write_all(e.as_bytes()).unwrap();
 //         });
 //         writer.flush().unwrap();
@@ -655,35 +655,35 @@ impl Display for WasmEvent {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             WasmEvent::Load { idx, offset, data } => {
-                write!(f, "L;{};{};{}", idx, offset, data)
+                write!(f, "L;{};{};{}\n", idx, offset, data)
             }
             WasmEvent::MemGrow { idx, amount } => {
-                write!(f, "MG;{};{}", idx, amount)
+                write!(f, "MG;{};{}\n", idx, amount)
             }
             WasmEvent::TableGet { tableidx, idx, funcidx } => {
-                write!(f, "T;{};{};{}", tableidx, idx, funcidx)
+                write!(f, "T;{};{};{}\n", tableidx, idx, funcidx)
             }
             WasmEvent::TableGrow { idx, amount } => {
-                write!(f, "MG;{};{}", idx, amount)
+                write!(f, "MG;{};{}\n", idx, amount)
             }
             WasmEvent::GlobalGet { idx, value, valtype } => {
-                write!(f, "G;{};{};{:?}", idx, value, valtype)
+                write!(f, "G;{};{};{:?}\n", idx, value, valtype)
             }
             WasmEvent::FuncEntry { params, idx } => {
-                write!(f, "EC{};{}", idx, join_vec(params))
+                write!(f, "EC{};{}\n", idx, join_vec(params))
             }
             WasmEvent::FuncEntryTable { idx, tablename, tableidx: funcidx, params } => {
-                write!(f, "TC;{};{};{};{}", idx, tablename, funcidx, join_vec(params),)
+                write!(f, "TC;{};{};{};{}\n", idx, tablename, funcidx, join_vec(params),)
             }
-            WasmEvent::FuncReturn => write!(f, "ER"),
-            WasmEvent::Call { idx } => write!(f, "IC;{}", idx),
+            WasmEvent::FuncReturn => write!(f, "ER\n"),
+            WasmEvent::Call { idx } => write!(f, "IC;{}\n", idx),
             WasmEvent::CallReturn { idx, results } => {
-                write!(f, "IR;{};{}", idx, join_vec(results))
+                write!(f, "IR;{};{}\n", idx, join_vec(results))
             }
             WasmEvent::ImportGlobal { idx, module, name, mutable, initial, value } => {
                 write!(
                     f,
-                    "IG;{};{};{};{:?};{};{}",
+                    "IG;{};{};{};{:?};{};{}\n",
                     idx,
                     module,
                     name,

@@ -33,3 +33,12 @@ tracerJsApi = tracerJsApi.replace(/input = new URL\('tracer_bg\.wasm', import\.m
 runtimeT.write(tracerJsApi)
 runtimeT.write('\n')
 runtimeT.close()
+
+const runtimeNode = fs.createWriteStream(path.join(dirname, './dist/node-runtime.js'))
+runtimeNode.write(`var tracerBinary = '`)
+runtimeNode.write(fs.readFileSync(path.join(dirname, 'crates/tracer/pkg/tracer_bg.wasm')).toString('base64'))
+runtimeNode.write(`'\n`)
+runtimeNode.write(tracerJsApi)
+runtimeNode.write('\n')
+runtimeNode.write(fs.readFileSync('./src/node-runtime.js', 'utf-8'))
+runtimeNode.close()

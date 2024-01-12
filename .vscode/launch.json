@@ -55,7 +55,8 @@
             "args": [
                 "online",
                 "-t",
-                "rtexviewer"
+                "game-of-life",
+                "-c"
             ]
         },
         {

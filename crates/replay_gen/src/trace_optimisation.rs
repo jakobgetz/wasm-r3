@@ -1,6 +1,6 @@
 use walrus::{DataKind, ImportKind, Module};
 
-use crate::trace::WasmEvent;
+use crate::trace::{LoadValue, WasmEvent};
 
 pub trait TraceOptimiser {
     fn discard_event(&mut self, event: &WasmEvent) -> bool;
@@ -14,7 +14,7 @@ impl ShadowMemory {
         }
         let mut memory = ShadowMemory(vec![
             0u8;
-            module.memories.iter().find(|_| true).map(|m| m.initial).unwrap() as usize
+            module.memories.iter().find(|_| true).map(|m| m.initial * 65536).unwrap() as usize
         ]);
         module.data.iter().for_each(|d| {
             if let DataKind::Active(data) = &d.kind {
@@ -30,7 +30,16 @@ impl ShadowMemory {
 
     fn store(&mut self, offset: usize, data: impl Into<Vec<u8>>) {
         let data = data.into();
-        self.0[offset..data.len()].copy_from_slice(&data);
+        self.0[offset..(offset + data.len())].copy_from_slice(&data);
+    }
+
+    fn contains_already(&mut self, offset: usize, data: LoadValue) -> bool {
+        let data: Vec<u8> = data.into();
+        if data == self.0[offset..(offset + data.len())].to_vec() {
+            true
+        } else {
+            false
+        }
     }
 }
 
@@ -46,7 +55,21 @@ impl ShadowMemoryOptimiser {
 
 impl TraceOptimiser for ShadowMemoryOptimiser {
     fn discard_event(&mut self, event: &WasmEvent) -> bool {
-        todo!()
+       match event {
+            WasmEvent::Load { offset, data, .. } => {
+                if self.shadow_mem.contains_already(*offset as usize, data.clone()) {
+                    false
+                } else {
+                    self.shadow_mem.store(*offset as usize, data.clone());
+                    true
+                }
+            }
+            WasmEvent::Store { offset, data, .. } => {
+                self.shadow_mem.store(*offset as usize, data.clone());
+                false
+            }
+            _ => true,
+        }
     }
 }
 

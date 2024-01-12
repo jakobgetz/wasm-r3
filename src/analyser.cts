@@ -6,6 +6,8 @@ import { Trace } from './tracer.cjs'
 import acorn from 'acorn'
 import { trimFromLastOccurance } from '../tests/test-utils.cjs'
 import { WebSocketServer } from 'ws';
+import path from 'path'
+import { execSync } from 'child_process'
 
 export interface AnalysisI<T> {
     getResult(): T,
@@ -190,18 +192,22 @@ export class Analyser implements AnalyserI {
 }
 
 export class CustomAnalyser implements AnalyserI {
-    private options: Options
     private browser: Browser
     private page: Page
     private contexts: (Frame | Worker)[] = []
     private isRunning = false
     private p_measureUserInteraction: StopMeasure
+    private benchmarkPath: string
+    private traceFilePath: string
+    private javascript: boolean;
 
 
-    constructor(tracePath: string, options: Options = { extended: false, noRecord: false }) {
-        this.options = options
+    constructor(traceFilePath: string, options: { benchmarkPath: string, javascript: boolean }) {
+        this.benchmarkPath = options.benchmarkPath;
+        this.traceFilePath = traceFilePath;
+        this.javascript = options.javascript;
+
         const wss = new WebSocketServer({ port: 8080 });
-
         function setupConnection(filePath: string) {
             wss.on('connection', function connection(ws) {
                 console.log(`connection opened writing to ${filePath}`)
@@ -212,7 +218,7 @@ export class CustomAnalyser implements AnalyserI {
                 })
             })
         }
-        setupConnection(tracePath)
+        setupConnection(traceFilePath)
     }
 
     async start(url: string, { headless } = { headless: false }) {
@@ -224,9 +230,7 @@ export class CustomAnalyser implements AnalyserI {
         this.browser = await chromium.connectOverCDP('http://localhost:9222');
         this.page = await this.browser.newPage();
         this.page.setDefaultTimeout(120000);
-        if (this.options.noRecord !== true) {
-            await this.attachRecorder()
-        }
+        await this.attachRecorder()
 
         await this.page.goto(url, { timeout: 60000 })
         p_measureStart()
@@ -251,6 +255,15 @@ export class CustomAnalyser implements AnalyserI {
         this.browser.close()
         this.isRunning = false
         p_measureStop()
+        const binName = 'index.wasm'
+        const traceName = 'trace.bin'
+        const replayName = 'replay.js'
+        fss.mkdirSync(this.benchmarkPath);
+        fss.writeFileSync(path.join(this.benchmarkPath, binName), new Int8Array(originalWasmBuffer[0]))
+        const p_measureCodeGen = createMeasure('rust-backend', { phase: 'replay-generation', description: `The time it takes for rust backend to generate javascript` })
+        execSync(`./target/debug/replay_gen generate ${this.traceFilePath} ${path.join(this.benchmarkPath, binName)} true ${path.join(this.benchmarkPath, replayName)}`);
+        // execSync(`wasm-validate ${path.join(this.benchmarkPath, replayName)}`)
+        p_measureCodeGen()
         return originalWasmBuffer.map((wasm) => ({ result: '', wasm }))
     }
 
@@ -331,13 +344,4 @@ export class CustomAnalyser implements AnalyserI {
         const setupScript = await fs.readFile('./src/tracer-runtime.js') + '\n'
         return tracerScript + ';' + setupScript + ';'
     }
-
-    setExtended(extended: boolean) {
-        this.options.extended = extended
-    }
-
-    getExtended() {
-        return this.options.extended
-    }
-
 }
