@@ -122,6 +122,15 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
 
 type Locals = HashMap<ValType, Vec<LocalId>>;
 fn add_locals(module: &mut Module) -> (Locals, Locals) {
+    let mut locals = HashMap::new();
+    module.locals.iter().for_each(|l| {
+        let _ = locals
+            .entry(l.ty())
+            .and_modify(|e: &mut Vec<LocalId>| {
+                e.push(l.id());
+            })
+            .or_insert(vec![l.id()]);
+    });
     let mut added_locals: Locals = HashMap::new();
     added_locals.insert(ValType::I32, vec![module.locals.add(ValType::I32)]);
     added_locals.insert(ValType::I64, vec![module.locals.add(ValType::I64)]);
@@ -159,15 +168,6 @@ fn add_locals(module: &mut Module) -> (Locals, Locals) {
                 }
             });
         });
-    });
-    let mut locals = HashMap::new();
-    module.locals.iter().for_each(|l| {
-        let _ = locals
-            .entry(l.ty())
-            .and_modify(|e: &mut Vec<LocalId>| {
-                e.push(l.id());
-            })
-            .or_insert(vec![l.id()]);
     });
     (locals, added_locals)
 }
