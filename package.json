@@ -29,7 +29,7 @@
     "build-rust": "cargo build && cd crates/tracer && wasm-pack build --debug -t web",
     "build-wasabi": "cd wasabi/crates/wasabi_js && npm run build && wasm-pack build --target web && wasm-pack build --target nodejs --out-dir ../../../dist/wasabi && cd ../../..",
     "build-full": "npm run build-rust && npm run build-wasabi && npm run build",
-    "test": "npm run build-full && node ./dist/tests/run-tests.cjs",
+    "test": "npm run build && node --experimental-wasm-multi-memory ./dist/tests/run-tests.cjs",
     "clean-tests": "node ./dist/tests/clean-tests.cjs",
     "start": "npm run build && node ./dist/src/cli/main.cjs"
   }

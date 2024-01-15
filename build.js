@@ -42,3 +42,7 @@ runtimeNode.write(tracerJsApi)
 runtimeNode.write('\n')
 runtimeNode.write(fs.readFileSync('./src/node-runtime.js', 'utf-8'))
 runtimeNode.close()
+
+// fs.mkdirSync('dist/tracer');
+fs.copyFileSync('crates/tracer/pkg/tracer.js', 'dist/tracer/tracer.js')
+fs.copyFileSync('crates/tracer/pkg/tracer_bg.wasm', 'dist/tracer/tracer_bg.wasm')

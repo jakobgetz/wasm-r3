@@ -4,40 +4,19 @@
 // - instrument_wasm() a function that takes a wasm buffer and instruments it with wasabi.
 // - the setupAnalysis function returns a new Analysis instance when given the Wasabi object
 export function setup(filePath) {
-    if (self.monkeypatched === true) {
-        return
-    }
-    self.monkeypatched = true
-    self.originalWasmBuffer = []
     let i = 0
     // const p_timeToFirstInstantiate = performanceEvent('time until instantiation of first wasm module in this context')
     const printWelcome = function () {
-        console.log('---------------------------------------------')
-        console.log('             Instrumenting Wasm              ')
-        console.log('---------------------------------------------')
-        console.log('WebAssembly module instantiated.             ')
+        // console.log('---------------------------------------------')
+        // console.log('             Instrumenting Wasm              ')
+        // console.log('---------------------------------------------')
+        // console.log('WebAssembly module instantiated.             ')
     }
-    const script = `
-        import fs from 'fs'
-        self.onmessage = function(e) {
-            console.log("WRITE")
-            fs.writeFileSync('${filePath}', e)
-        }
-        socket.onerror = function(e) {
-            console.log(e)
-        }
-        socket.onopen = function(e) {
-            self.postMessage(true)
-        }
-        `
-    const blob = new Blob([script], { type: 'application/javascript' });
-    const workerUrl = URL.createObjectURL(blob);
-    const worker = new Worker(workerUrl)
     let instance
     const r3 = {
         check_mem: () => {
             const trace = instance.exports.trace.buffer.slice(0, instance.exports.trace_byte_length.value)
-            worker.postMessage(trace)
+            fs.writeFileSync(filePath, Buffer.from(trace))
         }
     }
 
@@ -47,7 +26,6 @@ export function setup(filePath) {
         uint8Array[i] = binaryString.charCodeAt(i);
     }
     const buffer = uint8Array.buffer;
-
     initSync(buffer)
     let original_instantiate = WebAssembly.instantiate
     WebAssembly.instantiate = async function (buffer, importObject) {
@@ -55,57 +33,16 @@ export function setup(filePath) {
         buffer = (buffer.byte) ? buffer.byte : buffer
         const this_i = i
         i += 1
-        console.log('WebAssembly.instantiate')
         printWelcome()
-        self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
         const instrumented = instrument_wasm_js(new Uint8Array(buffer));
         buffer = new Uint8Array(instrumented)
-        result = await original_instantiate(buffer, importObject)
+        let result = await original_instantiate(buffer, importObject)
+        WebAssembly.instantiate = original_instantiate
         instance = result.instance
         return result
     };
-    // replace instantiateStreaming
-    WebAssembly.instantiateStreaming = async function (source, obj) {
-        console.log('WebAssembly.instantiateStreaming')
-        let response = await source;
-        let body = await response.arrayBuffer();
-        return WebAssembly.instantiate(body, obj);
-    }
-    const original_module = WebAssembly.Module
-    WebAssembly.Module = function (bytes) {
-        console.log('WebAssembly.Module')
-        const module = new original_module(bytes)
-        module.bytes = bytes
-        return module
-    }
-    const original_compile = WebAssembly.compile
-    WebAssembly.compile = async function (bytes) {
-        console.log('WebAssembly.compile')
-        const module = await original_compile(bytes)
-        module.bytes = bytes
-        return module
-    }
-    WebAssembly.compileStreaming = async function (source) {
-        console.log('WebAssembly.compileStreaming')
-        const response = await source
-        const bytes = await response.arrayBuffer()
-        return await WebAssembly.compile(bytes)
-    }
-    const original_instance = WebAssembly.Instance
-    WebAssembly.Instance = function (module, importObject) {
-        importObject.r3 = r3
-        let buffer = module.bytes
-        const this_i = i
-        i += 1
-        console.log('WebAssembly.Instance')
-        printWelcome()
-        self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
-        const instrumented = instrument_wasm_js(new Uint8Array(buffer));
-        buffer = new Uint8Array(instrumented)
-        module = new WebAssembly.Module(buffer)
-        const instance = new original_instance(module, importObject)
-        return instance
-    }
-    console.log("HELLO", r3.check_mem);
+
+
     return r3.check_mem
+
 }

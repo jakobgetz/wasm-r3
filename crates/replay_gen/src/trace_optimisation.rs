@@ -8,24 +8,25 @@ pub trait TraceOptimiser {
 
 pub struct ShadowMemory(Vec<u8>);
 impl ShadowMemory {
-    fn new(module: &Module) -> Self {
+    fn from_module(module: &Module) -> Vec<ShadowMemory> {
         if module.memories.len() > 1 {
             todo!("Multiple memories not supported yet");
         }
-        let mut memory = ShadowMemory(vec![
-            0u8;
-            module.memories.iter().find(|_| true).map(|m| m.initial * 65536).unwrap() as usize
-        ]);
+        let mut memories: Vec<ShadowMemory> = module
+            .memories
+            .iter()
+            .map(|m| ShadowMemory(vec![0u8; (m.initial * 65536) as usize]))
+            .collect();
         module.data.iter().for_each(|d| {
             if let DataKind::Active(data) = &d.kind {
                 let offset = match data.location {
                     walrus::ActiveDataLocation::Absolute(n) => n as usize,
                     walrus::ActiveDataLocation::Relative(_) => todo!("Relative data segment offset not supported yet"),
                 };
-                memory.store(offset, d.value.clone());
+                memories.get_mut(0).unwrap().store(offset, d.value.clone());
             }
         });
-        memory
+        memories
     }
 
     fn store(&mut self, offset: usize, data: impl Into<Vec<u8>>) {
@@ -44,28 +45,33 @@ impl ShadowMemory {
 }
 
 pub struct ShadowMemoryOptimiser {
-    shadow_mem: ShadowMemory,
+    shadow_mem: Vec<ShadowMemory>,
 }
 
 impl ShadowMemoryOptimiser {
     pub fn new(module: &Module) -> Self {
-        Self { shadow_mem: ShadowMemory::new(module) }
+        Self { shadow_mem: ShadowMemory::from_module(module) }
     }
 }
 
 impl TraceOptimiser for ShadowMemoryOptimiser {
     fn discard_event(&mut self, event: &WasmEvent) -> bool {
-       match event {
-            WasmEvent::Load { offset, data, .. } => {
-                if self.shadow_mem.contains_already(*offset as usize, data.clone()) {
+        match event {
+            WasmEvent::Load { offset, data, idx } => {
+                if self
+                    .shadow_mem
+                    .get_mut(*idx)
+                    .unwrap()
+                    .contains_already(*offset as usize, data.clone())
+                {
                     false
                 } else {
-                    self.shadow_mem.store(*offset as usize, data.clone());
+                    self.shadow_mem.get_mut(*idx).unwrap().store(*offset as usize, data.clone());
                     true
                 }
             }
-            WasmEvent::Store { offset, data, .. } => {
-                self.shadow_mem.store(*offset as usize, data.clone());
+            WasmEvent::Store { offset, data, idx } => {
+                self.shadow_mem.get_mut(*idx).unwrap().store(*offset as usize, data.clone());
                 false
             }
             _ => true,

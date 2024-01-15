@@ -5,7 +5,7 @@ import cp, { execSync } from 'child_process'
 import express from 'express'
 import Generator from "../src/replay-generator.cjs";
 import Tracer, { Trace } from "../src/tracer.cjs";
-import { copyDir, delay, getDirectoryNames, rmSafe, startSpinner, stopSpinner, trimFromLastOccurance } from "./test-utils.cjs";
+import { delay, getDirectoryNames, rmSafe, startSpinner, stopSpinner, trimFromLastOccurance } from "./test-utils.cjs";
 import Benchmark from '../src/benchmark.cjs';
 //@ts-ignore
 import { instrument_wasm } from '../wasabi/wasabi_js.js'
@@ -14,8 +14,6 @@ import { Analyser, AnalysisResult, CustomAnalyser } from '../src/analyser.cjs'
 import commandLineArgs from 'command-line-args'
 import { initPerformance } from '../src/performance.cjs'
 import { generateJavascript } from '../src/js-generator.cjs'
-import { textSpanContainsTextSpan } from 'typescript'
-import run from '../src/instrumenter.cjs'
 
 let extended = false
 
@@ -34,6 +32,64 @@ async function cleanUp(testPath: string) {
   await rmSafe(path.join(testPath, "long.cjs"))
   await rmSafe(path.join(testPath, 'benchmark'))
   await rmSafe(path.join(testPath, 'test-benchmark'))
+  await rmSafe(path.join(testPath, 'test-runtime.js'))
+}
+
+async function runNodeTestCustom(name: string, options): Promise<TestReport> {
+  const testPath = path.join(process.cwd(), 'tests', 'node', name)
+  await cleanUp(testPath)
+  const testJsPath = path.join(testPath, 'test.js')
+  const testJsRuntimePath = path.join(testPath, 'test-runtime.js')
+  const watPath = path.join(testPath, "index.wat");
+  const wasmPath = path.join(testPath, "index.wasm");
+  const instrumentedPath = path.join(testPath, "instrumented.wasm");
+  const tracePath = path.join(testPath, "trace.bin");
+  const traceStringPath = path.join(testPath, "trace.r3");
+  const callGraphPath = path.join(testPath, "call-graph.txt");
+  const replayPath = path.join(testPath, "replay.js");
+  const replayTracePath = path.join(testPath, "replay-trace.bin");
+  const replayTraceStringPath = path.join(testPath, "replay-trace.r3");
+  const replayCallGraphPath = path.join(testPath, "replay-call-graph.txt");
+  await cleanUp(testPath)
+
+  // 1. Instrument with Wasabi !!Please use the newest version
+  const indexRsPath = path.join(testPath, 'index.rs')
+  const indexCPath = path.join(testPath, 'index.c')
+  if (fss.existsSync(indexRsPath)) {
+    cp.execSync(`rustc --crate-type cdylib ${indexRsPath} --target wasm32-unknown-unknown --crate-type cdylib -o ${wasmPath}`, { stdio: 'ignore' })
+    cp.execSync(`wasm2wat ${wasmPath} -o ${watPath}`)
+  } else if (fss.existsSync(indexCPath)) {
+    // TODO
+  } else {
+    cp.execSync(`wat2wasm ${watPath} -o ${wasmPath}`);
+  }
+
+  let runtime = await fs.readFile('./dist/node-runtime.js', 'utf-8');
+  let testText = await fs.readFile(testJsPath, 'utf-8');
+  await fs.writeFile(testJsRuntimePath, `import fs from 'fs';\n${testText};\n${runtime};`);
+  let test = await import(testJsRuntimePath)
+  let check_mem = test.setup(tracePath)
+  let wasmBinary = fss.readFileSync(wasmPath)
+  await test.default(wasmBinary)
+  check_mem()
+  execSync(`./target/debug/replay_gen stringify ${tracePath} ${wasmPath} ${traceStringPath}`)
+
+  execSync(`./target/debug/replay_gen generate ${tracePath} ${wasmPath} true ${replayPath}`);
+
+  let replay = await fs.readFile(replayPath, 'utf-8');
+  await fs.rm(replayPath);
+  await fs.writeFile(replayPath, `${replay};\n${runtime};`);
+  let replayBinary = await import(replayPath)
+  let check_mem_2 = replayBinary.setup(replayTracePath)
+  let wasm = await replayBinary.instantiate(wasmBinary)
+  await replayBinary.replay(wasm)
+  check_mem_2();
+  execSync(`./target/debug/replay_gen stringify ${replayTracePath} ${wasmPath} ${replayTraceStringPath}`)
+
+  let traceString = await fs.readFile(traceStringPath, 'utf-8')
+  let replayTraceString = await fs.readFile(replayTraceStringPath, 'utf-8')
+  return compareResults(testPath, traceString, replayTraceString)
+
 }
 
 
@@ -160,7 +216,12 @@ async function runNodeTests(names: string[], options) {
   names = names.filter((n) => !filter.includes(n))
   // names = ["mem-imp-host-grow"]
   for (let name of names) {
-    const report = await runNodeTest(name, options)
+    let report
+    if (options.custom === true) {
+      report = await runNodeTestCustom(name, options)
+    } else {
+      report = await runNodeTest(name, options)
+    }
     await writeReport(name, report)
   }
 }
@@ -277,31 +338,35 @@ async function testWebPageCustomInstrumentation(testPath: string, options): Prom
   const testJsPath = path.join(testPath, 'test.js')
   const benchmarkPath = path.join(testPath, 'benchmark')
   const traceFilePath = path.join(testPath, 'trace.bin');
+  const traceTextPath = path.join(testPath, 'trace.r3');
   const replayTracePath = path.join(testPath, 'trace-replay.bin');
+  const replayTextTracePath = path.join(testPath, 'trace-replay.r3');
+
   const wasmPath = path.join(benchmarkPath, 'index.wasm')
+
   let analysisResult: AnalysisResult
   try {
     const analyser = new CustomAnalyser(traceFilePath, { benchmarkPath, javascript: true })
     const test = await import(testJsPath)
-    analysisResult = test.default(analyser)
-    execSync(`./target/debug/replay_gen stringify ${traceFilePath} ${wasmPath} ${path.join(testPath, 'trace.r3')}`)
-    // execSync(`./target/debug/tracer ${wasmPath}`)
+    analysisResult = await test.default(analyser)
+    execSync(`./target/debug/replay_gen stringify ${traceFilePath} ${wasmPath} ${traceTextPath}`)
     let runtime = await fs.readFile('./dist/node-runtime.js', 'utf-8');
     let replayPath = path.join(benchmarkPath, 'replay.js')
     let replay = await fs.readFile(replayPath, 'utf-8');
     await fs.rm(replayPath);
-    await fs.writeFile(replayPath, `${runtime};\n${replay}`);
+    await fs.writeFile(replayPath, `${replay};\n${runtime};`);
     let replayBinary = await import(replayPath)
     let check_mem = replayBinary.setup(replayTracePath)
-    const wasmBinary = await fs.readFile(wasmPath);
-    console.log("HHHHEHEHEHEHEHEH")
-    const wasm = await replayBinary.instantiate(wasmBinary)
+    let wasmBinary = fss.readFileSync(wasmPath);
+    let wasm = await replayBinary.instantiate(wasmBinary)
     replayBinary.replay(wasm)
     check_mem();
-
-    return { testPath, success: true }
+    execSync(`./target/debug/replay_gen stringify ${replayTracePath} ${wasmPath} ${replayTextTracePath}`)
+    let traceString = await fs.readFile(traceTextPath, 'utf-8')
+    let replayTraceString = await fs.readFile(replayTextTracePath, 'utf-8')
+    return compareResults(testPath, traceString, replayTraceString)
   } catch (e) {
-    return { testPath, success: false, reason: e }
+    return { testPath, success: false, reason: e.stack }
   }
 }
 
