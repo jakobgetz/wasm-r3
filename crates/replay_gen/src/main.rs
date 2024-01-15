@@ -41,9 +41,10 @@ fn generate(args: Vec<String>) -> io::Result<()> {
     let trace = Trace::new(trace_path, &module, binary == "true");
     trace
         .map(|e| e.unwrap())
-        // .filter(|e| shadow_mem_optimiser.discard_event(e))
+        .filter(|e| shadow_mem_optimiser.discard_event(e))
         // .filter(|e| shadow_table_optimiser.inspect_event(e))
         .filter(|e| call_optimiser.discard_event(e))
+        .map(|e| shadow_table_optimiser.transform_event(e))
         .for_each(|e| generator.consume_event(e));
 
     // opt replay

@@ -1,4 +1,6 @@
-use walrus::{DataKind, ImportKind, Module};
+use std::{collections::HashMap, hash::Hash};
+
+use walrus::{DataKind, ElementKind, FunctionId, ImportKind, Module};
 
 use crate::trace::{LoadValue, WasmEvent};
 
@@ -15,7 +17,7 @@ impl ShadowMemory {
         let mut memories: Vec<ShadowMemory> = module
             .memories
             .iter()
-            .map(|m| ShadowMemory(vec![0u8; (m.initial * 65536) as usize]))
+            .map(|m| ShadowMemory(vec![0; (m.initial * 65536) as usize]))
             .collect();
         module.data.iter().for_each(|d| {
             if let DataKind::Active(data) = &d.kind {
@@ -79,19 +81,97 @@ impl TraceOptimiser for ShadowMemoryOptimiser {
     }
 }
 
+pub struct ShadowTable {
+    content: Vec<usize>,
+    pub_name: Option<String>,
+}
+
+impl ShadowTable {
+    fn from_module(module: &Module) -> Vec<ShadowTable> {
+        let mut tables: Vec<ShadowTable> = module
+            .tables
+            .iter()
+            .map(|t| ShadowTable { content: vec![0; t.initial as usize], pub_name: None })
+            .collect();
+        module.elements.iter().for_each(|e| {
+            if let ElementKind::Active { table, offset } = e.kind {
+                let offset = match offset {
+                    walrus::InitExpr::Value(v) => match v {
+                        walrus::ir::Value::I32(v) => v as usize,
+                        walrus::ir::Value::I64(v) => v as usize,
+                        walrus::ir::Value::F32(v) => todo!(),
+                        walrus::ir::Value::F64(v) => todo!(),
+                        walrus::ir::Value::V128(v) => todo!(),
+                    },
+                    walrus::InitExpr::Global(_) => todo!(),
+                    walrus::InitExpr::RefNull(_) => todo!(),
+                    walrus::InitExpr::RefFunc(_) => todo!(),
+                };
+                tables.get_mut(table.index()).unwrap().set(offset, &e.members);
+            }
+        });
+        tables
+    }
+
+    fn set(&mut self, offset: usize, contents: &Vec<Option<FunctionId>>) {
+        let indices: Vec<usize> = contents.iter().map(|i| i.unwrap().index()).collect();
+        self.content[offset..(offset + indices.len())].copy_from_slice(&indices);
+    }
+
+    fn contains_already(&mut self, offset: usize, funcidx: usize) -> bool {
+        self.content.get(offset).unwrap() == &funcidx
+    }
+}
+
 pub struct ShadowTableOptimiser {
-    shadow_tables: u8,
+    shadow_tables: Vec<ShadowTable>,
+    pub_functions: HashMap<usize, String>,
 }
 
 impl ShadowTableOptimiser {
     pub fn new(module: &Module) -> Self {
-        Self { shadow_tables: 8 }
+        let mut pub_functions = HashMap::new();
+        for i in module.imports.iter() {
+            if let walrus::ImportKind::Function(f) = i.kind {
+                pub_functions.insert(f.index(), i.name.clone());
+            }
+        }
+        module.exports.iter().for_each(|e| {
+            if let walrus::ExportItem::Function(id) = e.item {
+                pub_functions.insert(id.index(), e.name.clone());
+            }
+        });
+        ShadowTableOptimiser {
+            shadow_tables: ShadowTable::from_module(module),
+            pub_functions,
+        }
     }
 }
 
 impl TraceOptimiser for ShadowTableOptimiser {
     fn discard_event(&mut self, event: &WasmEvent) -> bool {
         todo!()
+    }
+}
+
+impl ShadowTableOptimiser {
+    pub fn transform_event(&mut self, event: WasmEvent) -> WasmEvent {
+        match event.clone() {
+            WasmEvent::FuncEntry { idx, params } => match self.pub_functions.get(&idx) {
+                Some(_) => event,
+                None => {
+                    for (i, table) in self.shadow_tables.iter().enumerate() {
+                        for (offset, c) in table.content.iter().enumerate() {
+                            if c == &idx {
+                                return WasmEvent::FuncEntryTable { idx: offset, tableidx: i, params };
+                            }
+                        }
+                    }
+                    panic!("The called function is neither exported nor in an public table")
+                }
+            },
+            _ => event,
+        }
     }
 }
 

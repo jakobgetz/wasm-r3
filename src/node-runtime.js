@@ -36,6 +36,7 @@ export function setup(filePath) {
         printWelcome()
         const instrumented = instrument_wasm_js(new Uint8Array(buffer));
         buffer = new Uint8Array(instrumented)
+        fs.writeFileSync('test.wasm', buffer)
         let result = await original_instantiate(buffer, importObject)
         WebAssembly.instantiate = original_instantiate
         instance = result.instance

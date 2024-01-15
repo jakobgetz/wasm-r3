@@ -105,7 +105,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
                     generator.trace_code(opcode, offset),
                     generator.trace_func_idx(fidx, offset),
                     generator.trace_type(&typ, offset),
-                    generator.save_locals(params, offset),
+                    generator.save_params(params, offset),
                     generator.increment_mem_pointer(offset),
                 ])
                 .flatten(),
@@ -544,13 +544,14 @@ impl Generator {
         InstructionsEnum::Single((Instr::Call(Call { func }), InstrLocId::default()))
     }
 
-    fn save_locals(&mut self, values: &[ValType], offset: &mut u32) -> InstructionsEnum {
+    fn save_params(&mut self, values: &[ValType], offset: &mut u32) -> InstructionsEnum {
         let mut locals = Vec::new();
         InstructionsEnum::from_vec(
             values
                 .iter()
                 .map(|t| {
-                    let local = *self.added_locals.get(t).unwrap().get(0).unwrap();
+                    let local = *self.locals.get(t).unwrap()
+                        .get(0).unwrap();
                     locals.push(local);
                     self.locals.entry(*t).and_modify(|e| {
                         let id = e.remove(0);

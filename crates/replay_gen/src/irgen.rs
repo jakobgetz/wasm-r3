@@ -32,6 +32,7 @@ pub struct Replay {
 struct State {
     host_call_stack: Vec<i32>,
     last_func: i32,
+    last_table_get: usize,
 }
 
 #[derive(Clone, Debug)]
@@ -135,6 +136,7 @@ impl IRGenerator {
         let mut pub_memories = HashMap::new();
         let mut pub_globals = HashMap::new();
         let mut func_imports = BTreeMap::new();
+
         func_imports.insert(
             -1,
             Function {
@@ -231,6 +233,7 @@ impl IRGenerator {
             state: State {
                 host_call_stack: vec![-1], //
                 last_func: -1,
+                last_table_get: 0,
             },
             pub_functions,
             pub_globals,
@@ -249,20 +252,25 @@ impl IRGenerator {
     pub fn consume_event(&mut self, event: WasmEvent) {
         match event {
             WasmEvent::FuncEntry { idx, params } => {
-                self.push_call(HostEvent::ExportCall {
-                    idx,
-                    name: self.pub_functions.get(&idx).unwrap().clone(),
-                    params,
-                });
+                match self.pub_functions.get(&idx) {
+                    Some(name) => self.push_call(HostEvent::ExportCall { idx, name: name.clone(), params }),
+                    None => {
+                        self.push_call(HostEvent::ExportCallTable {
+                            idx: self.state.last_table_get,
+                            table_name: self.pub_tables.get(&self.state.last_table_get).unwrap().clone(),
+                            funcidx: idx as i32,
+                            params,
+                        });
+                    }
+                };
             }
-            WasmEvent::FuncEntryTable { idx, tablename, tableidx, params } => {
-                todo!()
-                // self.push_call(HostEvent::ExportCallTable {
-                //     idx,
-                //     table_name: *self.export_tables.get(&tableidx).unwrap(),
-                //     funcidx,
-                //     params: params.clone(),
-                // });
+            WasmEvent::FuncEntryTable { idx, tableidx, params } => {
+                self.push_call(HostEvent::ExportCallTable {
+                    idx: tableidx,
+                    table_name: self.pub_tables.get(&tableidx).unwrap().clone(),
+                    funcidx: idx as i32,
+                    params: params.clone(),
+                });
             }
             WasmEvent::FuncReturn => {}
             WasmEvent::Load { idx, offset, data } => {

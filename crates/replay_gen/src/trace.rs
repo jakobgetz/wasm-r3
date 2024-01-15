@@ -211,7 +211,6 @@ pub enum WasmEvent {
     },
     FuncEntryTable {
         idx: usize,
-        tablename: String,
         tableidx: usize,
         params: Vec<F64>,
     },
@@ -597,7 +596,6 @@ impl FromStr for WasmEvent {
             }),
             "TC" => Ok(WasmEvent::FuncEntryTable {
                 idx: components[1].parse().unwrap(),
-                tablename: components[2].to_string(),
                 tableidx: components[3].parse().unwrap(),
                 params: split_list(components.get(4).unwrap()),
             }),
@@ -670,10 +668,10 @@ impl Display for WasmEvent {
                 write!(f, "G;{};{};{:?}\n", idx, value, valtype)
             }
             WasmEvent::FuncEntry { params, idx } => {
-                write!(f, "EC{};{}\n", idx, join_vec(params))
+                write!(f, "EC;{};{}\n", idx, join_vec(params))
             }
-            WasmEvent::FuncEntryTable { idx, tablename, tableidx: funcidx, params } => {
-                write!(f, "TC;{};{};{};{}\n", idx, tablename, funcidx, join_vec(params),)
+            WasmEvent::FuncEntryTable { idx, tableidx: funcidx, params } => {
+                write!(f, "TC;{};{};{}\n", idx, funcidx, join_vec(params),)
             }
             WasmEvent::FuncReturn => write!(f, "ER\n"),
             WasmEvent::Call { idx } => write!(f, "IC;{}\n", idx),
