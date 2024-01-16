@@ -332,7 +332,12 @@ async function runOfflineTest(name: string, options): Promise<TestReport> {
   const websitePath = path.join(testPath, 'website')
   await cleanUp(testPath)
   const server = await startServer(websitePath)
-  let report = await testWebPage(testPath, options)
+  let report
+  if (options.custom == true) {
+    report = await testWebPageCustomInstrumentation(testPath, options)
+  } else {
+    report = await testWebPage(testPath, options)
+  }
   server.close()
   return report
 }
@@ -340,34 +345,39 @@ async function runOfflineTest(name: string, options): Promise<TestReport> {
 async function testWebPageCustomInstrumentation(testPath: string, options): Promise<TestReport> {
   const testJsPath = path.join(testPath, 'test.js')
   const benchmarkPath = path.join(testPath, 'benchmark')
-  const traceFilePath = path.join(testPath, 'trace.bin');
-  const traceTextPath = path.join(testPath, 'trace.r3');
-  const replayTracePath = path.join(testPath, 'trace-replay.bin');
-  const replayTextTracePath = path.join(testPath, 'trace-replay.r3');
-
-  const wasmPath = path.join(benchmarkPath, 'index.wasm')
 
   let analysisResult: AnalysisResult
   try {
-    const analyser = new CustomAnalyser(traceFilePath, { benchmarkPath, javascript: true })
+    const analyser = new CustomAnalyser(benchmarkPath, { javascript: true })
     const test = await import(testJsPath)
     analysisResult = await test.default(analyser)
-    execSync(`./target/debug/replay_gen stringify ${traceFilePath} ${wasmPath} ${traceTextPath}`)
-    let runtime = await fs.readFile('./dist/node-runtime.js', 'utf-8');
-    let replayPath = path.join(benchmarkPath, 'replay.js')
-    let replay = await fs.readFile(replayPath, 'utf-8');
-    await fs.rm(replayPath);
-    await fs.writeFile(replayPath, `${replay};\n${runtime};`);
-    let replayBinary = await import(replayPath)
-    let check_mem = replayBinary.setup(replayTracePath)
-    let wasmBinary = fss.readFileSync(wasmPath);
-    let wasm = await replayBinary.instantiate(wasmBinary)
-    replayBinary.replay(wasm)
-    check_mem();
-    execSync(`./target/debug/replay_gen stringify ${replayTracePath} ${wasmPath} ${replayTextTracePath}`)
-    let traceString = await fs.readFile(traceTextPath, 'utf-8')
-    let replayTraceString = await fs.readFile(replayTextTracePath, 'utf-8')
-    return compareResults(testPath, traceString, replayTraceString)
+    const subBenchmarkNames = await fs.readdir(benchmarkPath);
+    if (subBenchmarkNames.length === 0) {
+      return { testPath, success: false, reason: 'No benchmark has been generated' }
+    }
+    for (let subBenchmark of subBenchmarkNames) {
+      const traceFilePath = path.join(benchmarkPath, subBenchmark, 'trace.bin');
+      const traceTextPath = path.join(benchmarkPath, subBenchmark, 'trace.r3');
+      const replayTracePath = path.join(benchmarkPath, subBenchmark, 'trace-replay.bin');
+      const replayTextTracePath = path.join(benchmarkPath, subBenchmark, 'trace-replay.r3');
+      const wasmPath = path.join(benchmarkPath, subBenchmark, 'index.wasm')
+      const replayPath = path.join(benchmarkPath, subBenchmark, 'replay.js')
+      execSync(`./target/debug/replay_gen stringify ${traceFilePath} ${wasmPath} ${traceTextPath}`)
+      let runtime = await fs.readFile('./dist/node-runtime.js', 'utf-8');
+      let replay = await fs.readFile(replayPath, 'utf-8');
+      await fs.rm(replayPath);
+      await fs.writeFile(replayPath, `${replay};\n${runtime};`);
+      let replayBinary = await import(replayPath)
+      let check_mem = replayBinary.setup(replayTracePath)
+      let wasmBinary = fss.readFileSync(wasmPath);
+      let wasm = await replayBinary.instantiate(wasmBinary)
+      replayBinary.replay(wasm)
+      check_mem();
+      execSync(`./target/debug/replay_gen stringify ${replayTracePath} ${wasmPath} ${replayTextTracePath}`)
+      let traceString = await fs.readFile(traceTextPath, 'utf-8')
+      let replayTraceString = await fs.readFile(replayTextTracePath, 'utf-8')
+      return compareResults(testPath, traceString, replayTraceString)
+    }
   } catch (e) {
     return { testPath, success: false, reason: e.stack }
   }

@@ -41,7 +41,8 @@
             "args": [
                 "offline",
                 "-t",
-                "frame-in-frame"
+                "basic-instantiate",
+                "-c"
             ]
         },
         {

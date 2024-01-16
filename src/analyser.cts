@@ -47,11 +47,7 @@ export class Analyser implements AnalyserI {
         const p_measureStart = createMeasure('start', { phase: 'record', description: `The time it takes start the chromium browser and open the webpage until the 'load' event is fired.` })
         this.isRunning = true
         this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
-            headless, args: [
-                // '--disable-web-security',
-                '--js-flags="--max_old_space_size=8192"',
-                '--enable-experimental-web-platform-features'
-            ]
+            headless, args: ['--experimental-wasm-multi-memory']
         });
         this.page = await this.browser.newPage();
         this.page.setDefaultTimeout(120000);
@@ -198,27 +194,44 @@ export class CustomAnalyser implements AnalyserI {
     private isRunning = false
     private p_measureUserInteraction: StopMeasure
     private benchmarkPath: string
-    private traceFilePath: string
     private javascript: boolean;
+    private wss: WebSocketServer;
 
-
-    constructor(traceFilePath: string, options: { benchmarkPath: string, javascript: boolean }) {
-        this.benchmarkPath = options.benchmarkPath;
-        this.traceFilePath = traceFilePath;
+    constructor(benchmarkPath: string, options: { javascript: boolean }) {
+        this.benchmarkPath = benchmarkPath;
         this.javascript = options.javascript;
 
-        const wss = new WebSocketServer({ port: 8080 });
-        function setupConnection(filePath: string) {
-            wss.on('connection', function connection(ws) {
-                console.log(`connection opened writing to ${filePath}`)
-                const writeStream = fss.createWriteStream(filePath)
-                ws.on('error', console.error)
-                ws.on('message', function message(data) {
-                    writeStream.write(data)
-                })
+        this.wss = new WebSocketServer({ port: 8080 });
+        let contexts: { [context: string]: fss.WriteStream } = {}
+        let nextSubbenchmarkIndex = 0
+        this.wss.on('connection', async function connection(ws, request) {
+            ws.on('error', console.error)
+            ws.on('message', async function message(data) {
+                let buffer: Buffer;
+                if (data instanceof ArrayBuffer) {
+                    // Convert ArrayBuffer to Buffer
+                    buffer = Buffer.from(data);
+                } else if (Array.isArray(data)) {
+                    buffer = data[0]
+                } else {
+                    buffer = data;
+                }
+                const hrefLength = new Uint8Array(buffer)[buffer.length - 1]
+                const hrefStartIndex = buffer.length - 2 - hrefLength
+                const i = new Uint8Array(buffer)[buffer.length - 2]
+                const trace = buffer.slice(0, hrefStartIndex)
+                const hrefBytes = buffer.slice(hrefStartIndex, buffer.length - 2)
+                const href = new TextDecoder().decode(hrefBytes)
+                if (contexts[href + i] === undefined) {
+                    const subBenchmarkPath = path.join(benchmarkPath, `bin_${nextSubbenchmarkIndex}`)
+                    const filePath = path.join(subBenchmarkPath, 'trace.bin')
+                    fss.mkdirSync(subBenchmarkPath)
+                    contexts[href + i] = fss.createWriteStream(filePath)
+                    nextSubbenchmarkIndex++
+                }
+                contexts[href + i].write(trace)
             })
-        }
-        setupConnection(traceFilePath)
+        })
     }
 
     async start(url: string, { headless } = { headless: false }) {
@@ -226,9 +239,23 @@ export class CustomAnalyser implements AnalyserI {
             throw new Error('Analyser is already running. Stop the Analyser before starting again')
         }
         const p_measureStart = createMeasure('start', { phase: 'record', description: `The time it takes start the chromium browser and open the webpage until the 'load' event is fired.` })
+        fss.mkdirSync(this.benchmarkPath);
         this.isRunning = true
-        this.browser = await chromium.connectOverCDP('http://localhost:9222');
-        this.page = await this.browser.newPage();
+        // this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
+        //     headless, args: [
+        //         // '--disable-web-security',
+        //         '--js-flags="--max_old_space_size=8192"',
+        //         '--enable-experimental-web-platform-features',
+        //         '--experimental-wasm-multi-memory'
+        //     ]
+        // });
+        this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
+            headless, args: ['--experimental-wasm-multi-memory', '--start-fullscreen']
+            // headless, args: ['--start-maximized']
+        });
+        // this.browser = await chromium.connectOverCDP('http://localhost:9222');
+        let context = await this.browser.newContext()
+        this.page = await context.newPage();
         this.page.setDefaultTimeout(120000);
         await this.attachRecorder()
 
@@ -253,16 +280,21 @@ export class CustomAnalyser implements AnalyserI {
         p_measureDataDownload()
         this.contexts = []
         this.browser.close()
+        this.wss.close()
         this.isRunning = false
         p_measureStop()
         const binName = 'index.wasm'
-        const traceName = 'trace.bin'
         const replayName = 'replay.js'
-        fss.mkdirSync(this.benchmarkPath);
-        fss.writeFileSync(path.join(this.benchmarkPath, binName), new Int8Array(originalWasmBuffer[0]))
+        const traceName = 'trace.bin'
         const p_measureCodeGen = createMeasure('rust-backend', { phase: 'replay-generation', description: `The time it takes for rust backend to generate javascript` })
-        execSync(`./target/debug/replay_gen generate ${this.traceFilePath} ${path.join(this.benchmarkPath, binName)} true ${path.join(this.benchmarkPath, replayName)}`);
-        // execSync(`wasm-validate ${path.join(this.benchmarkPath, replayName)}`)
+        originalWasmBuffer.forEach((buffer, i) => {
+            const subBenchmarkPath = path.join(this.benchmarkPath, `bin_${i}`)
+            fss.writeFileSync(path.join(subBenchmarkPath, binName), new Int8Array(buffer))
+            const tracePath = path.join(subBenchmarkPath, traceName)
+            const binPath = path.join(subBenchmarkPath, binName)
+            const jsPath = path.join(subBenchmarkPath, replayName)
+            execSync(`./target/debug/replay_gen generate ${tracePath} ${binPath} true ${jsPath}`);
+        })
         p_measureCodeGen()
         return originalWasmBuffer.map((wasm) => ({ result: '', wasm }))
     }
@@ -314,7 +346,9 @@ export class CustomAnalyser implements AnalyserI {
             await c.evaluate(() => {
                 try {
                     //@ts-ignore
-                    r3_check_mem()
+                    for (let check_mem of r3_check_mems) {
+                        check_mem()
+                    }
                 } catch {
                     // ok
                 }
@@ -336,7 +370,8 @@ export class CustomAnalyser implements AnalyserI {
             p_measureBufferDownload()
             return buffer
         }))
-        return originalWasmBuffer.flat(1) as number[][]
+        const buffer = originalWasmBuffer.flat(1) as number[][]
+        return buffer
     }
 
     private async constructInitScript() {

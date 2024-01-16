@@ -18,16 +18,8 @@ function setup() {
         console.log('WebAssembly module instantiated.             ')
     }
     const script = `
-        function chunkArray(array, chunkSize) {
-            const chunks = [];
-            for (let i = 0; i < array.length; i += chunkSize) {
-                chunks.push(array.slice(i, i + chunkSize));
-            }
-            return chunks;
-        }
-        const socket = new WebSocket("ws://localhost:8080/trace.r3")
+        const socket = new WebSocket("ws://localhost:8080/traces")
         self.onmessage = function(e) {
-            console.log("SEND")
             socket.send(e.data)
         }
         socket.onerror = function(e) {
@@ -40,14 +32,25 @@ function setup() {
     const blob = new Blob([script], { type: 'application/javascript' });
     const workerUrl = URL.createObjectURL(blob);
     const worker = new Worker(workerUrl)
-    let instance
-    const r3 = {
-        check_mem: () => {
-            console.log("SEND", instance.exports.trace_byte_length.value)
-            const trace = instance.exports.trace.buffer.slice(0, instance.exports.trace_byte_length.value)
-            worker.postMessage(trace)
+    let instances = []
+    const get_check_mem = (href, i) => {
+        return {
+            check_mem: () => {
+                let trace = instances[i].exports.trace.buffer.slice(0, instances[i].exports.trace_byte_length.value)
+                const message = new ArrayBuffer(trace.byteLength + 2 + href.length); // 8 bytes for a 64-bit number
+                const context = new TextEncoder().encode(href)
+                const bufferView = new Uint8Array(message);
+                bufferView.set(new Uint8Array(trace), 0);
+                for (let i = 0; i <= href.length; i++) {
+                    bufferView[i + trace.byteLength] = context[i]
+                }
+                bufferView[bufferView.byteLength - 2] = i
+                bufferView[bufferView.byteLength - 1] = href.length
+                worker.postMessage(message)
+            }
         }
     }
+    let check_mems = []
 
     const binaryString = atob(tracerBinary);
     const uint8Array = new Uint8Array(binaryString.length);
@@ -59,17 +62,17 @@ function setup() {
     initSync(buffer)
     let original_instantiate = WebAssembly.instantiate
     WebAssembly.instantiate = async function (buffer, importObject) {
-        importObject.r3 = r3
-        buffer = (buffer.byte) ? buffer.byte : buffer
-        const this_i = i
+        importObject.r3 = get_check_mem(performance.now().toString(), i)
+        r3_check_mems.push(importObject.r3.check_mem)
         i += 1
+        buffer = (buffer.byte) ? buffer.byte : buffer
         console.log('WebAssembly.instantiate')
         printWelcome()
         self.originalWasmBuffer.push(Array.from(new Uint8Array(buffer)))
         const instrumented = instrument_wasm_js(new Uint8Array(buffer));
         buffer = new Uint8Array(instrumented)
         result = await original_instantiate(buffer, importObject)
-        instance = result.instance
+        instances.push(result.instance)
         return result
     };
     // replace instantiateStreaming
@@ -89,6 +92,7 @@ function setup() {
     const original_compile = WebAssembly.compile
     WebAssembly.compile = async function (bytes) {
         console.log('WebAssembly.compile')
+        // bytes = new Uint8Array(instrument_wasm_js(new Uint8Array(bytes)));
         const module = await original_compile(bytes)
         module.bytes = bytes
         return module
@@ -101,9 +105,9 @@ function setup() {
     }
     const original_instance = WebAssembly.Instance
     WebAssembly.Instance = function (module, importObject) {
-        importObject.r3 = r3
+        importObject.r3 = get_check_mem(performance.now().toString(), i)
+        r3_check_mems.push(importObject.r3.check_mem)
         let buffer = module.bytes
-        const this_i = i
         i += 1
         console.log('WebAssembly.Instance')
         printWelcome()
@@ -112,12 +116,13 @@ function setup() {
         buffer = new Uint8Array(instrumented)
         module = new WebAssembly.Module(buffer)
         const instance = new original_instance(module, importObject)
+        instances.push(instance)
         return instance
     }
-    return r3.check_mem
+    return check_mems
 }
 var aspifdjgsadpfkjns = setup()
-var r3_check_mem;
+var r3_check_mems;
 if (aspifdjgsadpfkjns !== undefined) {
-    r3_check_mem = aspifdjgsadpfkjns
+    r3_check_mems = aspifdjgsadpfkjns
 }

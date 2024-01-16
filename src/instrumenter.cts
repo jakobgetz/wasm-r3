@@ -18,8 +18,7 @@ export default async function run(url: string, options: Options) {
   let analyser: AnalyserI
   if (options.customInstrumentation === true) {
     console.log(`Using RUST frontend and backend`)
-    const tracePath = 'bin_trace.r3'
-    analyser = new CustomAnalyser(tracePath, { benchmarkPath: options.benchmarkPath, javascript: true })
+    analyser = new CustomAnalyser(options.benchmarkPath, { javascript: true })
     await analyser.start(url, { headless: options.headless })
     await askQuestion(`Record is running. Enter 'Stop' to stop recording: `)
     console.log(`Record stopped. Downloading...`)

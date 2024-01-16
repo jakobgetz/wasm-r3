@@ -32,10 +32,6 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
     module.exports.add("trace_byte_length", mem_pointer);
     let locals = add_locals(&mut module);
     let module_types = Types::new(&module);
-    let current_type = module
-        .types
-        .get(module.functions().find(|_| true).unwrap().ty())
-        .clone();
     // Add return instruction at the end of each function (Important for Instrumentation)
     module.funcs.iter_local_mut().for_each(|(_, f)| {
         f.builder_mut().func_body().return_();
@@ -64,6 +60,13 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
             |_| {},
         );
     let check_mem_id_local = builder.finish(vec![], &mut module.funcs);
+
+    let first_function = module.functions().find(|_| true);
+    let first_function = match first_function {
+        Some(f) => f.ty(),
+        None => return Ok(module),
+    };
+    let current_type = module.types.get(first_function).clone();
 
     let mut generator = Generator::new(
         trace_mem_id,
@@ -550,8 +553,7 @@ impl Generator {
             values
                 .iter()
                 .map(|t| {
-                    let local = *self.locals.get(t).unwrap()
-                        .get(0).unwrap();
+                    let local = *self.locals.get(t).unwrap().get(0).unwrap();
                     locals.push(local);
                     self.locals.entry(*t).and_modify(|e| {
                         let id = e.remove(0);

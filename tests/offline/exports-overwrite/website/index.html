@@ -15,11 +15,16 @@
       .then((bytes) => WebAssembly.instantiate(bytes, {}))
       .then((result) => {
         console.log(`9 - 3 = ${result.instance.exports.sub(9, 3)}`)
-        if (analysis[0].Wasabi.module.memories.length === 0) {
-          console.log('memory got overwritten')
-          analysis[0].trace.push('Memory got overwritten! This trace event should not appear. If this test fails, webapps like sqllite will likely not work with wasm-r3')
-        } else {
-          console.log('memory is fine')
+        try {
+          if (analysis[0].Wasabi.module.memories.length === 0) {
+            console.log('memory got overwritten')
+            analysis[0].trace.push('Memory got overwritten! This trace event should not appear. If this test fails, webapps like sqllite will likely not work with wasm-r3')
+          } else {
+            console.log('memory is fine')
+          }
+        } catch {
+          // This errors when the new custom tracer is used.
+          // This testcase is only relevant when the old tracer is used
         }
       });
   </script>
