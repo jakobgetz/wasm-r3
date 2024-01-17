@@ -249,11 +249,11 @@ export class CustomAnalyser implements AnalyserI {
         //         '--experimental-wasm-multi-memory'
         //     ]
         // });
-        this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
-            headless, args: ['--experimental-wasm-multi-memory', '--start-fullscreen']
-            // headless, args: ['--start-maximized']
-        });
-        // this.browser = await chromium.connectOverCDP('http://localhost:9222');
+        // this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
+        //     headless, args: ['--experimental-wasm-multi-memory', '--start-fullscreen']
+        //     // headless, args: ['--start-maximized']
+        // });
+        this.browser = await chromium.connectOverCDP('http://localhost:9222');
         let context = await this.browser.newContext()
         this.page = await context.newPage();
         this.page.setDefaultTimeout(120000);
@@ -297,6 +297,13 @@ export class CustomAnalyser implements AnalyserI {
         })
         p_measureCodeGen()
         return originalWasmBuffer.map((wasm) => ({ result: '', wasm }))
+    }
+
+    async forceQuit() {
+        if (this.isRunning == false) {
+            return
+        }
+        this.browser.close()
     }
 
     private async attachRecorder() {

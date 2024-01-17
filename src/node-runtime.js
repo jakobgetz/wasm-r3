@@ -34,11 +34,17 @@ export function setup(filePath) {
         const this_i = i
         i += 1
         printWelcome()
-        const instrumented = instrument_wasm_js(new Uint8Array(buffer));
-        buffer = new Uint8Array(instrumented)
-        fs.writeFileSync('test.wasm', buffer)
-        let result = await original_instantiate(buffer, importObject)
-        WebAssembly.instantiate = original_instantiate
+        let result
+        try {
+            const instrumented = instrument_wasm_js(new Uint8Array(buffer));
+            buffer = new Uint8Array(instrumented)
+            fs.writeFileSync('test.wasm', buffer)
+            result = await original_instantiate(buffer, importObject)
+            WebAssembly.instantiate = original_instantiate
+        } catch (e) {
+            WebAssembly.instantiate = original_instantiate
+            throw e
+        }
         instance = result.instance
         return result
     };

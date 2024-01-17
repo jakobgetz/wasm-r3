@@ -89,8 +89,12 @@ async function runNodeTestCustom(name: string, options): Promise<TestReport> {
 
     let traceString = await fs.readFile(traceStringPath, 'utf-8')
     let replayTraceString = await fs.readFile(replayTraceStringPath, 'utf-8')
-    return compareResults(testPath, traceString, replayTraceString)
+    const comparison = compareResults(testPath, traceString, replayTraceString)
+    return comparison
   } catch (e: any) {
+    if (typeof e === 'string') {
+      return { testPath, success: false, reason: e }
+    }
     return { testPath, success: false, reason: e.stack }
   }
 }
@@ -376,7 +380,8 @@ async function testWebPageCustomInstrumentation(testPath: string, options): Prom
       execSync(`./target/debug/replay_gen stringify ${replayTracePath} ${wasmPath} ${replayTextTracePath}`)
       let traceString = await fs.readFile(traceTextPath, 'utf-8')
       let replayTraceString = await fs.readFile(replayTextTracePath, 'utf-8')
-      return compareResults(testPath, traceString, replayTraceString)
+      const comparison = compareResults(testPath, traceString, replayTraceString)
+      return comparison
     }
   } catch (e) {
     return { testPath, success: false, reason: e.stack }

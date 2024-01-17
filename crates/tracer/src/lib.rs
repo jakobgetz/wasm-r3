@@ -123,9 +123,35 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
     Ok(module)
 }
 
-type Locals = HashMap<ValType, Vec<LocalId>>;
+#[derive(Debug)]
+struct Locals(HashMap<ValType, Vec<LocalId>>);
+impl Locals {
+    fn insert(&mut self, mut typ: ValType, locals: Vec<LocalId>) {
+        // if let ValType::Funcref = typ {
+        //     typ = ValType::I32
+        // }
+        self.0.insert(typ, locals);
+    }
+
+    fn entry(
+        &mut self,
+        mut typ: ValType,
+    ) -> std::collections::hash_map::Entry<'_, ValType, Vec<LocalId>> {
+        // if let ValType::Funcref = typ {
+        //     typ = ValType::I32
+        // }
+        self.0.entry(typ)
+    }
+
+    fn get(&self, mut typ: &ValType) -> Option<&Vec<LocalId>> {
+        // if let ValType::Funcref = typ {
+        //     typ = &ValType::I32
+        // }
+        self.0.get(typ)
+    }
+}
 fn add_locals(module: &mut Module) -> (Locals, Locals) {
-    let mut locals = HashMap::new();
+    let mut locals = Locals(HashMap::new());
     module.locals.iter().for_each(|l| {
         let _ = locals
             .entry(l.ty())
@@ -134,7 +160,8 @@ fn add_locals(module: &mut Module) -> (Locals, Locals) {
             })
             .or_insert(vec![l.id()]);
     });
-    let mut added_locals: Locals = HashMap::new();
+    let mut added_locals: Locals = Locals(HashMap::new());
+    added_locals.insert(ValType::Funcref, vec![module.locals.add(ValType::Funcref)]);
     added_locals.insert(ValType::I32, vec![module.locals.add(ValType::I32)]);
     added_locals.insert(ValType::I64, vec![module.locals.add(ValType::I64)]);
     added_locals.insert(ValType::F32, vec![module.locals.add(ValType::F32)]);
@@ -146,7 +173,7 @@ fn add_locals(module: &mut Module) -> (Locals, Locals) {
             let _ = amounts.entry(*t).and_modify(|e| *e += 1).or_insert(1);
         });
         amounts.iter().for_each(|(t, a)| {
-            added_locals.entry(*t).and_modify(|e| {
+            added_locals.0.entry(*t).and_modify(|e| {
                 if e.len() < *a {
                     let mut vec = Vec::with_capacity(*a);
                     for _ in 0..*a {
@@ -435,13 +462,13 @@ impl VisitorMut for Generator {
                     );
                 }
                 Instr::CallIndirect(call) => {
-                    let table_set_code = 0x26;
+                    let table_get_code = 0x25;
                     let call_code = 0x11;
                     let return_code = 0xFF;
                     let typ = self.module_types.get_by_id(&call.ty).unwrap().clone();
                     gen_seq.append(
                         &mut InstructionsEnum::from_vec(vec![
-                            self.trace_code(table_set_code, offset),
+                            self.trace_code(table_get_code, offset),
                             self.save_stack(&[ValType::I32], offset),
                             self.table_get(call.table),
                             self.save_stack(&[ValType::I32], offset),
