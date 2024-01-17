@@ -181,6 +181,7 @@ pub enum WasmEvent {
     GlobalGet { idx: usize, value: F64, valtype: ValType },
     GlobalSet { idx: usize, value: F64, valtype: ValType },
     Call { idx: usize },
+    CallIndirect { tableidx: usize, idx: usize, funcidx: i32 },
     CallReturn { idx: usize, results: Vec<F64> },
     // These do not correspond to a wasm instruction, but used to track control flow
     FuncEntry { idx: usize, params: Vec<F64> },

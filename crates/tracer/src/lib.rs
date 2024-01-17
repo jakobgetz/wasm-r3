@@ -59,7 +59,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
     module.exports.add("trace_byte_length", mem_pointer);
     let lookup_table_id = module
         .tables
-        .add_local(10_000_000, None, ValType::Funcref);
+        .add_local(100_000, None, ValType::Funcref);
     module.exports.add("lookup", lookup_table_id);
     let lookup_pointer = module.globals.add_local(
         walrus::ValType::I32,
@@ -561,7 +561,6 @@ impl VisitorMut for Generator {
                     }
                 }
                 Instr::CallIndirect(call) => {
-                    todo!("Check if instrumentation is necessary");
                     let table_get_code = 0x25;
                     let call_code = 0x11;
                     let return_code = 0xFF;
@@ -571,7 +570,7 @@ impl VisitorMut for Generator {
                             self.trace_code(table_get_code, offset),
                             self.save_stack(&[ValType::I32], offset),
                             self.table_get(call.table),
-                            self.save_stack(&[ValType::I32], offset),
+                            self.save_funcref(offset),
                             self.trace_code(call_code, offset),
                             self.increment_mem_pointer(offset),
                             self.instr(instr.clone()),

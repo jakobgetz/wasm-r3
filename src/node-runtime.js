@@ -21,7 +21,7 @@ export function setup(filePath) {
             const lookupPointer = instance.exports.lookup_table_pointer;
             let funcIdxes = []
             for (let i = 0; i < lookupPointer; i++) {
-                funcIdxes.push(lookupTable.get(i).name)
+                funcIdxes.push(lookupTable.get(i).name - 1)
             }
             fs.writeFileSync(`${filePath}.lookup`, funcIdxes.join('\n'));
         }

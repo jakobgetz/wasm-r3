@@ -346,6 +346,7 @@ impl IRGenerator {
             WasmEvent::Store { idx, offset, data } => {}
             WasmEvent::TableSet { tableidx, idx, funcidx } => {}
             WasmEvent::GlobalSet { idx, value, valtype } => {}
+            WasmEvent::CallIndirect { tableidx, idx, funcidx } => todo!(),
         }
     }
     fn splice_event(&mut self, event: HostEvent) {
