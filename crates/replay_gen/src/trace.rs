@@ -51,7 +51,7 @@ pub enum BinCodes {
     TableSet = 0x26,
     FuncEntry = 0x02,
     FuncReturn = 0x0F,
-    // MEM_GROW = 0x02;
+    MemGrow = 0x40,
     // TABLE_GROW = 0x02;
     // IMPORT_CALL = 0x02;
     // IMPORT_RETURN = 0x02;
@@ -156,73 +156,36 @@ impl Display for LoadValue {
     }
 }
 
+impl Display for StoreValue {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            StoreValue::I8(n) => write!(f, "{}", n),
+            StoreValue::I16(n) => write!(f, "{}", n),
+            StoreValue::I32(n) => write!(f, "{}", n),
+            StoreValue::I64(n) => write!(f, "{}", n),
+            StoreValue::F32(n) => write!(f, "{}", n),
+            StoreValue::F64(n) => write!(f, "{}", n),
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub enum WasmEvent {
     // Each corresponds to a single wasm instruction.
-    Load {
-        idx: usize,
-        offset: i32,
-        data: LoadValue,
-    },
-    Store {
-        idx: usize,
-        offset: i32,
-        data: StoreValue,
-    },
-    MemGrow {
-        idx: usize,
-        amount: i32,
-    },
-    TableGet {
-        tableidx: usize,
-        idx: usize,
-        funcidx: i32,
-    },
-    TableSet {
-        tableidx: usize,
-        idx: usize,
-        funcidx: i32,
-    },
-    TableGrow {
-        idx: usize,
-        amount: i32,
-    },
-    GlobalGet {
-        idx: usize,
-        value: F64,
-        valtype: ValType,
-    },
-    GlobalSet {
-        idx: usize,
-        value: F64,
-        valtype: ValType,
-    },
-    Call {
-        idx: usize,
-    },
-    CallReturn {
-        idx: usize,
-        results: Vec<F64>,
-    },
+    Load { idx: usize, offset: i32, data: LoadValue },
+    Store { idx: usize, offset: i32, data: StoreValue },
+    MemGrow { idx: usize, amount: i32 },
+    TableGet { tableidx: usize, idx: usize, funcidx: i32 },
+    TableSet { tableidx: usize, idx: usize, funcidx: i32 },
+    TableGrow { idx: usize, amount: i32 },
+    GlobalGet { idx: usize, value: F64, valtype: ValType },
+    GlobalSet { idx: usize, value: F64, valtype: ValType },
+    Call { idx: usize },
+    CallReturn { idx: usize, results: Vec<F64> },
     // These do not correspond to a wasm instruction, but used to track control flow
-    FuncEntry {
-        idx: usize,
-        params: Vec<F64>,
-    },
-    FuncEntryTable {
-        idx: usize,
-        tableidx: usize,
-        params: Vec<F64>,
-    },
+    FuncEntry { idx: usize, params: Vec<F64> },
+    FuncEntryTable { idx: usize, tableidx: usize, params: Vec<F64> },
     FuncReturn,
-    ImportGlobal {
-        idx: usize,
-        module: String,
-        name: String,
-        mutable: bool,
-        initial: F64,
-        value: ValType,
-    },
 }
 type ModuleTypes = Vec<Type>;
 impl WasmEvent {
@@ -234,7 +197,7 @@ impl WasmEvent {
         }
     }
 
-    pub fn decode_bin(reader: &mut BufReader<File>, module: &Module) -> Result<Option<Self>, ErrorKind> {
+    pub fn decode_bin(reader: &mut BufReader<File>, module: &Module, lookup: &Vec<i32>) -> Result<Option<Self>, ErrorKind> {
         match read_u8(reader) {
             Ok(code) => {
                 let code = BinCodes::from_u8(code).ok_or(ErrorKind::UnknownEventCode(code))?;
@@ -261,16 +224,23 @@ impl WasmEvent {
                     BinCodes::Call => WasmEvent::decode_call(reader),
                     BinCodes::GlobalGet => WasmEvent::decode_global_get(reader),
                     BinCodes::GlobalSet => WasmEvent::decode_global_set(reader),
-                    BinCodes::TableGet => WasmEvent::decode_table_get(reader),
+                    BinCodes::TableGet => WasmEvent::decode_table_get(reader, lookup),
                     BinCodes::TableSet => WasmEvent::decode_table_set(reader),
                     BinCodes::FuncReturn => WasmEvent::decode_func_return(reader),
                     BinCodes::CallReturn => WasmEvent::decode_call_return(reader, module_types),
                     BinCodes::FuncEntry => WasmEvent::decode_func_entry(reader, module_types),
+                    BinCodes::MemGrow => WasmEvent::decode_mem_grow(reader),
                 }?;
                 Ok(Some(event))
             }
             Err(_) => Ok(None),
         }
+    }
+
+    fn decode_mem_grow(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+        let amount =
+            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode amount for memory.grow")))?;
+        Ok(WasmEvent::MemGrow { idx: 0, amount })
     }
 
     fn decode_func_return(_reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
@@ -279,8 +249,8 @@ impl WasmEvent {
 
     fn decode_global_get(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
         let valtype = WasmEvent::decode_val_type(reader)?;
-        let value = WasmEvent::decode_value(reader, &valtype)?;
         let idx = WasmEvent::decode_value(reader, &ValType::I32)?;
+        let value = WasmEvent::decode_value(reader, &valtype)?;
         Ok(WasmEvent::GlobalGet { idx: idx.0 as usize, value, valtype })
     }
 
@@ -299,11 +269,12 @@ impl WasmEvent {
         Ok(WasmEvent::TableSet { tableidx: 0, idx, funcidx })
     }
 
-    fn decode_table_get(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+    fn decode_table_get(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Self, ErrorKind> {
         let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
             as usize;
-        let funcidx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))?;
+        let lookupidx =
+            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
+        let funcidx = *lookup.get(lookupidx).unwrap();
         Ok(WasmEvent::TableGet { tableidx: 0, idx, funcidx })
     }
 
@@ -364,18 +335,16 @@ impl WasmEvent {
     }
 
     fn decode_load(reader: &mut BufReader<File>, mut data: LoadValue) -> Result<Self, ErrorKind> {
-        Self::decode_load_value(reader, &mut data)?;
         let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode load offset")))?;
-        if offset == 13088 {
-            panic!()
-        }
+        Self::decode_load_value(reader, &mut data)?;
         Ok(WasmEvent::Load { idx: 0, offset, data })
     }
 
     fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue) -> Result<Self, ErrorKind> {
-        Self::decode_store_value(reader, &mut data)?;
         let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store offset")))?;
-        Ok(WasmEvent::Store { idx: 0, offset, data })
+        Self::decode_store_value(reader, &mut data)?;
+        let e = WasmEvent::Store { idx: 0, offset, data };
+        Ok(e)
     }
 
     fn decode_store_value(reader: &mut BufReader<File>, data: &mut StoreValue) -> Result<(), ErrorKind> {
@@ -635,15 +604,7 @@ impl FromStr for WasmEvent {
                 value: parse_number(components[3]).unwrap(),
                 valtype: components[4].parse().unwrap(),
             }),
-            "IG" => Ok(WasmEvent::ImportGlobal {
-                idx: components[1].parse().unwrap(),
-                module: components[2].to_string(),
-                name: components[3].to_string(),
-                value: components[4].parse().unwrap(),
-                mutable: if components[5] == "1" { true } else { false },
-                initial: components[6].parse().unwrap(),
-            }),
-            "IT" | "IM" | "IF" => Err(ErrorKind::LegacyTrace),
+            "IT" | "IM" | "IF" | "IG" => Err(ErrorKind::LegacyTrace),
             _ => Err(ErrorKind::UnknownTrace),
         }
     }
@@ -655,6 +616,7 @@ impl Display for WasmEvent {
             WasmEvent::Load { idx, offset, data } => {
                 write!(f, "L;{};{};{}\n", idx, offset, data)
             }
+            WasmEvent::Store { idx, offset, data } => write!(f, "S;{};{};{}\n", idx, offset, data),
             WasmEvent::MemGrow { idx, amount } => {
                 write!(f, "MG;{};{}\n", idx, amount)
             }
@@ -677,18 +639,6 @@ impl Display for WasmEvent {
             WasmEvent::Call { idx } => write!(f, "IC;{}\n", idx),
             WasmEvent::CallReturn { idx, results } => {
                 write!(f, "IR;{};{}\n", idx, join_vec(results))
-            }
-            WasmEvent::ImportGlobal { idx, module, name, mutable, initial, value } => {
-                write!(
-                    f,
-                    "IG;{};{};{};{:?};{};{}\n",
-                    idx,
-                    module,
-                    name,
-                    value,
-                    if *mutable { '1' } else { '0' },
-                    initial
-                )
             }
             _ => {
                 /* Ignore rest for now*/

@@ -38,6 +38,8 @@ impl ShadowMemory {
 
     fn contains_already(&mut self, offset: usize, data: LoadValue) -> bool {
         let data: Vec<u8> = data.into();
+        if offset + data.len() >= self.0.len() {
+        }
         if data == self.0[offset..(offset + data.len())].to_vec() {
             true
         } else {

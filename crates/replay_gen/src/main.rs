@@ -5,7 +5,7 @@ use replay_gen::trace::{ErrorKind, WasmEvent};
 use replay_gen::trace_optimisation::{CallOptimiser, ShadowMemoryOptimiser, ShadowTableOptimiser, TraceOptimiser};
 use std::fs::File;
 use std::io::{self, BufReader, BufWriter, Write};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::{env, fs};
 use walrus::Module;
 
@@ -75,9 +75,14 @@ fn bin_trace_to_string_representation(args: Vec<String>) -> io::Result<()> {
     writer.flush()
 }
 
-fn decode_event(reader: &mut BufReader<File>, module: &Module, binary: bool) -> Result<Option<WasmEvent>, ErrorKind> {
+fn decode_event(
+    reader: &mut BufReader<File>,
+    module: &Module,
+    binary: bool,
+    lookup: &Vec<i32>,
+) -> Result<Option<WasmEvent>, ErrorKind> {
     if binary == true {
-        WasmEvent::decode_bin(reader, module)
+        WasmEvent::decode_bin(reader, module, lookup)
     } else {
         WasmEvent::decode_string(reader)
     }
@@ -87,13 +92,18 @@ struct Trace<'a> {
     reader: BufReader<File>,
     module: &'a Module,
     binary: bool,
+    lookup: Vec<i32>,
 }
 
 impl<'a> Trace<'a> {
     fn new(path: &Path, module: &'a Module, binary: bool) -> Trace<'a> {
         let file = File::open(path).unwrap();
-        let mut reader = BufReader::new(file);
-        Trace { reader, module, binary }
+        let lookup = match fs::read_to_string(PathBuf::from(format!("{}.lookup", path.display()))) {
+            Ok(l) => l.split("\n").map(|i| i.parse().unwrap()).collect(),
+            Err(_) => Vec::new(),
+        };
+        let reader = BufReader::new(file);
+        Trace { reader, module, binary, lookup }
     }
 }
 
@@ -101,7 +111,7 @@ impl<'a> Iterator for Trace<'a> {
     type Item = Result<WasmEvent, ErrorKind>; // Replace `YourErrorType` with the actual error type
 
     fn next(&mut self) -> Option<Self::Item> {
-        match decode_event(&mut self.reader, self.module, self.binary) {
+        match decode_event(&mut self.reader, self.module, self.binary, &self.lookup) {
             Ok(Some(event)) => Some(Ok(event)),
             Ok(None) => None,
             Err(e) => Some(Err(e)),

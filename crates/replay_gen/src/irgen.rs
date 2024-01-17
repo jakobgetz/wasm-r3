@@ -148,6 +148,7 @@ impl IRGenerator {
         );
         let mut mem_imports = BTreeMap::new();
         let mut table_imports = BTreeMap::new();
+        let mut global_imports = BTreeMap::new();
         let mut func_idx_to_ty = BTreeMap::new();
         for f in module.funcs.iter() {
             let ty = module.types.get(f.ty());
@@ -208,6 +209,17 @@ impl IRGenerator {
                 }
                 // Global is handled by the trace.
                 walrus::ImportKind::Global(gid) => {
+                    let g = module.globals.get(gid);
+                    global_imports.insert(
+                        gid.index(),
+                        Global {
+                            module: i.module.to_string(),
+                            name: i.name.to_string(),
+                            mutable: g.mutable,
+                            initial: F64(0.0),
+                            value: g.ty.into(),
+                        },
+                    );
                     pub_globals.insert(gid.index(), i.name.clone());
                 }
             }
@@ -226,7 +238,7 @@ impl IRGenerator {
                 mem_imports,
                 table_imports,
                 func_idx_to_ty,
-                global_imports: BTreeMap::new(),
+                global_imports,
                 modules,
             },
             // -1 is the _start function
@@ -289,16 +301,17 @@ impl IRGenerator {
                 });
             }
             WasmEvent::TableGet { tableidx, idx, funcidx } => {
-                todo!()
-                // self.splice_event(HostEvent::MutateTable {
-                //     tableidx: tableidx,
-                //     funcidx: funcidx,
-                //     import: self.replay.table_imports.contains_key(&tableidx),
-                //     name: self.export_tables.get(&idx).unwrap().clone(),
-                //     idx: idx,
-                //     func_import: self.replay.func_imports.contains_key(&funcidx),
-                //     func_name: todo!(),
-                // });
+                if let Some(name) = self.pub_functions.get(&(funcidx as usize)) {
+                    self.splice_event(HostEvent::MutateTable {
+                        tableidx,
+                        funcidx,
+                        import: self.replay.table_imports.contains_key(&tableidx),
+                        name: self.pub_tables.get(&idx).unwrap().clone(),
+                        idx: idx as i32,
+                        func_import: self.replay.func_imports.contains_key(&funcidx),
+                        func_name: name.clone(),
+                    });
+                }
             }
             WasmEvent::TableGrow { idx, amount } => {
                 self.splice_event(HostEvent::GrowTable {
@@ -329,18 +342,6 @@ impl IRGenerator {
                 let r = &mut self.replay.func_imports.get_mut(&current_fn_idx).unwrap().results;
                 r.push(WriteResult { results: results.clone(), reps: 1 });
                 self.state.last_func = self.state.host_call_stack.pop().unwrap();
-            }
-            WasmEvent::ImportGlobal { idx, module, name, mutable, initial, value } => {
-                self.replay.global_imports.insert(
-                    idx,
-                    Global {
-                        module: module.clone(),
-                        name: self.pub_globals.get(&idx).unwrap().clone(),
-                        value: value.clone(),
-                        initial: initial.clone(),
-                        mutable: mutable,
-                    },
-                );
             }
             WasmEvent::Store { idx, offset, data } => {}
             WasmEvent::TableSet { tableidx, idx, funcidx } => {}
