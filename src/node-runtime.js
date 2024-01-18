@@ -13,6 +13,7 @@ export function setup(filePath) {
         // console.log('WebAssembly module instantiated.             ')
     }
     let instance
+    let importsLength
     const r3 = {
         check_mem: () => {
             const trace = instance.exports.trace.buffer.slice(0, instance.exports.trace_byte_length.value)
@@ -21,7 +22,15 @@ export function setup(filePath) {
             const lookupPointer = instance.exports.lookup_table_pointer;
             let funcIdxes = []
             for (let i = 0; i < lookupPointer; i++) {
-                funcIdxes.push(lookupTable.get(i).name - 1)
+                let funcIdx = lookupTable.get(i).name
+                // if (funcIdx >= importsLength) {
+                //     funcIdx -= 1
+                // }
+                // if (importsLength == 0) {
+                //     funcIdx -= 1
+                // }
+                console.log('funcIdx', funcIdx, 'importsLength', importsLength)
+                funcIdxes.push(funcIdx)
             }
             fs.writeFileSync(`${filePath}.lookup`, funcIdxes.join('\n'));
         }
@@ -53,6 +62,7 @@ export function setup(filePath) {
             throw e
         }
         instance = result.instance
+        importsLength = WebAssembly.Module.imports(result.module).filter((d) => d.kind === 'function').length - 1
         return result
     };
 

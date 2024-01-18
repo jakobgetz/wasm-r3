@@ -302,11 +302,12 @@ impl IRGenerator {
             }
             WasmEvent::TableGet { tableidx, idx, funcidx } => {
                 if let Some(name) = self.pub_functions.get(&(funcidx as usize)) {
+                    // dbg!(&self.pub_tables);
                     self.splice_event(HostEvent::MutateTable {
                         tableidx,
                         funcidx,
                         import: self.replay.table_imports.contains_key(&tableidx),
-                        name: self.pub_tables.get(&idx).unwrap().clone(),
+                        name: self.pub_tables.get(&tableidx).unwrap().clone(),
                         idx: idx as i32,
                         func_import: self.replay.func_imports.contains_key(&funcidx),
                         func_name: name.clone(),
@@ -330,7 +331,6 @@ impl IRGenerator {
                     valtype: valtype.clone(),
                 });
             }
-
             WasmEvent::Call { idx } => {
                 let idx = idx as i32;
                 self.replay.func_imports.get_mut(&idx).unwrap().bodys.push(vec![]);
@@ -346,7 +346,14 @@ impl IRGenerator {
             WasmEvent::Store { idx, offset, data } => {}
             WasmEvent::TableSet { tableidx, idx, funcidx } => {}
             WasmEvent::GlobalSet { idx, value, valtype } => {}
-            WasmEvent::CallIndirect { tableidx, idx, funcidx } => todo!(),
+            WasmEvent::CallIndirect { tableidx, idx, funcidx } => {
+                let idx = funcidx as i32;
+                if let Some(f) = self.replay.func_imports.get_mut(&idx) {
+                    f.bodys.push(vec![]);
+                    self.state.host_call_stack.push(idx);
+                    self.state.last_func = idx;
+                }
+            }
         }
     }
     fn splice_event(&mut self, event: HostEvent) {
@@ -356,7 +363,11 @@ impl IRGenerator {
         let current_context = self.idx_to_cxt(*idx);
 
         if last_import_call {
-            current_context.insert(current_context.len() - 1, event);
+            if current_context.len() > 0 {
+                current_context.insert(current_context.len() - 1, event);
+            } else {
+                current_context.push(event);
+            }
         } else {
             let last_idx = &self.state.last_func;
             let last_context = self.idx_to_cxt(*last_idx);

@@ -3,8 +3,9 @@ use std::{collections::HashMap, fmt::Debug};
 use anyhow::Result;
 use walrus::{
     ir::{
-        self, BinaryOp, Binop, BrIf, Call, Const, GlobalGet, GlobalSet, IfElse, Instr, LocalGet,
-        LocalSet, MemArg, Store, StoreKind, TableGet, TableSet, Value, VisitorMut,
+        self, BinaryOp, Binop, BrIf, Call, Const, Drop, GlobalGet, GlobalSet, IfElse, Instr,
+        LocalGet, LocalSet, LocalTee, MemArg, Store, StoreKind, TableGet, TableSet, Value,
+        VisitorMut,
     },
     FunctionBuilder, FunctionId, FunctionKind, GlobalId, ImportKind, InstrLocId, LocalFunction,
     LocalId, MemoryId, Module, ModuleConfig, TableId, Type, TypeId, ValType,
@@ -57,9 +58,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
         walrus::InitExpr::Value(walrus::ir::Value::I32(0)),
     );
     module.exports.add("trace_byte_length", mem_pointer);
-    let lookup_table_id = module
-        .tables
-        .add_local(100_000, None, ValType::Funcref);
+    let lookup_table_id = module.tables.add_local(100_000, None, ValType::Funcref);
     module.exports.add("lookup", lookup_table_id);
     let lookup_pointer = module.globals.add_local(
         walrus::ValType::I32,
@@ -67,7 +66,13 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
         walrus::InitExpr::Value(walrus::ir::Value::I32(0)),
     );
     module.exports.add("lookup_table_pointer", lookup_pointer);
-    let locals = add_locals(&mut module);
+    let (locals, added_locals) = add_locals(&mut module);
+    let funcref_local = added_locals
+        .get(&ValType::Funcref)
+        .unwrap()
+        .get(0)
+        .unwrap()
+        .clone();
     let module_types = Types::new(&module);
     // Add return instruction at the end of each function (Important for Instrumentation)
     module.funcs.iter_local_mut().for_each(|(_, f)| {
@@ -110,8 +115,9 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Module> {
         mem_pointer,
         lookup_table_id,
         lookup_pointer,
-        locals.0,
-        locals.1,
+        locals,
+        added_locals,
+        funcref_local,
         module_types,
         current_type,
         check_mem_id,
@@ -327,6 +333,7 @@ struct Generator {
     lookup_pointer: GlobalId,
     locals: Locals,
     added_locals: Locals,
+    funcref_local: LocalId,
     module_types: Types,
     current_func_type: Type,
     func_entry: bool,
@@ -561,20 +568,31 @@ impl VisitorMut for Generator {
                     }
                 }
                 Instr::CallIndirect(call) => {
-                    let table_get_code = 0x25;
                     let call_code = 0x11;
-                    let return_code = 0xFF;
+                    let return_code = 0xFE;
                     let typ = self.module_types.get_by_id(&call.ty).unwrap().clone();
+                    let local = self
+                        .added_locals
+                        .get(&ValType::I32)
+                        .unwrap()
+                        .get(0)
+                        .unwrap()
+                        .clone();
                     gen_seq.append(
                         &mut InstructionsEnum::from_vec(vec![
-                            self.trace_code(table_get_code, offset),
+                            self.trace_code(call_code, offset),
+                            self.local_tee(local),
                             self.save_stack(&[ValType::I32], offset),
+                            self.local_get(local),
                             self.table_get(call.table),
                             self.save_funcref(offset),
-                            self.trace_code(call_code, offset),
+                            self.drop(),
                             self.increment_mem_pointer(offset),
                             self.instr(instr.clone()),
                             self.trace_code(return_code, offset),
+                            self.local_get(self.funcref_local),
+                            self.save_funcref(offset),
+                            self.drop(),
                             self.trace_type(&typ, offset),
                             self.save_stack(typ.results(), offset),
                             self.increment_mem_pointer(offset),
@@ -627,6 +645,7 @@ impl Generator {
         lookup_pointer: GlobalId,
         locals: Locals,
         added_locals: Locals,
+        funcref_local: LocalId,
         module_types: Types,
         current_func_type: Type,
         check_mem_id: FunctionId,
@@ -642,6 +661,7 @@ impl Generator {
             lookup_pointer,
             locals,
             added_locals,
+            funcref_local,
             module_types,
             current_func_type,
             func_entry: true,
@@ -706,18 +726,11 @@ impl Generator {
     }
 
     fn save_funcref(&mut self, offset: &mut u32) -> InstructionsEnum {
-        let local = self
-            .added_locals
-            .get(&ValType::Funcref)
-            .unwrap()
-            .get(0)
-            .unwrap()
-            .clone();
         InstructionsEnum::from_vec(vec![
             // save funcref to lookup table
-            self.local_set(local),
+            self.local_set(self.funcref_local),
             self.global_get(self.lookup_pointer),
-            self.local_get(local),
+            self.local_get(self.funcref_local),
             self.table_set(self.lookup_table_id),
             // store lookup pointer to trace
             self.global_get(self.mem_pointer),
@@ -729,7 +742,7 @@ impl Generator {
             self.binop(BinaryOp::I32Add),
             self.global_set(self.lookup_pointer),
             // push funcref back on trace
-            self.local_get(local),
+            self.local_get(self.funcref_local),
         ])
     }
 
@@ -860,9 +873,9 @@ impl Generator {
         ))
     }
 
-    // fn local_tee(&self, local: LocalId) -> InstructionsEnum {
-    //     InstructionsEnum::Single((Instr::LocalTee(LocalTee { local }), InstrLocId::default()))
-    // }
+    fn local_tee(&self, local: LocalId) -> InstructionsEnum {
+        InstructionsEnum::Single((Instr::LocalTee(LocalTee { local }), InstrLocId::default()))
+    }
 
     fn local_get(&self, local: LocalId) -> InstructionsEnum {
         InstructionsEnum::Single((Instr::LocalGet(LocalGet { local }), InstrLocId::default()))
@@ -893,6 +906,10 @@ impl Generator {
 
     fn binop(&self, op: BinaryOp) -> InstructionsEnum {
         InstructionsEnum::Single((Instr::Binop(Binop { op }), InstrLocId::default()))
+    }
+
+    fn drop(&self) -> InstructionsEnum {
+        InstructionsEnum::Single((Instr::Drop(Drop {}), InstrLocId::default()))
     }
 
     // fn check_mem_and_call(&self) -> InstructionsEnum {

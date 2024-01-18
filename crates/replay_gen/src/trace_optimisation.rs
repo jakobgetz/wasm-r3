@@ -1,6 +1,6 @@
 use std::{collections::HashMap, hash::Hash};
 
-use walrus::{DataKind, ElementKind, FunctionId, ImportKind, Module};
+use walrus::{ir::CallIndirect, DataKind, ElementKind, FunctionId, ImportKind, Module};
 
 use crate::trace::{LoadValue, WasmEvent};
 
@@ -38,8 +38,7 @@ impl ShadowMemory {
 
     fn contains_already(&mut self, offset: usize, data: LoadValue) -> bool {
         let data: Vec<u8> = data.into();
-        if offset + data.len() >= self.0.len() {
-        }
+        if offset + data.len() >= self.0.len() {}
         if data == self.0[offset..(offset + data.len())].to_vec() {
             true
         } else {
@@ -83,6 +82,7 @@ impl TraceOptimiser for ShadowMemoryOptimiser {
     }
 }
 
+#[derive(Debug)]
 pub struct ShadowTable {
     content: Vec<usize>,
     pub_name: Option<String>,
@@ -109,15 +109,17 @@ impl ShadowTable {
                     walrus::InitExpr::RefNull(_) => todo!(),
                     walrus::InitExpr::RefFunc(_) => todo!(),
                 };
-                tables.get_mut(table.index()).unwrap().set(offset, &e.members);
+                tables
+                    .get_mut(table.index())
+                    .unwrap()
+                    .set(offset, &e.members.iter().map(|i| i.unwrap().index()).collect());
             }
         });
         tables
     }
 
-    fn set(&mut self, offset: usize, contents: &Vec<Option<FunctionId>>) {
-        let indices: Vec<usize> = contents.iter().map(|i| i.unwrap().index()).collect();
-        self.content[offset..(offset + indices.len())].copy_from_slice(&indices);
+    fn set(&mut self, offset: usize, contents: &Vec<usize>) {
+        self.content[offset..(offset + contents.len())].copy_from_slice(contents);
     }
 
     fn contains_already(&mut self, offset: usize, funcidx: usize) -> bool {
@@ -127,10 +129,53 @@ impl ShadowTable {
 
 pub struct ShadowTableOptimiser {
     shadow_tables: Vec<ShadowTable>,
-    pub_functions: HashMap<usize, String>,
 }
 
 impl ShadowTableOptimiser {
+    pub fn new(module: &Module) -> Self {
+        ShadowTableOptimiser { shadow_tables: ShadowTable::from_module(module) }
+    }
+}
+
+impl TraceOptimiser for ShadowTableOptimiser {
+    fn discard_event(&mut self, event: &WasmEvent) -> bool {
+        match event {
+            WasmEvent::TableGet { tableidx, idx, funcidx } => {
+                if self
+                    .shadow_tables
+                    .get_mut(*tableidx)
+                    .unwrap()
+                    .contains_already(*idx, *funcidx as usize)
+                {
+                    false
+                } else {
+                    // dbg!(event);
+                    // dbg!(&self.shadow_tables);
+                    self.shadow_tables
+                        .get_mut(*tableidx)
+                        .unwrap()
+                        .set(*idx, &vec![*funcidx as usize]);
+                    true
+                }
+            }
+            WasmEvent::TableSet { tableidx, idx, funcidx } => {
+                self.shadow_tables
+                    .get_mut(*tableidx)
+                    .unwrap()
+                    .set(*idx, &vec![*funcidx as usize]);
+                false
+            }
+            _ => true,
+        }
+    }
+}
+
+pub struct FuncEntryTransformer {
+    shadow_tables: Vec<ShadowTable>,
+    pub_functions: HashMap<usize, String>,
+}
+
+impl FuncEntryTransformer {
     pub fn new(module: &Module) -> Self {
         let mut pub_functions = HashMap::new();
         for i in module.imports.iter() {
@@ -143,21 +188,15 @@ impl ShadowTableOptimiser {
                 pub_functions.insert(id.index(), e.name.clone());
             }
         });
-        ShadowTableOptimiser {
+        FuncEntryTransformer {
             shadow_tables: ShadowTable::from_module(module),
             pub_functions,
         }
     }
 }
 
-impl TraceOptimiser for ShadowTableOptimiser {
-    fn discard_event(&mut self, event: &WasmEvent) -> bool {
-        todo!()
-    }
-}
-
-impl ShadowTableOptimiser {
-    pub fn transform_event(&mut self, event: WasmEvent) -> WasmEvent {
+impl FuncEntryTransformer {
+    pub fn transform_event(&self, event: WasmEvent) -> WasmEvent {
         match event.clone() {
             WasmEvent::FuncEntry { idx, params } => match self.pub_functions.get(&idx) {
                 Some(_) => event,
@@ -181,10 +220,10 @@ enum Scope {
     Internal,
     External(usize),
 }
-struct Union;
+
 pub struct CallOptimiser {
     call_stack: Vec<Scope>,
-    import_functions: Vec<Union>,
+    import_functions: Vec<()>,
 }
 
 impl CallOptimiser {
@@ -192,7 +231,7 @@ impl CallOptimiser {
         let mut import_functions = Vec::new();
         module.imports.iter().for_each(|i| {
             if let ImportKind::Function(_) = i.kind {
-                import_functions.push(Union);
+                import_functions.push(());
             }
         });
         CallOptimiser { import_functions, call_stack: vec![Scope::External(0)] }
@@ -223,6 +262,14 @@ impl TraceOptimiser for CallOptimiser {
                     false
                 } else {
                     self.call_stack.push(Scope::External(*idx));
+                    true
+                }
+            }
+            WasmEvent::CallIndirect { funcidx, .. } => {
+                if let None = self.import_functions.get(*funcidx as usize) {
+                    false
+                } else {
+                    self.call_stack.push(Scope::External(*funcidx as usize));
                     true
                 }
             }

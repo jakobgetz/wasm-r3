@@ -2,7 +2,9 @@ use replay_gen::codegen::{generate_javascript, generate_standalone};
 use replay_gen::irgen::IRGenerator;
 use replay_gen::opt::Optimiser;
 use replay_gen::trace::{ErrorKind, WasmEvent};
-use replay_gen::trace_optimisation::{CallOptimiser, ShadowMemoryOptimiser, ShadowTableOptimiser, TraceOptimiser};
+use replay_gen::trace_optimisation::{
+    CallOptimiser, FuncEntryTransformer, ShadowMemoryOptimiser, ShadowTableOptimiser, TraceOptimiser,
+};
 use std::fs::File;
 use std::io::{self, BufReader, BufWriter, Write};
 use std::path::{Path, PathBuf};
@@ -36,15 +38,16 @@ fn generate(args: Vec<String>) -> io::Result<()> {
     let module = Module::from_buffer(buffer).unwrap();
     let mut shadow_mem_optimiser = ShadowMemoryOptimiser::new(&module);
     let mut shadow_table_optimiser = ShadowTableOptimiser::new(&module);
+    let mut func_entry_transformer = FuncEntryTransformer::new(&module);
     let mut call_optimiser = CallOptimiser::new(&module);
     let mut generator = IRGenerator::new(&module);
     let trace = Trace::new(trace_path, &module, binary == "true");
-    trace
+    let trace = trace
         .map(|e| e.unwrap())
-        .filter(|e| shadow_mem_optimiser.discard_event(e))
-        // .filter(|e| shadow_table_optimiser.inspect_event(e))
         .filter(|e| call_optimiser.discard_event(e))
-        .map(|e| shadow_table_optimiser.transform_event(e))
+        .filter(|e| shadow_mem_optimiser.discard_event(e))
+        .filter(|e| shadow_table_optimiser.discard_event(e))
+        .map(|e| func_entry_transformer.transform_event(e))
         .for_each(|e| generator.consume_event(e));
 
     // opt replay
@@ -80,7 +83,7 @@ fn decode_event(
     module: &Module,
     binary: bool,
     lookup: &Vec<i32>,
-) -> Result<Option<WasmEvent>, ErrorKind> {
+) -> Result<Vec<WasmEvent>, ErrorKind> {
     if binary == true {
         WasmEvent::decode_bin(reader, module, lookup)
     } else {
@@ -93,6 +96,7 @@ struct Trace<'a> {
     module: &'a Module,
     binary: bool,
     lookup: Vec<i32>,
+    event_buffer: Vec<WasmEvent>,
 }
 
 impl<'a> Trace<'a> {
@@ -106,7 +110,7 @@ impl<'a> Trace<'a> {
             Err(_) => Vec::new(),
         };
         let reader = BufReader::new(file);
-        Trace { reader, module, binary, lookup }
+        Trace { reader, module, binary, lookup, event_buffer: Vec::new() }
     }
 }
 
@@ -114,10 +118,20 @@ impl<'a> Iterator for Trace<'a> {
     type Item = Result<WasmEvent, ErrorKind>; // Replace `YourErrorType` with the actual error type
 
     fn next(&mut self) -> Option<Self::Item> {
-        match decode_event(&mut self.reader, self.module, self.binary, &self.lookup) {
-            Ok(Some(event)) => Some(Ok(event)),
-            Ok(None) => None,
-            Err(e) => Some(Err(e)),
+        if self.event_buffer.len() > 0 {
+            Some(Ok(self.event_buffer.remove(0)))
+        } else {
+            match decode_event(&mut self.reader, self.module, self.binary, &self.lookup) {
+                Ok(events) => {
+                    if events.len() > 0 {
+                        self.event_buffer.extend(events);
+                        Some(Ok(self.event_buffer.remove(0)))
+                    } else {
+                        None
+                    }
+                },
+                Err(e) => Some(Err(e)),
+            }
         }
     }
 }

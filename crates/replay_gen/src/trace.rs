@@ -44,7 +44,9 @@ pub enum BinCodes {
     StoreI64_16 = 0x3D,
     StoreI64_32 = 0x3E,
     Call = 0x10,
+    CallIndirect = 0x11,
     CallReturn = 0xFF,
+    CallIndirectReturn = 0xFE,
     GlobalGet = 0x23,
     GlobalSet = 0x24,
     TableGet = 0x25,
@@ -190,20 +192,20 @@ pub enum WasmEvent {
 }
 type ModuleTypes = Vec<Type>;
 impl WasmEvent {
-    pub fn decode_string(reader: &mut BufReader<File>) -> Result<Option<Self>, ErrorKind> {
+    pub fn decode_string(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
         let mut event = String::new();
         match reader.read_line(&mut event) {
-            Ok(_) => Ok(Some(event.parse()?)),
-            Err(_) => Ok(None),
+            Ok(_) => Ok(vec![event.parse()?]),
+            Err(_) => Ok(Vec::new()),
         }
     }
 
-    pub fn decode_bin(reader: &mut BufReader<File>, module: &Module, lookup: &Vec<i32>) -> Result<Option<Self>, ErrorKind> {
+    pub fn decode_bin(reader: &mut BufReader<File>, module: &Module, lookup: &Vec<i32>) -> Result<Vec<WasmEvent>, ErrorKind> {
         match read_u8(reader) {
             Ok(code) => {
                 let code = BinCodes::from_u8(code).ok_or(ErrorKind::UnknownEventCode(code))?;
                 let module_types = get_module_type(module);
-                let event = match code {
+                let events = match code {
                     BinCodes::LoadI32 => WasmEvent::decode_load(reader, LoadValue::I32(0)),
                     BinCodes::LoadI64 => WasmEvent::decode_load(reader, LoadValue::I64(0)),
                     BinCodes::LoadF32 => WasmEvent::decode_load(reader, LoadValue::F32(0.0)),
@@ -223,6 +225,8 @@ impl WasmEvent {
                     BinCodes::StoreI64_16 => WasmEvent::decode_store(reader, StoreValue::I16(0)),
                     BinCodes::StoreI64_32 => WasmEvent::decode_store(reader, StoreValue::I32(0)),
                     BinCodes::Call => WasmEvent::decode_call(reader),
+                    BinCodes::CallIndirect => WasmEvent::decode_call_indirect(reader, lookup),
+                    BinCodes::CallIndirectReturn => WasmEvent::decode_indirect_call_return(reader, module_types, lookup),
                     BinCodes::GlobalGet => WasmEvent::decode_global_get(reader),
                     BinCodes::GlobalSet => WasmEvent::decode_global_set(reader),
                     BinCodes::TableGet => WasmEvent::decode_table_get(reader, lookup),
@@ -232,54 +236,100 @@ impl WasmEvent {
                     BinCodes::FuncEntry => WasmEvent::decode_func_entry(reader, module_types),
                     BinCodes::MemGrow => WasmEvent::decode_mem_grow(reader),
                 }?;
-                Ok(Some(event))
+                Ok(events)
             }
-            Err(_) => Ok(None),
+            Err(e) => {
+                Ok(Vec::new())
+            }
         }
     }
 
-    fn decode_mem_grow(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+    fn decode_mem_grow(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
         let amount =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode amount for memory.grow")))?;
-        Ok(WasmEvent::MemGrow { idx: 0, amount })
+        Ok(vec![WasmEvent::MemGrow { idx: 0, amount }])
     }
 
-    fn decode_func_return(_reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
-        Ok(WasmEvent::FuncReturn)
+    fn decode_func_return(_reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
+        Ok(vec![WasmEvent::FuncReturn])
     }
 
-    fn decode_global_get(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+    fn decode_global_get(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
         let valtype = WasmEvent::decode_val_type(reader)?;
         let idx = WasmEvent::decode_value(reader, &ValType::I32)?;
         let value = WasmEvent::decode_value(reader, &valtype)?;
-        Ok(WasmEvent::GlobalGet { idx: idx.0 as usize, value, valtype })
+        Ok(vec![WasmEvent::GlobalGet { idx: idx.0 as usize, value, valtype }])
     }
 
-    fn decode_global_set(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+    fn decode_global_set(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
         let valtype = WasmEvent::decode_val_type(reader)?;
         let value = WasmEvent::decode_value(reader, &valtype)?;
         let idx = WasmEvent::decode_value(reader, &ValType::I32)?;
-        Ok(WasmEvent::GlobalSet { idx: idx.0 as usize, value, valtype })
+        Ok(vec![WasmEvent::GlobalSet { idx: idx.0 as usize, value, valtype }])
     }
 
-    fn decode_table_set(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+    fn decode_table_set(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
         let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.set")))?
             as usize;
         let funcidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.set")))?;
-        Ok(WasmEvent::TableSet { tableidx: 0, idx, funcidx })
+        Ok(vec![WasmEvent::TableSet { tableidx: 0, idx, funcidx }])
     }
 
-    fn decode_table_get(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Self, ErrorKind> {
+    fn decode_table_get(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Vec<Self>, ErrorKind> {
         let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
             as usize;
         let lookupidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
         let funcidx = *lookup.get(lookupidx).unwrap();
-        Ok(WasmEvent::TableGet { tableidx: 0, idx, funcidx })
+        Ok(vec![WasmEvent::TableGet { tableidx: 0, idx, funcidx }])
     }
 
-    fn decode_func_entry(reader: &mut BufReader<File>, module_types: ModuleTypes) -> Result<Self, ErrorKind> {
+    fn decode_call_indirect(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Vec<Self>, ErrorKind> {
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
+            as usize;
+        let lookupidx =
+            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
+        let funcidx = *lookup.get(lookupidx).unwrap();
+        dbg!(idx);
+        dbg!(lookup);
+        Ok(vec![
+            WasmEvent::TableGet { tableidx: 0, idx, funcidx },
+            WasmEvent::CallIndirect { tableidx: 0, idx, funcidx },
+        ])
+    }
+
+    fn decode_indirect_call_return(
+        reader: &mut BufReader<File>,
+        module_types: ModuleTypes,
+        lookup: &Vec<i32>,
+    ) -> Result<Vec<Self>, ErrorKind> {
+        let lookupidx =
+            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
+        let idx = *lookup.get(lookupidx).unwrap() as usize;
+        let type_id = read_i32(reader)
+            .map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode type idx of call return")))?
+            as usize;
+        let typ = module_types
+            .get(type_id)
+            .ok_or(ErrorKind::TypeIdNotInModule(format!("for decode call return: {}", type_id)))?;
+        let results = typ
+            .results()
+            .into_iter()
+            .map(|p| match p {
+                walrus::ValType::I32 => F64(read_i32(reader).map_err(|_| ErrorKind::UnknownTrace).unwrap() as f64),
+                walrus::ValType::I64 => F64(read_i64(reader).map_err(|_| ErrorKind::UnknownTrace).unwrap() as f64),
+                walrus::ValType::F32 => F64(read_f32(reader).map_err(|_| ErrorKind::UnknownTrace).unwrap() as f64),
+                walrus::ValType::F64 => F64(read_f64(reader).map_err(|_| ErrorKind::UnknownTrace).unwrap() as f64),
+                walrus::ValType::V128 => todo!(),
+                walrus::ValType::Externref => todo!(),
+                walrus::ValType::Funcref => todo!(),
+            })
+            .collect();
+        Ok(vec![WasmEvent::CallReturn { idx, results }])
+    }
+
+    fn decode_func_entry(reader: &mut BufReader<File>, module_types: ModuleTypes) -> Result<Vec<Self>, ErrorKind> {
         let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for func entry")))?
             as usize;
         let type_id = read_i32(reader)
@@ -301,10 +351,11 @@ impl WasmEvent {
                 walrus::ValType::Funcref => todo!(),
             })
             .collect();
-        Ok(WasmEvent::FuncEntry { idx, params })
+        let ret = vec![WasmEvent::FuncEntry { idx, params }];
+        Ok(ret)
     }
 
-    fn decode_call_return(reader: &mut BufReader<File>, module_types: ModuleTypes) -> Result<Self, ErrorKind> {
+    fn decode_call_return(reader: &mut BufReader<File>, module_types: ModuleTypes) -> Result<Vec<Self>, ErrorKind> {
         let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx of call return")))?
             as usize;
         let type_id = read_i32(reader)
@@ -326,26 +377,26 @@ impl WasmEvent {
                 walrus::ValType::Funcref => todo!(),
             })
             .collect();
-        Ok(WasmEvent::CallReturn { idx, results })
+        Ok(vec![WasmEvent::CallReturn { idx, results }])
     }
 
-    fn decode_call(reader: &mut BufReader<File>) -> Result<Self, ErrorKind> {
+    fn decode_call(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
         let idx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for call")))? as usize;
-        Ok(WasmEvent::Call { idx })
+        Ok(vec![WasmEvent::Call { idx }])
     }
 
-    fn decode_load(reader: &mut BufReader<File>, mut data: LoadValue) -> Result<Self, ErrorKind> {
+    fn decode_load(reader: &mut BufReader<File>, mut data: LoadValue) -> Result<Vec<Self>, ErrorKind> {
         let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode load offset")))?;
         Self::decode_load_value(reader, &mut data)?;
-        Ok(WasmEvent::Load { idx: 0, offset, data })
+        Ok(vec![WasmEvent::Load { idx: 0, offset, data }])
     }
 
-    fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue) -> Result<Self, ErrorKind> {
+    fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue) -> Result<Vec<Self>, ErrorKind> {
         let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store offset")))?;
         Self::decode_store_value(reader, &mut data)?;
         let e = WasmEvent::Store { idx: 0, offset, data };
-        Ok(e)
+        Ok(vec![e])
     }
 
     fn decode_store_value(reader: &mut BufReader<File>, data: &mut StoreValue) -> Result<(), ErrorKind> {
@@ -641,6 +692,7 @@ impl Display for WasmEvent {
             WasmEvent::CallReturn { idx, results } => {
                 write!(f, "IR;{};{}\n", idx, join_vec(results))
             }
+            WasmEvent::CallIndirect { tableidx, idx, funcidx } => write!(f, "CallIndirect;{};{};{}\n", tableidx, idx, funcidx),
             _ => {
                 /* Ignore rest for now*/
                 Ok(())
@@ -671,7 +723,6 @@ fn read_i32(reader: &mut BufReader<File>) -> anyhow::Result<i32> {
     let mut buf = [0; 4];
     reader.read_exact(&mut buf)?;
     if i32::from_le_bytes(buf.clone()) == 13088 {
-        dbg!(buf);
         panic!()
     }
     Ok(i32::from_le_bytes(buf))
