@@ -4,10 +4,10 @@
 // use tracer::instrument_wasm;
 
 // fn main() {
-//     let test_name = "tests/mem";
+//     let test_name = "tests/call";
 //     let buffer = &fs::read(format!("{}.wasm", test_name)).unwrap();
-//     let mut module = instrument_wasm(buffer).unwrap();
-//     let _ = module.emit_wasm_file(format!("tests/instrumented.wasm"));
+//     let buffer = instrument_wasm(buffer).unwrap();
+//     let _ = fs::write("tests/instrumented.wasm", buffer);
 // }
 
 fn main() {}

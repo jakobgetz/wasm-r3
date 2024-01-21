@@ -291,8 +291,6 @@ impl WasmEvent {
         let lookupidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
         let funcidx = *lookup.get(lookupidx).unwrap();
-        dbg!(idx);
-        dbg!(lookup);
         Ok(vec![
             WasmEvent::TableGet { tableidx: 0, idx, funcidx },
             WasmEvent::CallIndirect { tableidx: 0, idx, funcidx },
