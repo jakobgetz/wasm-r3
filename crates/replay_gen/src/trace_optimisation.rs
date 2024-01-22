@@ -208,6 +208,8 @@ impl FuncEntryTransformer {
                             }
                         }
                     }
+                    dbg!(idx);
+                    dbg!(&self.pub_functions);
                     panic!("The called function is neither exported nor in an public table")
                 }
             },

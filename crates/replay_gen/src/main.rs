@@ -73,7 +73,9 @@ fn bin_trace_to_string_representation(args: Vec<String>) -> io::Result<()> {
     let output_file = File::create(string_trace_path).unwrap();
     let mut writer = BufWriter::new(output_file);
     trace.for_each(|e| {
-        writer.write_fmt(format_args!("{}", e.unwrap())).unwrap();
+        let e = e.unwrap();
+        // dbg!(&e);
+        writer.write_fmt(format_args!("{}", e)).unwrap();
     });
     writer.flush()
 }

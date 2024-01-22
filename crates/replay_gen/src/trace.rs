@@ -238,9 +238,7 @@ impl WasmEvent {
                 }?;
                 Ok(events)
             }
-            Err(e) => {
-                Ok(Vec::new())
-            }
+            Err(e) => Ok(Vec::new()),
         }
     }
 
@@ -277,23 +275,29 @@ impl WasmEvent {
     }
 
     fn decode_table_get(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Vec<Self>, ErrorKind> {
-        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
+        let tableidx = read_i32(reader)
+            .map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode tableidx for table.get")))?
             as usize;
+        let idx =
+            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode idx for table.get")))? as usize;
         let lookupidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
         let funcidx = *lookup.get(lookupidx).unwrap();
-        Ok(vec![WasmEvent::TableGet { tableidx: 0, idx, funcidx }])
+        Ok(vec![WasmEvent::TableGet { tableidx, idx, funcidx }])
     }
 
     fn decode_call_indirect(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Vec<Self>, ErrorKind> {
+        let tableidx = read_i32(reader)
+            .map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode tableidx for table.get")))?
+            as usize;
         let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
             as usize;
         let lookupidx =
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
         let funcidx = *lookup.get(lookupidx).unwrap();
         Ok(vec![
-            WasmEvent::TableGet { tableidx: 0, idx, funcidx },
-            WasmEvent::CallIndirect { tableidx: 0, idx, funcidx },
+            WasmEvent::TableGet { tableidx, idx, funcidx },
+            WasmEvent::CallIndirect { tableidx, idx, funcidx },
         ])
     }
 
@@ -392,7 +396,9 @@ impl WasmEvent {
 
     fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue) -> Result<Vec<Self>, ErrorKind> {
         let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store offset")))?;
-        Self::decode_store_value(reader, &mut data)?;
+        let value = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?;
+        let data = StoreValue::I32(value);
+        // Self::decode_store_value(reader, &mut data)?;
         let e = WasmEvent::Store { idx: 0, offset, data };
         Ok(vec![e])
     }
@@ -664,39 +670,84 @@ impl Display for WasmEvent {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             WasmEvent::Load { idx, offset, data } => {
-                write!(f, "L;{};{};{}\n", idx, offset, data)
+                write!(f, "Load idx={} offset={} data={}\n", idx, offset, data)
             }
-            WasmEvent::Store { idx, offset, data } => write!(f, "S;{};{};{}\n", idx, offset, data),
+            WasmEvent::Store { idx, offset, data } => write!(f, "Store idx={} offset={} data={}\n", idx, offset, data),
             WasmEvent::MemGrow { idx, amount } => {
                 write!(f, "MG;{};{}\n", idx, amount)
             }
             WasmEvent::TableGet { tableidx, idx, funcidx } => {
-                write!(f, "T;{};{};{}\n", tableidx, idx, funcidx)
+                write!(f, "table.get idx={} offset={} funcidx={}\n", tableidx, idx, funcidx)
             }
             WasmEvent::TableGrow { idx, amount } => {
                 write!(f, "MG;{};{}\n", idx, amount)
             }
             WasmEvent::GlobalGet { idx, value, valtype } => {
-                write!(f, "G;{};{};{:?}\n", idx, value, valtype)
+                write!(f, "global.get idx={} value={} valtype={:?}\n", idx, value, valtype)
             }
             WasmEvent::FuncEntry { params, idx } => {
-                write!(f, "EC;{};{}\n", idx, join_vec(params))
+                write!(f, "FuncEntry idx={} params={}\n", idx, join_vec(params))
             }
             WasmEvent::FuncEntryTable { idx, tableidx: funcidx, params } => {
-                write!(f, "TC;{};{};{}\n", idx, funcidx, join_vec(params),)
+                write!(
+                    f,
+                    "FuncEntryThroughTable idx={} funcidx={} parmams={}\n",
+                    idx,
+                    funcidx,
+                    join_vec(params),
+                )
             }
-            WasmEvent::FuncReturn => write!(f, "ER\n"),
-            WasmEvent::Call { idx } => write!(f, "IC;{}\n", idx),
+            WasmEvent::FuncReturn => write!(f, "FuncExit\n"),
+            WasmEvent::Call { idx } => write!(f, "Call funcidx={}\n", idx),
             WasmEvent::CallReturn { idx, results } => {
-                write!(f, "IR;{};{}\n", idx, join_vec(results))
+                write!(f, "CallReturn funcidx={} results={}\n", idx, join_vec(results))
             }
-            WasmEvent::CallIndirect { tableidx, idx, funcidx } => write!(f, "CallIndirect;{};{};{}\n", tableidx, idx, funcidx),
+            WasmEvent::CallIndirect { tableidx, idx, funcidx } => {
+                write!(f, "CallIndirect tableidx={} offset={} funcidx={}\n", tableidx, idx, funcidx)
+            }
             _ => {
                 /* Ignore rest for now*/
                 Ok(())
             }
         }
     }
+
+    // fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    //     match self {
+    //         WasmEvent::Load { idx, offset, data } => {
+    //             write!(f, "L;{};{};{}\n", idx, offset, data)
+    //         }
+    //         WasmEvent::Store { idx, offset, data } => write!(f, "S;{};{};{}\n", idx, offset, data),
+    //         WasmEvent::MemGrow { idx, amount } => {
+    //             write!(f, "MG;{};{}\n", idx, amount)
+    //         }
+    //         WasmEvent::TableGet { tableidx, idx, funcidx } => {
+    //             write!(f, "T;{};{};{}\n", tableidx, idx, funcidx)
+    //         }
+    //         WasmEvent::TableGrow { idx, amount } => {
+    //             write!(f, "MG;{};{}\n", idx, amount)
+    //         }
+    //         WasmEvent::GlobalGet { idx, value, valtype } => {
+    //             write!(f, "G;{};{};{:?}\n", idx, value, valtype)
+    //         }
+    //         WasmEvent::FuncEntry { params, idx } => {
+    //             write!(f, "EC;{};{}\n", idx, join_vec(params))
+    //         }
+    //         WasmEvent::FuncEntryTable { idx, tableidx: funcidx, params } => {
+    //             write!(f, "TC;{};{};{}\n", idx, funcidx, join_vec(params),)
+    //         }
+    //         WasmEvent::FuncReturn => write!(f, "ER\n"),
+    //         WasmEvent::Call { idx } => write!(f, "IC;{}\n", idx),
+    //         WasmEvent::CallReturn { idx, results } => {
+    //             write!(f, "IR;{};{}\n", idx, join_vec(results))
+    //         }
+    //         WasmEvent::CallIndirect { tableidx, idx, funcidx } => write!(f, "CallIndirect;{};{};{}\n", tableidx, idx, funcidx),
+    //         _ => {
+    //             /* Ignore rest for now*/
+    //             Ok(())
+    //         }
+    //     }
+    // }
 }
 
 fn read_u8(reader: &mut BufReader<File>) -> anyhow::Result<u8> {
