@@ -105,10 +105,13 @@ impl<'a> Trace<'a> {
     fn new(path: &Path, module: &'a Module, binary: bool) -> Trace<'a> {
         let file = File::open(path).unwrap();
         let lookup = match fs::read_to_string(PathBuf::from(format!("{}.lookup", path.display()))) {
-            Ok(l) => l
-                .split("\n")
-                .map(|i| if i.len() == 0 { 0 } else { i.parse().unwrap() })
-                .collect(),
+            Ok(l) => {
+                if l.len() == 0 {
+                    vec![]
+                } else {
+                    l.split("\n").map(|i| i.parse().unwrap()).collect()
+                }
+            }
             Err(_) => Vec::new(),
         };
         let reader = BufReader::new(file);
@@ -131,7 +134,7 @@ impl<'a> Iterator for Trace<'a> {
                     } else {
                         None
                     }
-                },
+                }
                 Err(e) => Some(Err(e)),
             }
         }

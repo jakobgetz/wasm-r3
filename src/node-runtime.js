@@ -18,11 +18,13 @@ export function setup(filePath) {
         check_mem: () => {
             const trace = instance.exports.trace.buffer.slice(0, instance.exports.trace_byte_length.value)
             fs.writeFileSync(filePath, Buffer.from(trace))
+        },
+        check_table: () => {
             const lookupTable = instance.exports.lookup;
             const lookupPointer = instance.exports.lookup_table_pointer.value;
             let funcIdxes = []
             for (let i = 0; i < lookupPointer; i++) {
-                let funcIdx = lookupTable.get(i).name - 1
+                let funcIdx = lookupTable.get(i).name - 2
                 funcIdxes.push(funcIdx)
             }
             fs.writeFileSync(`${filePath}.lookup`, funcIdxes.join('\n'));
@@ -60,6 +62,9 @@ export function setup(filePath) {
     };
 
 
-    return r3.check_mem
+    return () => {
+        r3.check_mem();
+        r3.check_table();
+    }
 
 }

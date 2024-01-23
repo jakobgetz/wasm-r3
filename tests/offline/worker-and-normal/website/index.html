@@ -7,7 +7,7 @@
 
 <body>
   <script>
-    fetch("add.wasm")
+    let p = fetch("add.wasm")
       .then((response) => response.arrayBuffer())
       .then((bytes) => {
         console.log(bytes)

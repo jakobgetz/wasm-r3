@@ -41,7 +41,7 @@
             "args": [
                 "offline",
                 "-t",
-                "basic-instantiate",
+                "worker-and-normal",
                 "-c"
             ]
         },

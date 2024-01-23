@@ -10,11 +10,11 @@
     fetch("mem.wasm")
       .then((response) => response.arrayBuffer())
       .then((bytes) => WebAssembly.instantiate(bytes, {}))
-    fetch("sub.wasm")
+    fetch("add.wasm")
       .then((response) => response.arrayBuffer())
       .then((bytes) => WebAssembly.instantiate(bytes, {}))
       .then((result) => {
-        console.log(`9 - 3 = ${result.instance.exports.sub(9, 3)}`)
+        console.log(`9 - 3 = ${result.instance.exports.add(9, 3)}`)
         try {
           if (analysis[0].Wasabi.module.memories.length === 0) {
             console.log('memory got overwritten')

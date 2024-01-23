@@ -12,19 +12,22 @@ pub fn instrument_wasm_js(buffer: &[u8]) -> Result<JsValue, JsValue> {
 
 const TRACE_MEM: &str = "$trace_mem";
 const TRACE_MEM_PAGES: u32 = 10_000;
-const TRACE_MEM_MAX_FILL_PERCENT: f32 = 0.6;
+const TRACE_MEM_MAX_FILL: u32 = 7_000;
 const TRACE_MEM_EXPORT_NAME: &str = "trace";
 const MEM_POINTER: &str = "$mem_pointer";
 const MEM_POINTER_EXPORT_NAME: &str = "trace_byte_length";
 const LOCAL_FUNCREF: &str = "$funcref";
 const FUNCREF_TABLE: &str = "$table";
 const FUNCREF_TABLE_SIZE: u32 = 100_000;
+const FUNCREF_TABLE_MAX_FILL: u32 = 80_000;
 const FUNCREF_TABLE_EXPORT_NAME: &str = "lookup";
 const TABLE_POINTER: &str = "$table_pointer";
 const TABLE_POINTER_EXPORT_NAME: &str = "lookup_table_pointer";
-const CHECK_MEM: &str = "$check_mem";
-const CHECK_MEM_IMPORT_MODULE: &str = "r3";
+const IMPORT_MODULE: &str = "r3";
 const CHECK_MEM_IMPORT_NAME: &str = "check_mem";
+const CHECK_MEM: &str = "$check_mem";
+const CHECK_TABLE_IMPORT_NAME: &str = "check_table";
+const CHECK_TABLE: &str = "$check_table";
 const LOCAL_ADDR: &str = "$addr_local";
 const LOCAL_I32: &str = "$i32";
 const LOCAL_I64: &str = "$i64";
@@ -110,8 +113,12 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
             gen_wat.push(l);
             gen_wat.push(format!(
                 "(import \"{}\" \"{}\" (func {}))",
-                CHECK_MEM_IMPORT_MODULE, CHECK_MEM_IMPORT_NAME, CHECK_MEM
+                IMPORT_MODULE, CHECK_MEM_IMPORT_NAME, CHECK_MEM
             ));
+            gen_wat.push(format!(
+                "(import \"{}\" \"{}\" (func {}))",
+                IMPORT_MODULE, CHECK_TABLE_IMPORT_NAME, CHECK_TABLE
+            ))
         } else if l.starts_with("(imp") && l.contains("(func") {
             gen_wat.push(l);
             func_idx += 1;
@@ -414,11 +421,23 @@ fn check_mem() -> Vec<String> {
     vec![
         format!(
             "i32.const {}",
-            64000.0 * TRACE_MEM_PAGES as f32 * TRACE_MEM_MAX_FILL_PERCENT
+            64000 * TRACE_MEM_MAX_FILL
         ),
         format!("global.get {}", MEM_POINTER),
-        format!("i32.eq"),
+        format!("i32.le_u"),
         format!("(if (then call {}))", CHECK_MEM),
+    ]
+}
+
+fn check_table() -> Vec<String> {
+    vec![
+        format!(
+            "i32.const {}",
+            FUNCREF_TABLE_MAX_FILL
+        ),
+        format!("global.get {}", TABLE_POINTER),
+        format!("i32.le_u"),
+        format!("(if (then call {}))", CHECK_TABLE),
     ]
 }
 
@@ -435,7 +454,7 @@ fn get_func_idx_by_call_instr(
         for (i, f) in functions.iter().enumerate() {
             if let Some(id) = &f.identifier {
                 if id == parts[1] {
-                    *input = format!("call {}", i + 1);
+                    *input = format!("call {}", i + 2);
                     return Ok(i as u32);
                 }
             }
@@ -447,7 +466,7 @@ fn get_func_idx_by_call_instr(
         Err(_) => return Err("Couldnt extract func idx from call instr"),
     };
     input.pop();
-    input.push_str(&(idx + 1).to_string());
+    input.push_str(&(idx + 2).to_string());
     Ok(idx)
 }
 
@@ -459,7 +478,7 @@ fn adapt_export_func_idx(input: &mut String) -> Result<(), &'static str> {
     };
     let funcidx_str = caps.get(2).ok_or("No funcidx found")?.as_str();
     let mut funcidx: i32 = funcidx_str.parse().map_err(|_| "Funcidx parsing failed")?;
-    funcidx += 1;
+    funcidx += 2;
     *input = re.replace(input, format!("$1 {}", funcidx)).to_string();
     Ok(())
 }
@@ -471,7 +490,7 @@ fn adapt_elem_func_idx(input: &mut String) -> Result<(), &'static str> {
         if let Some(funcidx_match) = caps.get(2) {
             let funcidx_str = funcidx_match.as_str();
             let funcidx: i32 = funcidx_str.parse().map_err(|_| "Funcidx parsing failed")?;
-            let incremented_funcidx = funcidx + 1;
+            let incremented_funcidx = funcidx + 2;
             new_input = new_input.replacen(
                 &format!("{} {}", &caps[1], funcidx_str),
                 &format!("{} {}", &caps[1], incremented_funcidx),
@@ -577,7 +596,6 @@ fn get_load_info(wat: &str) -> Result<(u8, ValType), &'static str> {
         Err("Getting load info failed")
     }
 }
-
 
 // #[derive(Debug)]
 // enum Store {
@@ -813,6 +831,7 @@ fn trace_return(gen_wat: &mut Vec<String>, typ: &FuncType, local_count: usize, o
     // gen_wat.extend(typ.trace_results(local_count, offset));
     gen_wat.extend(increment_mem_pointer(offset));
     gen_wat.extend(check_mem());
+    gen_wat.extend(check_table());
 }
 
 #[derive(Clone, Debug)]

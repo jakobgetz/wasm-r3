@@ -5,7 +5,7 @@ import cp, { execSync } from 'child_process'
 import express from 'express'
 import Generator from "../src/replay-generator.cjs";
 import Tracer, { Trace } from "../src/tracer.cjs";
-import { delay, getDirectoryNames, rmSafe, startSpinner, stopSpinner, trimFromLastOccurance } from "./test-utils.cjs";
+import { delay, findWatNames, getDirectoryNames, rmSafe, startSpinner, stopSpinner, trimFromLastOccurance } from "./test-utils.cjs";
 import Benchmark from '../src/benchmark.cjs';
 //@ts-ignore
 import { instrument_wasm } from '../wasabi/wasabi_js.js'
@@ -222,6 +222,7 @@ async function runNodeTests(names: string[], options) {
     'mem-exp-host-grow',
     'mem-imp-host-grow',
     'mem-exp-host-grow-no-return',
+    'rust-game-of-life',
   ]
   names = names.filter((n) => !filter.includes(n))
   // names = ["mem-imp-host-grow"]
@@ -338,7 +339,14 @@ async function runOfflineTest(name: string, options): Promise<TestReport> {
   const testPath = path.join(process.cwd(), 'tests', 'offline', name)
   const websitePath = path.join(testPath, 'website')
   await cleanUp(testPath)
+  const watNames = await findWatNames(websitePath);
+  for (let watName of watNames) {
+    let watPath = path.join(websitePath, watName);
+    let wasmPath = path.join(websitePath, `${path.parse(watName).name}.wasm`);
+    cp.execSync(`wat2wasm ${watPath} -o ${wasmPath}`);
+  }
   const server = await startServer(websitePath)
+  // cp.exec("cd tests/offline/worker-and-normal/website && python3 -m http.server")
   let report
   if (options.custom == true) {
     report = await testWebPageCustomInstrumentation(testPath, options)
@@ -494,3 +502,4 @@ async function testWebPage(testPath: string, options): Promise<TestReport> {
   }
   // process.stdout.write(`done running ${nodeTestNames.length + webTestNames.length} tests\n`);
 })()
+

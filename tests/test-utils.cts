@@ -65,3 +65,8 @@ export function trimFromLastOccurance(str: string, substring: string) {
     }
     return str.substring(0, lastIndex + substring.length);
 }
+
+export async function findWatNames(dirPath: string) {
+    let files = await fs.readdir(dirPath);
+    return files.filter(f => path.parse(f).ext === ".wat");
+}

@@ -202,11 +202,13 @@ export class CustomAnalyser implements AnalyserI {
         this.javascript = options.javascript;
 
         this.wss = new WebSocketServer({ port: 8080 });
-        let contexts: { [context: string]: fss.WriteStream } = {}
+        let traceContexts: { [context: string]: fss.WriteStream } = {}
+        let lookupContexts: { [context: string]: fss.WriteStream } = {}
         let nextSubbenchmarkIndex = 0
         this.wss.on('connection', async function connection(ws, request) {
             ws.on('error', console.error)
             ws.on('message', async function message(data) {
+                console.log("HEEELLOO")
                 let buffer: Buffer;
                 if (data instanceof ArrayBuffer) {
                     // Convert ArrayBuffer to Buffer
@@ -216,20 +218,36 @@ export class CustomAnalyser implements AnalyserI {
                 } else {
                     buffer = data;
                 }
-                const hrefLength = new Uint8Array(buffer)[buffer.length - 1]
-                const hrefStartIndex = buffer.length - 2 - hrefLength
-                const i = new Uint8Array(buffer)[buffer.length - 2]
+                const hrefLength = new Uint8Array(buffer)[buffer.length - 2]
+                const hrefStartIndex = buffer.length - hrefLength - 2
+                const type = new Uint8Array(buffer)[buffer.length - 1]
                 const trace = buffer.slice(0, hrefStartIndex)
                 const hrefBytes = buffer.slice(hrefStartIndex, buffer.length - 2)
                 const href = new TextDecoder().decode(hrefBytes)
-                if (contexts[href + i] === undefined) {
-                    const subBenchmarkPath = path.join(benchmarkPath, `bin_${nextSubbenchmarkIndex}`)
-                    const filePath = path.join(subBenchmarkPath, 'trace.bin')
-                    fss.mkdirSync(subBenchmarkPath)
-                    contexts[href + i] = fss.createWriteStream(filePath)
-                    nextSubbenchmarkIndex++
+
+                if (type === 0) {
+                    if (traceContexts[href] === undefined) {
+                        const subBenchmarkPath = path.join(benchmarkPath, href)
+                        const traceFilePath = path.join(subBenchmarkPath, 'trace.bin')
+                        fss.mkdirSync(subBenchmarkPath, { recursive: true })
+                        traceContexts[href] = fss.createWriteStream(traceFilePath)
+                        nextSubbenchmarkIndex++
+                    }
+                    traceContexts[href].write(trace)
+                } else if (type === 1) {
+                    if (lookupContexts[href] === undefined) {
+                        const subBenchmarkPath = path.join(benchmarkPath, href)
+                        const lookupFilePath = path.join(subBenchmarkPath, 'trace.bin.lookup')
+                        fss.mkdirSync(subBenchmarkPath, { recursive: true })
+                        lookupContexts[href] = fss.createWriteStream(lookupFilePath)
+                        nextSubbenchmarkIndex++
+                    }
+                    let array = new Uint8Array(trace)
+                    let idxes = convertUint8ArrayToI32Array(array).join('\n')
+                    lookupContexts[href].write(idxes)
+                } else {
+                    throw new Error(`Type ${type} of data is neither trace nor lookup`)
                 }
-                contexts[href + i].write(trace)
             })
         })
     }
@@ -287,8 +305,8 @@ export class CustomAnalyser implements AnalyserI {
         const replayName = 'replay.js'
         const traceName = 'trace.bin'
         const p_measureCodeGen = createMeasure('rust-backend', { phase: 'replay-generation', description: `The time it takes for rust backend to generate javascript` })
-        originalWasmBuffer.forEach((buffer, i) => {
-            const subBenchmarkPath = path.join(this.benchmarkPath, `bin_${i}`)
+        originalWasmBuffer.forEach(({ href, buffer }, i) => {
+            const subBenchmarkPath = path.join(this.benchmarkPath, href)
             fss.writeFileSync(path.join(subBenchmarkPath, binName), new Int8Array(buffer))
             const tracePath = path.join(subBenchmarkPath, traceName)
             const binPath = path.join(subBenchmarkPath, binName)
@@ -296,7 +314,9 @@ export class CustomAnalyser implements AnalyserI {
             execSync(`./target/debug/replay_gen generate ${tracePath} ${binPath} true ${jsPath}`);
         })
         p_measureCodeGen()
-        return originalWasmBuffer.map((wasm) => ({ result: '', wasm }))
+        return originalWasmBuffer.map(({ href, buffer }) => {
+            return ({ result: '', wasm: buffer })
+        })
     }
 
     async forceQuit() {
@@ -353,8 +373,8 @@ export class CustomAnalyser implements AnalyserI {
             await c.evaluate(() => {
                 try {
                     //@ts-ignore
-                    for (let check_mem of r3_check_mems) {
-                        check_mem()
+                    for (let check of r3_check_mems) {
+                        check()
                     }
                 } catch {
                     // ok
@@ -377,8 +397,7 @@ export class CustomAnalyser implements AnalyserI {
             p_measureBufferDownload()
             return buffer
         }))
-        const buffer = originalWasmBuffer.flat(1) as number[][]
-        return buffer
+        return originalWasmBuffer.flat(1) as { buffer: any, href: string }[]
     }
 
     private async constructInitScript() {
@@ -386,4 +405,18 @@ export class CustomAnalyser implements AnalyserI {
         const setupScript = await fs.readFile('./src/tracer-runtime.js') + '\n'
         return tracerScript + ';' + setupScript + ';'
     }
+}
+
+function convertUint8ArrayToI32Array(uint8Array: Uint8Array) {
+    let i32Array = [];
+    for (let i = 0; i < uint8Array.length; i += 4) {
+        // Combine 4 bytes (uint8) into one 32-bit integer
+        let i32 = (uint8Array[i] << 24) | (uint8Array[i + 1] << 16) | (uint8Array[i + 2] << 8) | uint8Array[i + 3];
+        
+        // Handle sign (since bitwise operations in JavaScript use signed 32-bit integers)
+        i32 = i32 >>> 0;
+
+        i32Array.push(i32);
+    }
+    return i32Array;
 }
