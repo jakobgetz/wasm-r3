@@ -187,14 +187,14 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
             gen_wat.extend(trace_u8(0x40, offset));
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
             gen_wat.extend(increment_mem_pointer(offset));
-        } else if l.contains(".load") {
+        } else if l.starts_with("i32.load") || l.starts_with("i64.load") || l.starts_with("f32.load") || l.starts_with("f64.load") {
             let (code, typ) = get_load_info(&l)?;
             gen_wat.extend(trace_u8(code, offset));
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
             gen_wat.push(l);
             gen_wat.extend(trace_stack_value(Some(&typ), offset));
             gen_wat.extend(increment_mem_pointer(offset));
-        } else if l.contains(".store") {
+        } else if l.contains("i32.store") || l.contains("i64.store") || l.contains("f32.store") || l.contains("f64.store") {
             let (code, typ) = get_store_info(&l)?;
             gen_wat.extend(trace_u8(code, offset));
             gen_wat.extend(trace_store_stack(&typ, offset));
@@ -465,8 +465,7 @@ fn get_func_idx_by_call_instr(
         Ok(number) => number,
         Err(_) => return Err("Couldnt extract func idx from call instr"),
     };
-    input.pop();
-    input.push_str(&(idx + 2).to_string());
+    *input = vec![parts[0], " ", &(idx + 2).to_string()].concat();
     Ok(idx)
 }
 

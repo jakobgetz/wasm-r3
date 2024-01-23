@@ -4,10 +4,16 @@
 // use tracer::instrument_wasm;
 
 // fn main() {
-//     let test_name = "tests/rust-game-of-life-small";
+//     let test_name = "tests/heatmap";
 //     let buffer = &fs::read(format!("{}.wasm", test_name)).unwrap();
-//     let buffer = instrument_wasm(buffer).unwrap();
-//     let _ = fs::write("tests/instrumented.wasm", buffer);
+//     let _ = match instrument_wasm(buffer) {
+//         Ok(buffer) => fs::write("tests/instrumented.wasm", buffer),
+//         Err(str) => {
+//             let _ = fs::write("tests/generated.wat", str);
+//             panic!("Didnt work");
+//         },
+//     };
+
 // }
 
 fn main() {}

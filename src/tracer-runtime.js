@@ -19,7 +19,7 @@ function setup() {
     }
 
     function generateUUID() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
@@ -28,6 +28,7 @@ function setup() {
     const traceWorkerScript = `
         const socket = new WebSocket("ws://localhost:8080/traces")
         self.onmessage = function(e) {
+            console.log("send")
             socket.send(e.data)
         }
         socket.onerror = function(e) {
@@ -44,6 +45,7 @@ function setup() {
     const get_check = (href, i) => {
         return {
             check_mem: () => {
+                console.log("check_mem", href, 'time', performance.now())
                 let trace = instances[i].exports.trace.buffer.slice(0, instances[i].exports.trace_byte_length.value)
                 const message = new ArrayBuffer(trace.byteLength + href.length + 2); // 8 bytes for a 64-bit number
                 if (message.byteLength === 0) {
@@ -57,9 +59,11 @@ function setup() {
                 }
                 bufferView[bufferView.byteLength - 2] = href.length
                 bufferView[bufferView.byteLength - 1] = 0 // 0 for trace type
+                console.log('to worker, bytelength', message.byteLength)
                 traceWorker.postMessage(message)
             },
             check_table: () => {
+                console.log("check_table")
                 const lookupTable = instances[i].exports.lookup;
                 const lookupPointer = instances[i].exports.lookup_table_pointer.value;
                 let funcIdxes = []
@@ -116,7 +120,9 @@ function setup() {
         console.log('WebAssembly.instantiate')
         printWelcome()
         self.originalWasmBuffer.push({ buffer: Array.from(new Uint8Array(buffer)), href })
+        console.log("Instrumenting...")
         const instrumented = instrument_wasm_js(new Uint8Array(buffer));
+        console.log("Done")
         buffer = new Uint8Array(instrumented)
         result = await original_instantiate(buffer, importObject)
         instances.push(result.instance)
@@ -166,7 +172,9 @@ function setup() {
         console.log('WebAssembly.Instance')
         printWelcome()
         self.originalWasmBuffer.push({ buffer: Array.from(new Uint8Array(buffer)), href })
+        console.log("Instrumenting...")
         const instrumented = instrument_wasm_js(new Uint8Array(buffer));
+        console.log("Done")
         buffer = new Uint8Array(instrumented)
         module = new WebAssembly.Module(buffer)
         const instance = new original_instance(module, importObject)
@@ -175,8 +183,8 @@ function setup() {
     }
     return checks
 }
-// var aspifdjgsadpfkjns = setup()
-// var r3_check_mems;
-// if (aspifdjgsadpfkjns !== undefined) {
-//     r3_check_mems = aspifdjgsadpfkjns
-// }
+var aspifdjgsadpfkjns = setup()
+var r3_check_mems;
+if (aspifdjgsadpfkjns !== undefined) {
+    r3_check_mems = aspifdjgsadpfkjns
+}

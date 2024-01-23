@@ -208,46 +208,47 @@ export class CustomAnalyser implements AnalyserI {
         this.wss.on('connection', async function connection(ws, request) {
             ws.on('error', console.error)
             ws.on('message', async function message(data) {
-                console.log("HEEELLOO")
-                let buffer: Buffer;
-                if (data instanceof ArrayBuffer) {
-                    // Convert ArrayBuffer to Buffer
-                    buffer = Buffer.from(data);
-                } else if (Array.isArray(data)) {
-                    buffer = data[0]
-                } else {
-                    buffer = data;
-                }
-                const hrefLength = new Uint8Array(buffer)[buffer.length - 2]
-                const hrefStartIndex = buffer.length - hrefLength - 2
-                const type = new Uint8Array(buffer)[buffer.length - 1]
-                const trace = buffer.slice(0, hrefStartIndex)
-                const hrefBytes = buffer.slice(hrefStartIndex, buffer.length - 2)
-                const href = new TextDecoder().decode(hrefBytes)
+                throw new Error("MESSAGE")
+                // console.log("MESSAGE")
+                // let buffer: Buffer;
+                // if (data instanceof ArrayBuffer) {
+                //     // Convert ArrayBuffer to Buffer
+                //     buffer = Buffer.from(data);
+                // } else if (Array.isArray(data)) {
+                //     buffer = data[0]
+                // } else {
+                //     buffer = data;
+                // }
+                // const hrefLength = new Uint8Array(buffer)[buffer.length - 2]
+                // const hrefStartIndex = buffer.length - hrefLength - 2
+                // const type = new Uint8Array(buffer)[buffer.length - 1]
+                // const trace = buffer.slice(0, hrefStartIndex)
+                // const hrefBytes = buffer.slice(hrefStartIndex, buffer.length - 2)
+                // const href = new TextDecoder().decode(hrefBytes)
 
-                if (type === 0) {
-                    if (traceContexts[href] === undefined) {
-                        const subBenchmarkPath = path.join(benchmarkPath, href)
-                        const traceFilePath = path.join(subBenchmarkPath, 'trace.bin')
-                        fss.mkdirSync(subBenchmarkPath, { recursive: true })
-                        traceContexts[href] = fss.createWriteStream(traceFilePath)
-                        nextSubbenchmarkIndex++
-                    }
-                    traceContexts[href].write(trace)
-                } else if (type === 1) {
-                    if (lookupContexts[href] === undefined) {
-                        const subBenchmarkPath = path.join(benchmarkPath, href)
-                        const lookupFilePath = path.join(subBenchmarkPath, 'trace.bin.lookup')
-                        fss.mkdirSync(subBenchmarkPath, { recursive: true })
-                        lookupContexts[href] = fss.createWriteStream(lookupFilePath)
-                        nextSubbenchmarkIndex++
-                    }
-                    let array = new Uint8Array(trace)
-                    let idxes = convertUint8ArrayToI32Array(array).join('\n')
-                    lookupContexts[href].write(idxes)
-                } else {
-                    throw new Error(`Type ${type} of data is neither trace nor lookup`)
-                }
+                // if (type === 0) {
+                //     if (traceContexts[href] === undefined) {
+                //         const subBenchmarkPath = path.join(benchmarkPath, href)
+                //         const traceFilePath = path.join(subBenchmarkPath, 'trace.bin')
+                //         fss.mkdirSync(subBenchmarkPath, { recursive: true })
+                //         traceContexts[href] = fss.createWriteStream(traceFilePath)
+                //         nextSubbenchmarkIndex++
+                //     }
+                //     traceContexts[href].write(trace)
+                // } else if (type === 1) {
+                //     if (lookupContexts[href] === undefined) {
+                //         const subBenchmarkPath = path.join(benchmarkPath, href)
+                //         const lookupFilePath = path.join(subBenchmarkPath, 'trace.bin.lookup')
+                //         fss.mkdirSync(subBenchmarkPath, { recursive: true })
+                //         lookupContexts[href] = fss.createWriteStream(lookupFilePath)
+                //         nextSubbenchmarkIndex++
+                //     }
+                //     let array = new Uint8Array(trace)
+                //     let idxes = convertUint8ArrayToI32Array(array).join('\n')
+                //     lookupContexts[href].write(idxes)
+                // } else {
+                //     throw new Error(`Type ${type} of data is neither trace nor lookup`)
+                // }
             })
         })
     }

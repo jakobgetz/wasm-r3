@@ -346,7 +346,8 @@ async function runOfflineTest(name: string, options): Promise<TestReport> {
     cp.execSync(`wat2wasm ${watPath} -o ${wasmPath}`);
   }
   const server = await startServer(websitePath)
-  // cp.exec("cd tests/offline/worker-and-normal/website && python3 -m http.server")
+  // let server = cp.spawn("cd tests/offline/worker-and-normal/website && python3 -m http.server", { shell: true })
+  await delay(1000)
   let report
   if (options.custom == true) {
     report = await testWebPageCustomInstrumentation(testPath, options)
@@ -354,6 +355,7 @@ async function runOfflineTest(name: string, options): Promise<TestReport> {
     report = await testWebPage(testPath, options)
   }
   server.close()
+  // server.kill()
   return report
 }
 
