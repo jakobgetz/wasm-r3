@@ -22,7 +22,7 @@ pub enum ErrorKind {
     TypeIdNotInModule(String),
 }
 
-#[derive(FromPrimitive)]
+#[derive(FromPrimitive, Debug)]
 #[num_traits = "some_other_ident"]
 pub enum BinCodes {
     LoadI32 = 0x28,
@@ -190,6 +190,7 @@ pub enum WasmEvent {
     FuncEntryTable { idx: usize, tableidx: usize, params: Vec<F64> },
     FuncReturn,
 }
+
 type ModuleTypes = Vec<Type>;
 impl WasmEvent {
     pub fn decode_string(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
@@ -204,6 +205,7 @@ impl WasmEvent {
         match read_u8(reader) {
             Ok(code) => {
                 let code = BinCodes::from_u8(code).ok_or(ErrorKind::UnknownEventCode(code))?;
+                // dbg!(&code);
                 let module_types = get_module_type(module);
                 let events = match code {
                     BinCodes::LoadI32 => WasmEvent::decode_load(reader, LoadValue::I32(0)),
@@ -215,15 +217,15 @@ impl WasmEvent {
                     BinCodes::LoadI64_8 => WasmEvent::decode_load(reader, LoadValue::I64(0)),
                     BinCodes::LoadI64_16 => WasmEvent::decode_load(reader, LoadValue::I64(0)),
                     BinCodes::LoadI64_32 => WasmEvent::decode_load(reader, LoadValue::I64(0)),
-                    BinCodes::StoreI32 => WasmEvent::decode_store(reader, StoreValue::I32(0)),
-                    BinCodes::StoreI64 => WasmEvent::decode_store(reader, StoreValue::I64(0)),
-                    BinCodes::StoreF32 => WasmEvent::decode_store(reader, StoreValue::F32(0.0)),
-                    BinCodes::StoreF64 => WasmEvent::decode_store(reader, StoreValue::F64(0.0)),
-                    BinCodes::StoreI32_8 => WasmEvent::decode_store(reader, StoreValue::I8(0)),
-                    BinCodes::StoreI32_16 => WasmEvent::decode_store(reader, StoreValue::I16(0)),
-                    BinCodes::StoreI64_8 => WasmEvent::decode_store(reader, StoreValue::I8(0)),
-                    BinCodes::StoreI64_16 => WasmEvent::decode_store(reader, StoreValue::I16(0)),
-                    BinCodes::StoreI64_32 => WasmEvent::decode_store(reader, StoreValue::I32(0)),
+                    BinCodes::StoreI32 => WasmEvent::decode_store(reader, StoreValue::I32(0), &ValType::I32),
+                    BinCodes::StoreI64 => WasmEvent::decode_store(reader, StoreValue::I64(0), &ValType::I64),
+                    BinCodes::StoreF32 => WasmEvent::decode_store(reader, StoreValue::F32(0.0), &ValType::F32),
+                    BinCodes::StoreF64 => WasmEvent::decode_store(reader, StoreValue::F64(0.0), &ValType::F64),
+                    BinCodes::StoreI32_8 => WasmEvent::decode_store(reader, StoreValue::I8(0), &ValType::I32),
+                    BinCodes::StoreI32_16 => WasmEvent::decode_store(reader, StoreValue::I16(0), &ValType::I32),
+                    BinCodes::StoreI64_8 => WasmEvent::decode_store(reader, StoreValue::I8(0), &ValType::I64),
+                    BinCodes::StoreI64_16 => WasmEvent::decode_store(reader, StoreValue::I16(0), &ValType::I64),
+                    BinCodes::StoreI64_32 => WasmEvent::decode_store(reader, StoreValue::I32(0), &ValType::I64),
                     BinCodes::Call => WasmEvent::decode_call(reader),
                     BinCodes::CallIndirect => WasmEvent::decode_call_indirect(reader, lookup),
                     BinCodes::CallIndirectReturn => WasmEvent::decode_indirect_call_return(reader, module_types, lookup),
@@ -394,11 +396,28 @@ impl WasmEvent {
         Ok(vec![WasmEvent::Load { idx: 0, offset, data }])
     }
 
-    fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue) -> Result<Vec<Self>, ErrorKind> {
-        let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store offset")))?;
-        let value = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?;
-        let data = StoreValue::I32(value);
+    fn decode_store(reader: &mut BufReader<File>, mut data: StoreValue, valtype: &ValType) -> Result<Vec<Self>, ErrorKind> {
+        // let value = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?;
         // Self::decode_store_value(reader, &mut data)?;
+        // let data = StoreValue::I32(value);
+        let data = match valtype {
+            ValType::I32 => StoreValue::I32(
+                read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?,
+            ),
+            ValType::I64 => StoreValue::I64(
+                read_i64(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?,
+            ),
+            ValType::F32 => StoreValue::F32(
+                read_f32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?,
+            ),
+            ValType::F64 => StoreValue::F64(
+                read_f64(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store value")))?,
+            ),
+            ValType::V128 => todo!(),
+            ValType::Anyref => todo!(),
+            ValType::Externref => todo!(),
+        };
+        let offset = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode store offset")))?;
         let e = WasmEvent::Store { idx: 0, offset, data };
         Ok(vec![e])
     }

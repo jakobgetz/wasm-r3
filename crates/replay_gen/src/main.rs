@@ -69,7 +69,7 @@ fn bin_trace_to_string_representation(args: Vec<String>) -> io::Result<()> {
     let string_trace_path = Path::new(&args[4]);
     let buffer = &fs::read(wasm_path).unwrap();
     let module = Module::from_buffer(buffer).unwrap();
-    let trace = Trace::new(trace_path, &module, true);
+    let trace: Trace<'_> = Trace::new(trace_path, &module, true);
     let output_file = File::create(string_trace_path).unwrap();
     let mut writer = BufWriter::new(output_file);
     trace.for_each(|e| {

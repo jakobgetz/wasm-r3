@@ -10,6 +10,8 @@ pub trait TraceOptimiser {
 
 pub struct ShadowMemory(Vec<u8>);
 impl ShadowMemory {
+    const MEM_PAGE_SICE: u32 = 65536;
+
     fn from_module(module: &Module) -> Vec<ShadowMemory> {
         if module.memories.len() > 1 {
             todo!("Multiple memories not supported yet");
@@ -17,7 +19,7 @@ impl ShadowMemory {
         let mut memories: Vec<ShadowMemory> = module
             .memories
             .iter()
-            .map(|m| ShadowMemory(vec![0; (m.initial * 65536) as usize]))
+            .map(|m| ShadowMemory(vec![0; (m.initial * Self::MEM_PAGE_SICE) as usize]))
             .collect();
         module.data.iter().for_each(|d| {
             if let DataKind::Active(data) = &d.kind {
@@ -34,6 +36,11 @@ impl ShadowMemory {
     fn store(&mut self, offset: usize, data: impl Into<Vec<u8>>) {
         let data = data.into();
         self.0[offset..(offset + data.len())].copy_from_slice(&data);
+    }
+
+    fn grow(&mut self, amount: u32) {
+        let new_portion = vec![0; (amount * Self::MEM_PAGE_SICE) as usize];
+        self.0.extend(new_portion);
     }
 
     fn contains_already(&mut self, offset: usize, data: LoadValue) -> bool {
@@ -75,6 +82,10 @@ impl TraceOptimiser for ShadowMemoryOptimiser {
             }
             WasmEvent::Store { offset, data, idx } => {
                 self.shadow_mem.get_mut(*idx).unwrap().store(*offset as usize, data.clone());
+                false
+            }
+            WasmEvent::MemGrow { idx, amount } => {
+                self.shadow_mem.get_mut(*idx).unwrap().grow(*amount as u32);
                 false
             }
             _ => true,

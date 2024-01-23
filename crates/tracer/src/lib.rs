@@ -176,6 +176,10 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
             gen_wat.extend(trace_u32(called_type.idx, offset));
             gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
             gen_wat.extend(increment_mem_pointer(offset));
+        } else if l.starts_with("memory.grow") {
+            gen_wat.extend(trace_u8(0x40, offset));
+            gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
+            gen_wat.extend(increment_mem_pointer(offset));
         } else if l.contains(".load") {
             let (code, typ) = get_load_info(&l)?;
             gen_wat.extend(trace_u8(code, offset));
