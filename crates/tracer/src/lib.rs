@@ -565,8 +565,11 @@ fn adapt_elem_func_idx(input: &mut String) -> Result<(), &'static str> {
     let mut parts: Vec<String> = input.split_whitespace().map(|s| s.into()).collect();
     let len = parts.len();
     for i in 5..len {
+        parts[i] = parts[i].trim_end_matches(')').to_string();
+        if parts[i].starts_with("$") {
+            continue;
+        }
         let mut x = parts[i]
-            .trim_end_matches(')')
             .parse::<u32>()
             .map_err(|_| "couldn parse elem number")?;
         x += 2;
@@ -672,7 +675,7 @@ fn get_table_idx_by_table_get(input: &str) -> Result<u32, &'static str> {
 
 fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
     // load or store can have these 3 forms
-    // i32.load 
+    // i32.load
     // i32.load offset=4
     // i32.load offset=4 align=4
     let mut parts: Vec<&str> = wasm_text.split_whitespace().collect();
