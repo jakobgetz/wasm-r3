@@ -42,6 +42,7 @@ function setup() {
     const traceWorkerUrl = URL.createObjectURL(traceBlob);
     const traceWorker = new Worker(traceWorkerUrl)
     let instances = []
+    let count = 0
     const get_check = (href, i) => {
         return {
             check_mem: () => {
@@ -61,6 +62,9 @@ function setup() {
                 bufferView[bufferView.byteLength - 1] = 0 // 0 for trace type
                 console.log('to worker, bytelength', message.byteLength)
                 traceWorker.postMessage(message)
+                // while (count === 1) { }
+                // count++
+                // console.log('count increment', count)
             },
             check_table: () => {
                 console.log("check_table")
@@ -121,8 +125,9 @@ function setup() {
         printWelcome()
         self.originalWasmBuffer.push({ buffer: Array.from(new Uint8Array(buffer)), href })
         console.log("Instrumenting...")
-        const instrumented = instrument_wasm_js(new Uint8Array(buffer));
+        const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer));
         console.log("Done")
+        console.log(stats)
         buffer = new Uint8Array(instrumented)
         result = await original_instantiate(buffer, importObject)
         instances.push(result.instance)
@@ -173,8 +178,9 @@ function setup() {
         printWelcome()
         self.originalWasmBuffer.push({ buffer: Array.from(new Uint8Array(buffer)), href })
         console.log("Instrumenting...")
-        const instrumented = instrument_wasm_js(new Uint8Array(buffer));
+        const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer));
         console.log("Done")
+        console.log(stats)
         buffer = new Uint8Array(instrumented)
         module = new WebAssembly.Module(buffer)
         const instance = new original_instance(module, importObject)

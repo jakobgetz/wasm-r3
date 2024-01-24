@@ -47,7 +47,9 @@ export function setup(filePath) {
         printWelcome()
         let result
         try {
-            const instrumented = instrument_wasm_js(new Uint8Array(buffer));
+            const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer));
+            // console.log('stats', stats)
+            // console.log('instrumented', instrumented)
             buffer = new Uint8Array(instrumented)
             fs.writeFileSync('test.wasm', buffer)
             result = await original_instantiate(buffer, importObject)

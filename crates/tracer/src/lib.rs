@@ -1,13 +1,37 @@
-use std::{arch::global_asm, collections::HashMap, fmt::Debug};
+use std::{
+    collections::HashMap,
+    fmt::{format, Debug},
+};
 
+use js_sys::Uint8Array;
+use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Output {
+    pub instrumented: Vec<u8>,
+    pub stats: Stats,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Stats {
+    pub calls: usize,
+    pub instrumented_calls: usize,
+    pub functions: usize,
+    pub local_functions: usize,
+    pub public_local_functions: usize,
+    pub instrumented_function_entries_based_on_my_own_count: usize,
+}
 
 #[wasm_bindgen]
 pub fn instrument_wasm_js(buffer: &[u8]) -> Result<JsValue, JsValue> {
-    let buffer = instrument_wasm(buffer).map_err(|e| JsValue::from_str(e))?;
-    let uint8_array = js_sys::Uint8Array::new_with_length(buffer.len() as u32);
-    uint8_array.copy_from(&buffer);
-    Ok(JsValue::from(uint8_array))
+    let output = instrument_wasm(buffer).map_err(|e| JsValue::from_str(e))?;
+    // let uint8_array = js_sys::Uint8Array::new_with_length(buffer.len() as u32);
+    // uint8_array.copy_from(&buffer);
+
+    // Ok(JsValue::from(uint8_array))
+    let output = serde_wasm_bindgen::to_value(&output)?;
+    Ok(output)
 }
 
 const TRACE_MEM: &str = "$trace_mem";
@@ -33,8 +57,9 @@ const LOCAL_I32: &str = "$i32";
 const LOCAL_I64: &str = "$i64";
 const LOCAL_F32: &str = "$f32";
 const LOCAL_F64: &str = "$f64";
+const INTERNAL_CALL_GLOBAL: &str = "$internal_call";
 
-pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
+pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
     let mut orig_wat = wasmprinter::print_bytes(buffer).unwrap();
     if orig_wat == "(module)" {
         orig_wat = "(module\n)".into();
@@ -86,15 +111,23 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
         } else if l.starts_with("(export") && l.contains("(table") {
             let table_idx = get_exp_index(l)?;
             tables[table_idx] = true;
+        } else if l.starts_with("(export") && l.contains("(func") {
+            let func_idx = get_exp_index_func(l, &functions)?;
+            functions.get_mut(func_idx).unwrap().public = true;
+            functions.get_mut(func_idx).unwrap().exported = true;
         }
-        // else if l.starts_with("(export") && l.contains("(func") {
-        //     let table_idx = get_exp_index(l)?;
-        //     tables[table_idx] = true;
-        // }
     }
 
     // Second loop: generate the instrumented module
     let mut gen_wat = Vec::new();
+    let mut stats = Stats {
+        calls: 0,
+        instrumented_calls: 0,
+        functions: functions.len(),
+        local_functions: functions.iter().filter(|f| !f.imported).count(),
+        public_local_functions: functions.iter().filter(|f| f.public && !f.imported).count(),
+        instrumented_function_entries_based_on_my_own_count: 0,
+    };
     func_idx = 0;
     let mut local_count = 0;
     let mut typ: FuncType = FuncType {
@@ -140,14 +173,24 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
             gen_wat.push(l);
             gen_wat.push(typ.locals_wat());
             local_count += 6 + typ.results.len();
-            gen_wat.extend(trace_u8(0x02, offset));
-            gen_wat.extend(trace_u32(func_idx, offset));
-            gen_wat.extend(trace_u32(typ.idx, offset));
-            gen_wat.extend(typ.trace_params(offset));
-            gen_wat.extend(increment_mem_pointer(offset));
+            if functions.get(func_idx as usize).unwrap().public {
+                // if false {
+                stats.instrumented_function_entries_based_on_my_own_count += 1;
+                gen_wat.push(format!("global.get {}", INTERNAL_CALL_GLOBAL));
+                gen_wat.push("i32.eqz".into());
+                gen_wat.push("(if (then".into());
+                gen_wat.extend(trace_u8(0x02, offset));
+                gen_wat.extend(trace_u32(func_idx, offset));
+                gen_wat.extend(trace_u32(typ.idx, offset));
+                gen_wat.extend(typ.trace_params(offset));
+                gen_wat.extend(increment_mem_pointer(offset));
+                gen_wat.push(") (else))".into());
+            }
             func_idx += 1;
         } else if l == "return" {
-            trace_return(&mut gen_wat, &typ, local_count, offset);
+            if functions.get((func_idx - 1) as usize).unwrap().exported {
+                trace_return(&mut gen_wat, offset);
+            }
             gen_wat.push(l);
         } else if l.starts_with("call_indirect") {
             let called_type_idx = get_type_idx_by_call_indirect(&l)?;
@@ -172,32 +215,60 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
             gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
             gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("call") {
+            stats.calls += 1;
             let called_func_idx = get_func_idx_by_call_instr(&mut l, &functions)?;
-            let called_type = types_by_functions.get(&called_func_idx).unwrap();
-            gen_wat.extend(trace_u8(0x10, offset));
-            gen_wat.extend(trace_u32(called_func_idx, offset));
-            gen_wat.extend(increment_mem_pointer(offset));
-            gen_wat.push(l);
-            gen_wat.extend(trace_u8(0xFF, offset));
-            gen_wat.extend(trace_u32(called_func_idx, offset));
-            gen_wat.extend(trace_u32(called_type.idx, offset));
-            gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
-            gen_wat.extend(increment_mem_pointer(offset));
+            let called_function = functions.get(called_func_idx as usize).unwrap();
+            if called_function.exported {
+                gen_wat.push(format!("global.get {}", INTERNAL_CALL_GLOBAL));
+                gen_wat.push("i32.const 1".into());
+                gen_wat.push("i32.add".into());
+                gen_wat.push(format!("global.set {}", INTERNAL_CALL_GLOBAL));
+            }
+            if called_function.imported {
+                // if false {
+                gen_wat.push("i32.const 0".into());
+                gen_wat.push(format!("global.set {}", INTERNAL_CALL_GLOBAL));
+                stats.instrumented_calls += 1;
+                let called_type = types_by_functions.get(&called_func_idx).unwrap();
+                gen_wat.extend(trace_u8(0x10, offset));
+                gen_wat.extend(trace_u32(called_func_idx, offset));
+                gen_wat.extend(increment_mem_pointer(offset));
+                gen_wat.push(l);
+                gen_wat.extend(trace_u8(0xFF, offset));
+                gen_wat.extend(trace_u32(called_func_idx, offset));
+                gen_wat.extend(trace_u32(called_type.idx, offset));
+                gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
+                gen_wat.extend(increment_mem_pointer(offset));
+            } else {
+                gen_wat.push(l);
+            }
         } else if l.starts_with("memory.grow") {
             gen_wat.extend(trace_u8(0x40, offset));
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
             gen_wat.extend(increment_mem_pointer(offset));
-        } else if l.starts_with("i32.load") || l.starts_with("i64.load") || l.starts_with("f32.load") || l.starts_with("f64.load") {
-            let (code, typ) = get_load_info(&l)?;
+        } else if l.starts_with("i32.load")
+            || l.starts_with("i64.load")
+            || l.starts_with("f32.load")
+            || l.starts_with("f64.load")
+        {
+            let (code, typ, offs) = get_load_info(&mut l)?;
             gen_wat.extend(trace_u8(code, offset));
+            if let Some(offs) = offs {
+                gen_wat.push(format!("i32.const {}", offs));
+                gen_wat.push("i32.add".into());
+            }
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
             gen_wat.push(l);
             gen_wat.extend(trace_stack_value(Some(&typ), offset));
             gen_wat.extend(increment_mem_pointer(offset));
-        } else if l.contains("i32.store") || l.contains("i64.store") || l.contains("f32.store") || l.contains("f64.store") {
-            let (code, typ) = get_store_info(&l)?;
+        } else if l.contains("i32.store")
+            || l.contains("i64.store")
+            || l.contains("f32.store")
+            || l.contains("f64.store")
+        {
+            let (code, typ, offs) = get_store_info(&mut l)?;
             gen_wat.extend(trace_u8(code, offset));
-            gen_wat.extend(trace_store_stack(&typ, offset));
+            gen_wat.extend(trace_store_stack(&typ, offs, offset));
             gen_wat.push(l);
             gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("table.get") {
@@ -210,7 +281,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
             gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("table.set") {
             gen_wat.extend(trace_u8(0x26, offset));
-            gen_wat.extend(trace_store_stack(&ValType::Funcref, offset));
+            gen_wat.extend(trace_store_stack(&ValType::Funcref, None, offset));
             gen_wat.push(l);
             gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("global.get") {
@@ -264,12 +335,19 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
                 "(global {} (export \"{}\") (mut i32) (i32.const 0))",
                 TABLE_POINTER, TABLE_POINTER_EXPORT_NAME
             ));
+            gen_wat.push(format!(
+                "(global {} (mut i32) (i32.const 0))",
+                INTERNAL_CALL_GLOBAL
+            ));
             gen_wat.push(")".into())
         } else {
             gen_wat.push(l);
         }
         if is_new_section(orig_wat.peek()) && inside_func {
-            trace_return(&mut gen_wat, &typ, local_count, offset);
+            if functions.get((func_idx - 1) as usize).unwrap().exported {
+                // if false {
+                trace_return(&mut gen_wat, offset);
+            }
             gen_wat.push(")".into());
             inside_func = false;
         }
@@ -278,8 +356,11 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Vec<u8>, &'static str> {
     let gen = gen_wat.clone();
     // return Err(Box::leak(gen.into_boxed_str()));
     match wat::parse_str(gen_wat) {
-        Ok(r) => match wasmparser::Validator::new().validate_all(&r) {
-            Ok(_) => Ok(r),
+        Ok(buffer) => match wasmparser::Validator::new().validate_all(&buffer) {
+            Ok(_) => Ok(Output {
+                stats,
+                instrumented: buffer,
+            }),
             Err(_) => Err(Box::leak(gen.into_boxed_str())),
         },
         Err(_) => Err(Box::leak(gen.into_boxed_str())),
@@ -317,7 +398,7 @@ fn trace_stack_value(typ: Option<&ValType>, offset: &mut u32) -> Vec<String> {
     }
 }
 
-fn trace_store_stack(typ: &ValType, offset: &mut u32) -> Vec<String> {
+fn trace_store_stack(typ: &ValType, addr_offset: Option<u32>, offset: &mut u32) -> Vec<String> {
     let local = typ.to_local();
     let mut instrs = vec![];
     match typ {
@@ -335,6 +416,10 @@ fn trace_store_stack(typ: &ValType, offset: &mut u32) -> Vec<String> {
     instrs.push(format!("local.tee {}", LOCAL_ADDR));
     instrs.push(format!("global.get {}", MEM_POINTER));
     instrs.push(format!("local.get {}", LOCAL_ADDR));
+    if let Some(offs) = addr_offset {
+        instrs.push(format!("i32.const {}", offs));
+        instrs.push("i32.add".into());
+    }
     instrs.push(store_value(&ValType::I32, offset));
     instrs.push(format!("local.get {}", local));
     instrs
@@ -419,10 +504,7 @@ fn store_value(typ: &ValType, offset: &mut u32) -> String {
 
 fn check_mem() -> Vec<String> {
     vec![
-        format!(
-            "i32.const {}",
-            64000 * TRACE_MEM_MAX_FILL
-        ),
+        format!("i32.const {}", 64000 * TRACE_MEM_MAX_FILL),
         format!("global.get {}", MEM_POINTER),
         format!("i32.le_u"),
         format!("(if (then call {}))", CHECK_MEM),
@@ -431,10 +513,7 @@ fn check_mem() -> Vec<String> {
 
 fn check_table() -> Vec<String> {
     vec![
-        format!(
-            "i32.const {}",
-            FUNCREF_TABLE_MAX_FILL
-        ),
+        format!("i32.const {}", FUNCREF_TABLE_MAX_FILL),
         format!("global.get {}", TABLE_POINTER),
         format!("i32.le_u"),
         format!("(if (then call {}))", CHECK_TABLE),
@@ -483,21 +562,18 @@ fn adapt_export_func_idx(input: &mut String) -> Result<(), &'static str> {
 }
 
 fn adapt_elem_func_idx(input: &mut String) -> Result<(), &'static str> {
-    let re = regex::Regex::new(r"(\bfunc\b)\s+(\d+)").map_err(|_| "Regex compilation failed")?;
-    let mut new_input = input.clone();
-    for caps in re.captures_iter(input) {
-        if let Some(funcidx_match) = caps.get(2) {
-            let funcidx_str = funcidx_match.as_str();
-            let funcidx: i32 = funcidx_str.parse().map_err(|_| "Funcidx parsing failed")?;
-            let incremented_funcidx = funcidx + 2;
-            new_input = new_input.replacen(
-                &format!("{} {}", &caps[1], funcidx_str),
-                &format!("{} {}", &caps[1], incremented_funcidx),
-                1,
-            );
-        }
+    let mut parts: Vec<String> = input.split_whitespace().map(|s| s.into()).collect();
+    let len = parts.len();
+    for i in 5..len {
+        let mut x = parts[i]
+            .trim_end_matches(')')
+            .parse::<u32>()
+            .map_err(|_| "couldn parse elem number")?;
+        x += 2;
+        parts[i] = x.to_string();
     }
-    *input = new_input;
+    parts.push(")".into());
+    *input = parts.join(" ");
     Ok(())
 }
 
@@ -535,7 +611,29 @@ fn get_exp_index(input: &str) -> Result<usize, &'static str> {
             return Ok(num);
         }
     }
-    Err("No valid number found in the input")
+    Err("No valid number found in the export expression")
+}
+
+fn get_exp_index_func(input: &str, functions: &Vec<Function>) -> Result<usize, &'static str> {
+    let parts: Vec<&str> = input.split_whitespace().collect();
+    if parts.len() > 3 {
+        if parts[3].starts_with("$") {
+            for (i, f) in functions.iter().enumerate() {
+                dbg!(&f.identifier);
+                if let Some(id) = &f.identifier {
+                    if id == parts[3].trim_end_matches(')') {
+                        return Ok(i);
+                    }
+                }
+            }
+            return Err("No valid function found in export expression. While trying to resolve a identifier ($lasfdkj)");
+        }
+        let num_str = parts[3].trim_end_matches(')');
+        if let Ok(num) = num_str.parse::<usize>() {
+            return Ok(num);
+        }
+    }
+    Err("No valid number found in the export expression")
 }
 
 fn get_table_idx_by_call_indirect(input: &str) -> Result<u32, &'static str> {
@@ -572,27 +670,75 @@ fn get_table_idx_by_table_get(input: &str) -> Result<u32, &'static str> {
     }
 }
 
-fn get_load_info(wat: &str) -> Result<(u8, ValType), &'static str> {
+fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
+    // load or store can have these 3 forms
+    // i32.load 
+    // i32.load offset=4
+    // i32.load offset=4 align=4
+    let mut parts: Vec<&str> = wasm_text.split_whitespace().collect();
+    if parts.len() > 3 {
+        return Err("Couldnt parse load or store instruction. To many components");
+    }
+    let offset = parts
+        .iter()
+        .find(|&part| part.starts_with("offset="))
+        .and_then(|offset_part| offset_part.strip_prefix("offset="))
+        .and_then(|number_str| number_str.parse::<u32>().ok());
+    if parts.len() < 3 {
+        *wasm_text = parts[0].to_string();
+    } else {
+        *wasm_text = format!("{} {}", parts[0], parts[2]);
+    }
+    Ok(offset)
+}
+
+fn get_load_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'static str> {
+    let offset = get_mem_offset(wat)?;
     if wat.starts_with("i32.load8") {
-        Ok((0x2C, ValType::I32))
+        Ok((0x2C, ValType::I32, offset))
     } else if wat.starts_with("i32.load16") {
-        Ok((0x2E, ValType::I32))
+        Ok((0x2E, ValType::I32, offset))
     } else if wat.starts_with("i32.load") {
-        Ok((0x28, ValType::I32))
+        Ok((0x28, ValType::I32, offset))
     } else if wat.starts_with("i64.load8") {
-        Ok((0x30, ValType::I64))
+        Ok((0x30, ValType::I64, offset))
     } else if wat.starts_with("i64.load16") {
-        Ok((0x32, ValType::I64))
+        Ok((0x32, ValType::I64, offset))
     } else if wat.starts_with("i64.load32") {
-        Ok((0x34, ValType::I64))
+        Ok((0x34, ValType::I64, offset))
     } else if wat.starts_with("i64.load") {
-        Ok((0x29, ValType::I64))
+        Ok((0x29, ValType::I64, offset))
     } else if wat.starts_with("f32.load") {
-        Ok((0x2A, ValType::F32))
+        Ok((0x2A, ValType::F32, offset))
     } else if wat.starts_with("f64.load") {
-        Ok((0x2B, ValType::F64))
+        Ok((0x2B, ValType::F64, offset))
     } else {
         Err("Getting load info failed")
+    }
+}
+
+fn get_store_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'static str> {
+    let offset = get_mem_offset(wat)?;
+    if wat.starts_with("i32.store8") {
+        Ok((0x3A, ValType::I32, offset))
+    } else if wat.starts_with("i32.store16") {
+        Ok((0x3B, ValType::I32, offset))
+    } else if wat.starts_with("i32.store") {
+        Ok((0x36, ValType::I32, offset))
+    } else if wat.starts_with("i64.store8") {
+        Ok((0x3C, ValType::I64, offset))
+    } else if wat.starts_with("i64.store16") {
+        Ok((0x3D, ValType::I64, offset))
+    } else if wat.starts_with("i64.store32") {
+        Ok((0x3E, ValType::I64, offset))
+    } else if wat.starts_with("i64.store") {
+        Ok((0x37, ValType::I64, offset))
+    } else if wat.starts_with("f32.store") {
+        Ok((0x38, ValType::F32, offset))
+    } else if wat.starts_with("f64.store") {
+        Ok((0x39, ValType::F64, offset))
+    } else {
+        Err("Getting store info failed")
     }
 }
 
@@ -678,30 +824,6 @@ fn get_load_info(wat: &str) -> Result<(u8, ValType), &'static str> {
 //         }
 //     }
 // }
-
-fn get_store_info(wat: &str) -> Result<(u8, ValType), &'static str> {
-    if wat.starts_with("i32.store8") {
-        Ok((0x3A, ValType::I32))
-    } else if wat.starts_with("i32.store16") {
-        Ok((0x3B, ValType::I32))
-    } else if wat.starts_with("i32.store") {
-        Ok((0x36, ValType::I32))
-    } else if wat.starts_with("i64.store8") {
-        Ok((0x3C, ValType::I64))
-    } else if wat.starts_with("i64.store16") {
-        Ok((0x3D, ValType::I64))
-    } else if wat.starts_with("i64.store32") {
-        Ok((0x3E, ValType::I64))
-    } else if wat.starts_with("i64.store") {
-        Ok((0x37, ValType::I64))
-    } else if wat.starts_with("f32.store") {
-        Ok((0x38, ValType::F32))
-    } else if wat.starts_with("f64.store") {
-        Ok((0x39, ValType::F64))
-    } else {
-        Err("Getting store info failed")
-    }
-}
 
 fn get_global_idx(input: &str, globals: &Vec<Global>) -> Result<u32, &'static str> {
     let parts: Vec<&str> = input.split_whitespace().collect();
@@ -824,11 +946,18 @@ fn get_type_idx_by_call_indirect(wat: &str) -> Result<usize, &'static str> {
         .map_err(|_| "Failed to parse type ID")
 }
 
-fn trace_return(gen_wat: &mut Vec<String>, typ: &FuncType, local_count: usize, offset: &mut u32) {
+fn trace_return(gen_wat: &mut Vec<String>, offset: &mut u32) {
+    gen_wat.push(format!("global.get {}", INTERNAL_CALL_GLOBAL));
+    gen_wat.push("i32.eqz".into());
+    gen_wat.push("(if (then".into());
     gen_wat.extend(trace_u8(0x0F, offset));
-    // gen_wat.extend(trace_u32(typ.idx, offset));
-    // gen_wat.extend(typ.trace_results(local_count, offset));
     gen_wat.extend(increment_mem_pointer(offset));
+    gen_wat.push(") (else".into());
+    gen_wat.push(format!("global.get {}", INTERNAL_CALL_GLOBAL));
+    gen_wat.push("i32.const 1".into());
+    gen_wat.push("i32.sub".into());
+    gen_wat.push(format!("global.set {}", INTERNAL_CALL_GLOBAL));
+    gen_wat.push("))".into());
     gen_wat.extend(check_mem());
     gen_wat.extend(check_table());
 }
@@ -958,6 +1087,8 @@ impl Global {
 struct Function {
     public: bool,
     identifier: Option<String>,
+    imported: bool,
+    exported: bool,
 }
 
 impl Function {
@@ -970,6 +1101,8 @@ impl Function {
         Ok(Function {
             public: false,
             identifier,
+            imported: false,
+            exported: false,
         })
     }
 
@@ -1002,6 +1135,7 @@ impl Function {
         if let (Some(start), Some(end)) = (start_index, end_index) {
             let mut function = Function::from_func(&wat[start..end])?;
             function.public = true;
+            function.imported = true;
             Ok(function)
         } else {
             Err("No function declaration found")

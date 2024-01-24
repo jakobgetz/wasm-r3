@@ -365,6 +365,7 @@ dependencies = [
  "anyhow",
  "js-sys",
  "regex",
+ "serde",
  "serde-wasm-bindgen",
  "walrus",
  "wasm-bindgen",

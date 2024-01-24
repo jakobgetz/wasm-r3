@@ -1,6 +1,6 @@
 use std::{collections::HashMap, hash::Hash};
 
-use walrus::{ir::CallIndirect, DataKind, ElementKind, FunctionId, ImportKind, Module};
+use walrus::{ir::CallIndirect, passes::gc, DataKind, ElementKind, FunctionId, ImportKind, Module};
 
 use crate::trace::{LoadValue, WasmEvent};
 
@@ -93,6 +93,26 @@ impl TraceOptimiser for ShadowMemoryOptimiser {
     }
 }
 
+fn get_init_value(exp: walrus::InitExpr, module: &Module) -> Result<usize, &'static str> {
+    match exp {
+        walrus::InitExpr::Value(v) => match v {
+            walrus::ir::Value::I32(v) => Ok(v as usize),
+            walrus::ir::Value::I64(v) => Ok(v as usize),
+            walrus::ir::Value::F32(v) => todo!(),
+            walrus::ir::Value::F64(v) => todo!(),
+            walrus::ir::Value::V128(v) => todo!(),
+        },
+        walrus::InitExpr::Global(id) => match module.globals.get(id).kind {
+            walrus::GlobalKind::Import(_) => {
+                Err("WARNING: Shadow Table optimiser: Shadow Table probably not correctly initialized")
+            }
+            walrus::GlobalKind::Local(exp) => get_init_value(exp, module),
+        },
+        walrus::InitExpr::RefNull(_) => todo!(),
+        walrus::InitExpr::RefFunc(_) => todo!(),
+    }
+}
+
 #[derive(Debug)]
 pub struct ShadowTable {
     content: Vec<usize>,
@@ -108,17 +128,12 @@ impl ShadowTable {
             .collect();
         module.elements.iter().for_each(|e| {
             if let ElementKind::Active { table, offset } = e.kind {
-                let offset = match offset {
-                    walrus::InitExpr::Value(v) => match v {
-                        walrus::ir::Value::I32(v) => v as usize,
-                        walrus::ir::Value::I64(v) => v as usize,
-                        walrus::ir::Value::F32(v) => todo!(),
-                        walrus::ir::Value::F64(v) => todo!(),
-                        walrus::ir::Value::V128(v) => todo!(),
-                    },
-                    walrus::InitExpr::Global(_) => todo!(),
-                    walrus::InitExpr::RefNull(_) => todo!(),
-                    walrus::InitExpr::RefFunc(_) => todo!(),
+                let offset = match get_init_value(offset, module) {
+                    Ok(offset) => offset,
+                    Err(e) => {
+                        dbg!(e);
+                        return;
+                    }
                 };
                 tables
                     .get_mut(table.index())

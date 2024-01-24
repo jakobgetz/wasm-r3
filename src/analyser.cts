@@ -8,6 +8,7 @@ import { trimFromLastOccurance } from '../tests/test-utils.cjs'
 import { WebSocketServer } from 'ws';
 import path from 'path'
 import { execSync } from 'child_process'
+import { askQuestion } from './util.cjs'
 
 export interface AnalysisI<T> {
     getResult(): T,
@@ -201,54 +202,53 @@ export class CustomAnalyser implements AnalyserI {
         this.benchmarkPath = benchmarkPath;
         this.javascript = options.javascript;
 
-        this.wss = new WebSocketServer({ port: 8080 });
+        this.wss = new WebSocketServer({ port: 8080, maxPayload: 1_000_000_000 });
         let traceContexts: { [context: string]: fss.WriteStream } = {}
         let lookupContexts: { [context: string]: fss.WriteStream } = {}
         let nextSubbenchmarkIndex = 0
         this.wss.on('connection', async function connection(ws, request) {
             ws.on('error', console.error)
             ws.on('message', async function message(data) {
-                throw new Error("MESSAGE")
-                // console.log("MESSAGE")
-                // let buffer: Buffer;
-                // if (data instanceof ArrayBuffer) {
-                //     // Convert ArrayBuffer to Buffer
-                //     buffer = Buffer.from(data);
-                // } else if (Array.isArray(data)) {
-                //     buffer = data[0]
-                // } else {
-                //     buffer = data;
-                // }
-                // const hrefLength = new Uint8Array(buffer)[buffer.length - 2]
-                // const hrefStartIndex = buffer.length - hrefLength - 2
-                // const type = new Uint8Array(buffer)[buffer.length - 1]
-                // const trace = buffer.slice(0, hrefStartIndex)
-                // const hrefBytes = buffer.slice(hrefStartIndex, buffer.length - 2)
-                // const href = new TextDecoder().decode(hrefBytes)
+                // throw new Error("MESSAGE")
+                let buffer: Buffer;
+                if (data instanceof ArrayBuffer) {
+                    // Convert ArrayBuffer to Buffer
+                    buffer = Buffer.from(data);
+                } else if (Array.isArray(data)) {
+                    buffer = data[0]
+                } else {
+                    buffer = data;
+                }
+                const hrefLength = new Uint8Array(buffer)[buffer.length - 2]
+                const hrefStartIndex = buffer.length - hrefLength - 2
+                const type = new Uint8Array(buffer)[buffer.length - 1]
+                const trace = buffer.slice(0, hrefStartIndex)
+                const hrefBytes = buffer.slice(hrefStartIndex, buffer.length - 2)
+                const href = new TextDecoder().decode(hrefBytes)
 
-                // if (type === 0) {
-                //     if (traceContexts[href] === undefined) {
-                //         const subBenchmarkPath = path.join(benchmarkPath, href)
-                //         const traceFilePath = path.join(subBenchmarkPath, 'trace.bin')
-                //         fss.mkdirSync(subBenchmarkPath, { recursive: true })
-                //         traceContexts[href] = fss.createWriteStream(traceFilePath)
-                //         nextSubbenchmarkIndex++
-                //     }
-                //     traceContexts[href].write(trace)
-                // } else if (type === 1) {
-                //     if (lookupContexts[href] === undefined) {
-                //         const subBenchmarkPath = path.join(benchmarkPath, href)
-                //         const lookupFilePath = path.join(subBenchmarkPath, 'trace.bin.lookup')
-                //         fss.mkdirSync(subBenchmarkPath, { recursive: true })
-                //         lookupContexts[href] = fss.createWriteStream(lookupFilePath)
-                //         nextSubbenchmarkIndex++
-                //     }
-                //     let array = new Uint8Array(trace)
-                //     let idxes = convertUint8ArrayToI32Array(array).join('\n')
-                //     lookupContexts[href].write(idxes)
-                // } else {
-                //     throw new Error(`Type ${type} of data is neither trace nor lookup`)
-                // }
+                if (type === 0) {
+                    if (traceContexts[href] === undefined) {
+                        const subBenchmarkPath = path.join(benchmarkPath, href)
+                        const traceFilePath = path.join(subBenchmarkPath, 'trace.bin')
+                        fss.mkdirSync(subBenchmarkPath, { recursive: true })
+                        traceContexts[href] = fss.createWriteStream(traceFilePath)
+                        nextSubbenchmarkIndex++
+                    }
+                    traceContexts[href].write(trace)
+                } else if (type === 1) {
+                    if (lookupContexts[href] === undefined) {
+                        const subBenchmarkPath = path.join(benchmarkPath, href)
+                        const lookupFilePath = path.join(subBenchmarkPath, 'trace.bin.lookup')
+                        fss.mkdirSync(subBenchmarkPath, { recursive: true })
+                        lookupContexts[href] = fss.createWriteStream(lookupFilePath)
+                        nextSubbenchmarkIndex++
+                    }
+                    let array = new Uint8Array(trace)
+                    let idxes = convertUint8ArrayToI32Array(array).join('\n')
+                    lookupContexts[href].write(idxes)
+                } else {
+                    throw new Error(`Type ${type} of data is neither trace nor lookup`)
+                }
             })
         })
     }
@@ -293,6 +293,7 @@ export class CustomAnalyser implements AnalyserI {
         this.contexts = this.contexts.concat(this.page.frames())
         const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
         await this.traceToServer()
+        await askQuestion("Downloading trace. Continue? ")
         const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
         const originalWasmBuffer = await this.getBuffers()
         p_measureBufferDownload()
@@ -371,16 +372,20 @@ export class CustomAnalyser implements AnalyserI {
 
     private async traceToServer() {
         const results = await Promise.all(this.contexts.map(async (c) => {
-            await c.evaluate(() => {
-                try {
-                    //@ts-ignore
-                    for (let check of r3_check_mems) {
-                        check()
+            try {
+                await c.evaluate(() => {
+                    try {
+                        //@ts-ignore
+                        for (let check of r3_check_mems) {
+                            check()
+                        }
+                    } catch {
+                        // ok
                     }
-                } catch {
-                    // ok
-                }
-            })
+                })
+            } catch (e) {
+                console.log(e.message)
+            }
         }))
     }
 
@@ -388,15 +393,19 @@ export class CustomAnalyser implements AnalyserI {
     private async getBuffers() {
         const originalWasmBuffer = await Promise.all(this.contexts.map(async (c) => {
             const p_measureBufferDownload = createMeasure(`buffer download from context: ${c.url()}`, { phase: 'record', description: `The time it takes to download the wasm binary from the browser context: ${c.url}.` })
-            const buffer = await c.evaluate(() => {
-                try {
-                    return Array.from(originalWasmBuffer)
-                } catch {
-                    return []
-                }
-            })
-            p_measureBufferDownload()
-            return buffer
+            try {
+                const buffer = await c.evaluate(() => {
+                    try {
+                        return Array.from(originalWasmBuffer)
+                    } catch {
+                        return []
+                    }
+                })
+                p_measureBufferDownload()
+                return buffer
+            } catch (e) {
+                console.log(e.message)
+            }
         }))
         return originalWasmBuffer.flat(1) as { buffer: any, href: string }[]
     }
@@ -413,7 +422,7 @@ function convertUint8ArrayToI32Array(uint8Array: Uint8Array) {
     for (let i = 0; i < uint8Array.length; i += 4) {
         // Combine 4 bytes (uint8) into one 32-bit integer
         let i32 = (uint8Array[i] << 24) | (uint8Array[i + 1] << 16) | (uint8Array[i + 2] << 8) | uint8Array[i + 3];
-        
+
         // Handle sign (since bitwise operations in JavaScript use signed 32-bit integers)
         i32 = i32 >>> 0;
 
