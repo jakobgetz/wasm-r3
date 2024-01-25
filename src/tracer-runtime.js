@@ -62,6 +62,8 @@ function setup() {
                 bufferView[bufferView.byteLength - 1] = 0 // 0 for trace type
                 console.log('to worker, bytelength', message.byteLength)
                 traceWorker.postMessage(message)
+                console.log('reset trace memory')
+                instances[i].exports.trace_byte_length.value = 0;
                 // while (count === 1) { }
                 // count++
                 // console.log('count increment', count)
@@ -69,9 +71,8 @@ function setup() {
             check_table: () => {
                 console.log("check_table")
                 const lookupTable = instances[i].exports.lookup;
-                const lookupPointer = instances[i].exports.lookup_table_pointer.value;
                 let funcIdxes = []
-                for (let i = 0; i < lookupPointer; i++) {
+                for (let i = 0; i < instances[i].exports.lookup_table_pointer.value; i++) {
                     let funcIdx = lookupTable.get(i).name - 2
                     funcIdxes.push(funcIdx)
                 }
@@ -95,6 +96,8 @@ function setup() {
                 console.log('bufferView32', bufferView32)
 
                 traceWorker.postMessage(message)
+                console.log('reset lookup table pointer')
+                instances[i].exports.lookup_table_pointer.value = 0
             }
         }
     }

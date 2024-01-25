@@ -276,7 +276,6 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
         {
             let (code, typ, offs) = get_store_info(&mut l)?;
             gen_wat.extend(trace_u8(code, offset));
-            // gen_wat.extend(trace_store_stack(&typ, offs, offset));
             gen_wat.extend(trace_stack_value(Some(&typ), offset));
             gen_wat.push(format!("local.set {}", typ.to_local()));
             if let Some(o) = offs {
@@ -286,7 +285,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
             gen_wat.push(format!("global.get {}", MEM_POINTER));
             gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(format!("i32.store offset={}", offset));
+            gen_wat.push(format!("i32.store {} offset={}", TRACE_MEM, offset));
             *offset += ValType::I32.get_byte_length();
             gen_wat.push(format!("local.get {}", typ.to_local()));
             gen_wat.push(l);
@@ -790,11 +789,11 @@ fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
             // dbg!(&wasm_text);
         }
     } else {
-        dbg!("CHANGE");
-        dbg!(&wasm_text);
+        // dbg!("CHANGE");
+        // dbg!(&wasm_text);
         *wasm_text = format!("{} {}", parts[0], parts[2]);
-        dbg!(&wasm_text);
-        dbg!(&offset);
+        // dbg!(&wasm_text);
+        // dbg!(&offset);
     }
     Ok(offset)
     // Ok(Some(0))

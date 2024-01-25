@@ -4,7 +4,7 @@
 // use tracer::instrument_wasm;
 
 // fn main() {
-//     let test_name = "tests/mem-exp-host-mod-loadxx_x";
+//     let test_name = "tests/rust-game-of-life";
 //     let buffer = &fs::read(format!("{}.wasm", test_name)).unwrap();
 //     let _ = match instrument_wasm(buffer) {
 //         Ok(output) => {
