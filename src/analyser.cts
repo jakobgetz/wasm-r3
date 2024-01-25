@@ -294,16 +294,18 @@ export class CustomAnalyser implements AnalyserI {
         const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
         await this.traceToServer()
         await askQuestion("Downloading trace. Continue? ")
+        console.log("Downloading buffers...")
         const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
         const originalWasmBuffer = await this.getBuffers()
         p_measureBufferDownload()
         p_measureDataDownload()
         this.contexts = []
-        this.browser.close()
-        this.wss.close()
+        await this.wss.close()
+        await this.browser.close()
         this.isRunning = false
         p_measureStop()
         const binName = 'index.wasm'
+        const watName = 'index.wat'
         const replayName = 'replay.js'
         const traceName = 'trace.bin'
         const traceTextName = 'trace.r3'
@@ -314,9 +316,17 @@ export class CustomAnalyser implements AnalyserI {
             const tracePath = path.join(subBenchmarkPath, traceName)
             const traceTextPath = path.join(subBenchmarkPath, traceTextName)
             const binPath = path.join(subBenchmarkPath, binName)
+            const watPath = path.join(subBenchmarkPath, watName)
             const jsPath = path.join(subBenchmarkPath, replayName)
+            console.log(i, "wasm2wat buffer...")
+            execSync(`wasm2wat ${binPath} -o ${watPath}`)
+            console.log(i, "done")
+            console.log(i, "stringify trace...")
             execSync(`./target/debug/replay_gen stringify ${tracePath} ${binPath} ${traceTextPath}`)
+            console.log(i, "done")
+            console.log(i, "generate replay...")
             execSync(`./target/debug/replay_gen generate ${tracePath} ${binPath} true ${jsPath}`);
+            console.log(i, "done")
         })
         p_measureCodeGen()
         return originalWasmBuffer.map(({ href, buffer }) => {
@@ -428,7 +438,7 @@ function convertUint8ArrayToI32Array(uint8Array: Uint8Array) {
     let i32Array = [];
     for (let i = 0; i < uint8Array.length; i += 4) {
         // Combine 4 bytes (uint8) into one 32-bit integer
-        let i32 = (uint8Array[i] << 24) | (uint8Array[i + 1] << 16) | (uint8Array[i + 2] << 8) | uint8Array[i + 3];
+        let i32 = (uint8Array[i + 3] << 24) | (uint8Array[i + 2] << 16) | (uint8Array[i + 1] << 8) | uint8Array[i + 0];
 
         // Handle sign (since bitwise operations in JavaScript use signed 32-bit integers)
         i32 = i32 >>> 0;

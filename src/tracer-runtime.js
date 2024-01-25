@@ -79,7 +79,6 @@ function setup() {
                 if (funcIdxes.length === 0) {
                     return
                 }
-                console.log('funcIdxes.length', funcIdxes.length)
                 const message = new ArrayBuffer(funcIdxes.length * 4 + href.length + 2);
                 let bufferView32 = new Uint32Array(message)
                 for (let i = 0; i < funcIdxes.length; i++) {
