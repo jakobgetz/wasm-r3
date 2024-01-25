@@ -55,8 +55,8 @@ function setup() {
                 const context = new TextEncoder().encode(href)
                 let bufferView = new Uint8Array(message);
                 bufferView.set(new Uint8Array(trace), 0);
-                for (let i = 0; i <= href.length; i++) {
-                    bufferView[i + trace.byteLength] = context[i]
+                for (let j = 0; j <= href.length; j++) {
+                    bufferView[j + trace.byteLength] = context[j]
                 }
                 bufferView[bufferView.byteLength - 2] = href.length
                 bufferView[bufferView.byteLength - 1] = 0 // 0 for trace type
@@ -72,8 +72,8 @@ function setup() {
                 console.log("check_table")
                 const lookupTable = instances[i].exports.lookup;
                 let funcIdxes = []
-                for (let i = 0; i < instances[i].exports.lookup_table_pointer.value; i++) {
-                    let funcIdx = lookupTable.get(i).name - 2
+                for (let j = 0; j < instances[i].exports.lookup_table_pointer.value; j++) {
+                    let funcIdx = lookupTable.get(j).name - 2
                     funcIdxes.push(funcIdx)
                 }
                 if (funcIdxes.length === 0) {
