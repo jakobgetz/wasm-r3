@@ -146,22 +146,19 @@ local.get 15
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@1;)
 end
 i32.const 0
@@ -171,22 +168,19 @@ local.get 16
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 i32.const 1
@@ -196,22 +190,19 @@ local.get 17
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -263,22 +254,19 @@ local.get 25
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 1048576
@@ -338,22 +326,19 @@ local.get 30
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 31
 local.get 4
@@ -361,41 +346,35 @@ local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 29
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -441,43 +420,37 @@ local.get 32
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 33
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 32
 local.set 34
 local.get 4
@@ -530,43 +503,37 @@ local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -612,41 +579,35 @@ local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -776,22 +737,19 @@ local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 global.get $mem_pointer
 i32.const 40
@@ -817,22 +775,19 @@ local.get 20
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 call 6
 i32.const 16
@@ -935,62 +890,53 @@ local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 10
 local.get 3
@@ -998,22 +944,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.set 11
 local.get 3
@@ -1021,22 +964,19 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 32
 local.set 12
 local.get 3
@@ -1050,22 +990,19 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 40
@@ -1143,22 +1080,19 @@ local.get 24
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 25
 i32.const 40
@@ -1250,22 +1184,19 @@ local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const -1
@@ -1275,22 +1206,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -1480,22 +1408,19 @@ local.get 22
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 1
@@ -1505,22 +1430,19 @@ local.get 23
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -1559,22 +1481,19 @@ local.get 27
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 48
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 28
 local.get 4
@@ -1582,22 +1501,19 @@ local.get 28
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 52
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 29
 local.get 4
@@ -1605,22 +1521,19 @@ local.get 29
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 8
 local.set 30
 local.get 1
@@ -1635,7 +1548,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -1660,20 +1573,17 @@ local.get 32
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 1
 global.get $mem_pointer
 i32.const 41
@@ -1682,7 +1592,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -1697,22 +1607,19 @@ local.get 36
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 64
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 i32.const 48
 local.set 37
 local.get 4
@@ -1757,20 +1664,17 @@ local.get 43
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 i32.const 8
 local.set 44
 local.get 0
@@ -1810,20 +1714,17 @@ local.get 49
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 8
@@ -1840,7 +1741,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -1865,20 +1766,17 @@ local.get 52
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 1
 global.get $mem_pointer
 i32.const 41
@@ -1887,7 +1785,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -1902,22 +1800,19 @@ local.get 56
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 32
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 i32.const 8
 local.set 57
 i32.const 16
@@ -1963,20 +1858,17 @@ local.get 64
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 41
@@ -2002,22 +1894,19 @@ local.get 65
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 16
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 66
 local.get 9
@@ -2147,22 +2036,19 @@ local.get 76
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -2188,22 +2074,19 @@ local.get 82
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -2229,43 +2112,37 @@ local.get 83
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 81
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 84
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -2311,62 +2188,53 @@ local.get 84
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 85
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 80
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 i32.const 96
 local.set 86
@@ -2471,22 +2339,19 @@ local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 40
@@ -2512,22 +2377,19 @@ local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 40
@@ -2553,41 +2415,35 @@ local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.set 10
 local.get 10
@@ -2700,22 +2556,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 11
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 4
@@ -2729,22 +2582,19 @@ local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1049008
 local.set 13
 i32.const 4
@@ -2777,22 +2627,19 @@ local.get 21
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 11
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -2924,22 +2771,19 @@ local.get 13
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@1;)
 end
 local.get 0
@@ -2957,22 +2801,19 @@ local.get 16
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 0
@@ -2990,22 +2831,19 @@ local.get 19
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 end
 local.get 4
@@ -3175,22 +3013,19 @@ local.get 19
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@1;)
 end
 i32.const 1
@@ -3200,22 +3035,19 @@ local.get 20
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 i32.const 0
@@ -3225,22 +3057,19 @@ local.get 21
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 end
 local.get 4
@@ -3342,41 +3171,35 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 5
 local.get 4
@@ -3384,64 +3207,55 @@ local.get 5
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 5
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 30
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 4
 local.set 6
 local.get 4
@@ -3453,22 +3267,19 @@ local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -3518,22 +3329,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 44
@@ -3577,22 +3385,19 @@ local.get 15
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 30
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -3618,22 +3423,19 @@ local.get 16
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -3643,22 +3445,19 @@ local.get 17
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -3682,22 +3481,19 @@ local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -3812,43 +3608,37 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -4082,22 +3872,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 40
@@ -4198,43 +3985,37 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -4345,22 +4126,19 @@ local.get 15
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 7
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@1;)
 end
 local.get 4
@@ -4487,22 +4265,19 @@ local.get 32
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 7
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -4512,22 +4287,19 @@ local.get 33
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 7
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -4585,41 +4357,35 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 16
 local.set 8
 local.get 3
@@ -4634,7 +4400,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -4659,20 +4425,17 @@ local.get 10
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 i32.const 8
 local.set 14
 local.get 3
@@ -4687,7 +4450,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -4712,20 +4475,17 @@ local.get 16
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 41
@@ -4734,7 +4494,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -4749,22 +4509,19 @@ local.get 20
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 7
 local.set 21
 i32.const 1048988
@@ -4862,22 +4619,19 @@ local.get 7
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 6
@@ -4885,22 +4639,19 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -4975,22 +4726,19 @@ local.get 24
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 1048960
@@ -5044,22 +4792,19 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -5085,43 +4830,37 @@ local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 32
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -5167,41 +4906,35 @@ local.get 33
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 34
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -5211,20 +4944,17 @@ local.get 35
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 6
 global.get $mem_pointer
@@ -5269,41 +4999,35 @@ local.get 37
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 36
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 32
 local.set 38
 local.get 6
@@ -5333,43 +5057,37 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 6
 local.get 5
@@ -5377,22 +5095,19 @@ local.get 6
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 47
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 global.get $mem_pointer
 i32.const 40
@@ -5449,22 +5164,19 @@ local.get 17
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 5
@@ -5514,64 +5226,55 @@ local.get 20
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 47
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 global.get $mem_pointer
 i32.const 40
@@ -5667,43 +5370,37 @@ local.get 26
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 25
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 5
 global.get $mem_pointer
@@ -5781,41 +5478,35 @@ local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 30
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 48
 local.set 32
 local.get 5
@@ -5843,41 +5534,35 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 global.get $mem_pointer
 i32.const 40
@@ -5916,22 +5601,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 5
@@ -5977,43 +5659,37 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 5
 global.get $mem_pointer
@@ -6060,41 +5736,35 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 
 )
@@ -6116,43 +5786,37 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 6
 local.get 5
@@ -6160,22 +5824,19 @@ local.get 6
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 global.get $mem_pointer
 i32.const 40
@@ -6254,43 +5915,37 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 13
 local.get 0
@@ -6298,20 +5953,17 @@ local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -6321,22 +5973,19 @@ local.get 14
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 8
 local.set 15
 local.get 5
@@ -6390,43 +6039,37 @@ local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 17
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 19
 local.get 0
@@ -6434,20 +6077,17 @@ local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 5
 global.get $mem_pointer
@@ -6509,22 +6149,19 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 40
@@ -6570,41 +6207,35 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 
 )
@@ -6626,43 +6257,37 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 7
 local.get 6
@@ -6670,22 +6295,19 @@ local.get 7
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -6764,43 +6386,37 @@ local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 14
 local.get 0
@@ -6808,20 +6424,17 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -6831,22 +6444,19 @@ local.get 15
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 31
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 8
 local.set 16
 local.get 6
@@ -6901,43 +6511,37 @@ local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 20
 local.get 0
@@ -6945,20 +6549,17 @@ local.get 20
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 6
 global.get $mem_pointer
@@ -7018,22 +6619,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -7097,43 +6695,37 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -7179,43 +6771,37 @@ local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -7261,41 +6847,35 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 
 )
@@ -7309,20 +6889,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 2
 local.get 0
@@ -7330,22 +6907,19 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 3
 local.get 0
@@ -7353,22 +6927,19 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 
 )
@@ -7468,22 +7039,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -7532,43 +7100,37 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -7614,43 +7176,37 @@ local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -7696,41 +7252,35 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 32
 local.set 12
 local.get 4
@@ -7760,43 +7310,37 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -7846,22 +7390,19 @@ local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 84
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -7887,22 +7428,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -7928,22 +7466,19 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 96
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 12
 local.get 7
@@ -7951,22 +7486,19 @@ local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 100
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8012,43 +7544,37 @@ local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8094,43 +7620,37 @@ local.get 15
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 16
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8176,43 +7696,37 @@ local.get 17
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 4
@@ -8266,43 +7780,37 @@ local.get 20
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 48
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 21
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 52
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 22
 local.get 22
@@ -8330,22 +7838,19 @@ local.get 23
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 143
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8391,22 +7896,19 @@ local.get 25
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 108
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8436,22 +7938,19 @@ local.get 27
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 7
@@ -8499,43 +7998,37 @@ local.get 28
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 29
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8581,22 +8074,19 @@ local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 104
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8626,22 +8116,19 @@ local.get 33
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -8668,22 +8155,19 @@ local.get 34
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 116
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8737,22 +8221,19 @@ local.get 44
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 68
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 7
@@ -8760,22 +8241,19 @@ local.get 34
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 112
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -8801,22 +8279,19 @@ local.get 45
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 68
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -8858,22 +8333,19 @@ local.get 50
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 7
@@ -8901,22 +8373,19 @@ local.get 51
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -8976,22 +8445,19 @@ local.get 56
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 i32.const 0
@@ -9001,22 +8467,19 @@ local.get 57
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -9075,43 +8538,37 @@ local.get 62
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 128
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 132
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -9157,43 +8614,37 @@ local.get 63
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 120
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 64
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 124
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -9239,43 +8690,37 @@ local.get 65
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 66
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 76
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -9321,43 +8766,37 @@ local.get 67
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 68
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -9367,22 +8806,19 @@ local.get 69
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -9429,41 +8865,35 @@ local.get 71
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 70
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 144
 local.set 72
 local.get 7
@@ -9493,85 +8923,73 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -9700,43 +9118,37 @@ local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 10
@@ -9764,22 +9176,19 @@ local.get 20
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 100
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -9825,22 +9234,19 @@ local.get 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 104
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -9988,43 +9394,37 @@ local.get 36
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 35
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -10124,43 +9524,37 @@ local.get 42
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 48
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 43
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 52
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -10206,22 +9600,19 @@ local.get 45
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 108
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -10253,22 +9644,19 @@ local.get 47
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 116
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -10360,43 +9748,37 @@ local.get 57
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 58
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 84
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@7;)
 end
 i32.const 0
@@ -10406,22 +9788,19 @@ local.get 59
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 10
 global.get $mem_pointer
@@ -10500,22 +9879,19 @@ local.get 64
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 140
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -10597,43 +9973,37 @@ local.get 64
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 65
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 5 (;@2;)
 end
 i32.const 0
@@ -10643,22 +10013,19 @@ local.get 71
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@3;)
 end
 i32.const 0
@@ -10668,22 +10035,19 @@ local.get 72
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 68
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@4;)
 end
 local.get 10
@@ -10691,22 +10055,19 @@ local.get 47
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 112
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -10732,22 +10093,19 @@ local.get 73
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 68
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 10
 global.get $mem_pointer
@@ -10789,22 +10147,19 @@ local.get 78
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@4;)
 end
 local.get 10
@@ -10832,22 +10187,19 @@ local.get 79
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 10
 global.get $mem_pointer
@@ -10907,22 +10259,19 @@ local.get 84
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@4;)
 end
 i32.const 0
@@ -10932,22 +10281,19 @@ local.get 85
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 10
 global.get $mem_pointer
@@ -11016,22 +10362,19 @@ local.get 92
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@3;)
 end
 local.get 47
@@ -11061,43 +10404,37 @@ local.get 90
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 128
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 41
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 132
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -11143,43 +10480,37 @@ local.get 98
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 120
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 99
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 124
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -11225,43 +10556,37 @@ local.get 100
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 101
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 76
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 global.get $mem_pointer
 i32.const 40
@@ -11307,43 +10632,37 @@ local.get 102
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 103
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 br 1 (;@1;)
@@ -11394,41 +10713,35 @@ local.get 105
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 104
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 144
 local.set 106
 local.get 10
@@ -11458,43 +10771,37 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -11566,43 +10873,37 @@ local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -11648,22 +10949,19 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -11794,43 +11092,37 @@ local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 14
 local.get 7
@@ -11838,22 +11130,19 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 7
@@ -11901,43 +11190,37 @@ local.get 15
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 112
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 16
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 116
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -11983,43 +11266,37 @@ local.get 17
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 18
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 19
 local.get 7
@@ -12027,22 +11304,19 @@ local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -12117,43 +11391,37 @@ local.get 21
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -12239,43 +11507,37 @@ local.get 30
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -12321,43 +11583,37 @@ local.get 32
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 120
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 33
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 124
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -12403,43 +11659,37 @@ local.get 34
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 35
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 36
 local.get 0
@@ -12447,20 +11697,17 @@ local.get 36
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@2;)
 end
 i32.const -2147483647
@@ -12470,22 +11717,19 @@ local.get 37
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 i32.const 0
@@ -12495,22 +11739,19 @@ local.get 38
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 136
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -12556,43 +11797,37 @@ local.get 39
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 128
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 40
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 132
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -12638,43 +11873,37 @@ local.get 41
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 42
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 76
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -12732,22 +11961,19 @@ local.get 53
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 local.get 7
@@ -12795,43 +12021,37 @@ local.get 54
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 144
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 55
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 148
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -12877,43 +12097,37 @@ local.get 56
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 57
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 68
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -13060,43 +12274,37 @@ local.get 78
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 79
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 84
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -13142,43 +12350,37 @@ local.get 80
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 81
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 82
 local.get 0
@@ -13186,20 +12388,17 @@ local.get 82
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@2;)
 end
 local.get 3
@@ -13269,43 +12468,37 @@ local.get 84
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 96
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 87
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 100
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -13331,22 +12524,19 @@ local.get 88
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 152
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -13372,22 +12562,19 @@ local.get 89
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 156
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -13519,43 +12706,37 @@ local.get 95
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 94
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 local.get 7
@@ -13654,43 +12835,37 @@ local.get 101
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 100
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 7
 global.get $mem_pointer
@@ -13745,22 +12920,19 @@ local.get 106
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 108
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 global.get $mem_pointer
 i32.const 40
@@ -13875,41 +13047,35 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 16
 local.set 15
 local.get 9
@@ -13993,41 +13159,35 @@ local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 16
 local.set 12
 local.get 6
@@ -14099,43 +13259,37 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -14339,22 +13493,19 @@ local.get 14
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 7
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 1
@@ -14364,22 +13515,19 @@ local.get 15
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 7
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 global.get $mem_pointer
@@ -14442,22 +13590,19 @@ local.get 21
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 4
 local.set 22
 local.get 4
@@ -14465,22 +13610,19 @@ local.get 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 global.get $mem_pointer
 i32.const 40
@@ -14504,22 +13646,19 @@ local.get 23
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -14545,22 +13684,19 @@ local.get 24
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -14586,22 +13722,19 @@ local.get 25
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -14627,22 +13760,19 @@ local.get 26
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -14668,22 +13798,19 @@ local.get 27
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -14729,43 +13856,37 @@ local.get 28
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 29
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 41
@@ -14791,20 +13912,17 @@ local.get 30
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 i32.const 8
 local.set 31
 local.get 0
@@ -14844,20 +13962,17 @@ local.get 36
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const 0
@@ -14867,22 +13982,19 @@ local.get 37
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 return
 
@@ -14928,22 +14040,19 @@ local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 136
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 12
 local.get 11
@@ -14955,22 +14064,19 @@ local.get 13
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 140
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -15022,22 +14128,19 @@ local.get 17
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 175
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 44
@@ -15075,22 +14178,19 @@ local.get 21
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -15136,43 +14236,37 @@ local.get 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 23
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -15218,43 +14312,37 @@ local.get 24
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 25
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@1;)
 end
 local.get 6
@@ -15262,22 +14350,19 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 26
 local.get 6
@@ -15285,22 +14370,19 @@ local.get 26
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 i32.const 0
@@ -15310,22 +14392,19 @@ local.get 27
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 i32.const 0
 local.set 28
@@ -15334,22 +14413,19 @@ local.get 28
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -15419,43 +14495,37 @@ local.get 30
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 48
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 52
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 6
@@ -15483,22 +14553,19 @@ local.get 32
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 52
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const -2147483647
 local.set 33
 local.get 6
@@ -15506,22 +14573,19 @@ local.get 33
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 48
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 6
 global.get $mem_pointer
@@ -15597,22 +14661,19 @@ local.get 44
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const -2147483647
 local.set 45
 local.get 6
@@ -15620,22 +14681,19 @@ local.get 45
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 6
@@ -15683,43 +14741,37 @@ local.get 46
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 144
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 47
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 148
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -15765,43 +14817,37 @@ local.get 48
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 49
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 6
 global.get $mem_pointer
@@ -16066,43 +15112,37 @@ local.get 82
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 83
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 76
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -16148,43 +15188,37 @@ local.get 84
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 152
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 85
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 156
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -16230,43 +15264,37 @@ local.get 86
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 87
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@1;)
 end
 local.get 6
@@ -16314,43 +15342,37 @@ local.get 88
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 84
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 89
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 90
 local.get 6
@@ -16358,22 +15380,19 @@ local.get 90
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 local.get 6
@@ -16421,43 +15440,37 @@ local.get 91
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 160
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 92
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 164
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -16503,43 +15516,37 @@ local.get 93
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 84
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 94
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 95
 local.get 6
@@ -16547,22 +15554,19 @@ local.get 95
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 6
 global.get $mem_pointer
@@ -16639,22 +15643,19 @@ local.get 99
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 6
@@ -16702,43 +15703,37 @@ local.get 100
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 128
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 101
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 132
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -16784,43 +15779,37 @@ local.get 102
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 103
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 6
 global.get $mem_pointer
@@ -16867,41 +15856,35 @@ local.get 105
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 104
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 176
 local.set 106
 local.get 6
@@ -16929,22 +15912,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -16970,22 +15950,19 @@ local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -17011,22 +15988,19 @@ local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 40
@@ -17052,41 +16026,35 @@ local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 
 )
@@ -17101,7 +16069,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -17116,20 +16084,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 i32.const 8
 local.set 3
 local.get 0
@@ -17148,7 +16113,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -17163,20 +16128,17 @@ local.get 6
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 return
 
 )
@@ -17230,20 +16192,17 @@ local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 global.get $mem_pointer
 i32.const 41
@@ -17252,7 +16211,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -17267,22 +16226,19 @@ local.get 11
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -17350,22 +16306,19 @@ local.get 19
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 4
@@ -17397,22 +16350,19 @@ local.get 21
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -17438,22 +16388,19 @@ local.get 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -17479,22 +16426,19 @@ local.get 23
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -17520,22 +16464,19 @@ local.get 24
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 i32.const 0
 local.set 25
@@ -17574,22 +16515,19 @@ local.get 28
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 i32.const -1
@@ -17599,44 +16537,38 @@ local.get 29
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 global.get $mem_pointer
 i32.const 40
@@ -17702,83 +16634,71 @@ local.get 32
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 30
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 31
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 
 )
@@ -17910,62 +16830,53 @@ local.get 14
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 13
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 12
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 48
 local.set 15
 local.get 3
@@ -18084,41 +16995,35 @@ i64.const 2604112250384438326
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 0
 i64.const -5300603541150396866
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17h493a5d87ecb9888bE (;54;) (type 0) (param i32 i32)
@@ -18128,41 +17033,35 @@ i64.const -163230743173927068
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 0
 i64.const -4493808902380553279
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17hc16c025c0c717dd0E (;55;) (type 0) (param i32 i32)
@@ -18172,41 +17071,35 @@ i64.const 6709583872402221221
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 0
 i64.const -517914840449640987
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN5alloc7raw_vec19RawVec$LT$T$C$A$GT$7reserve21do_reserve_and_handle17h80fdd4a6338ee30dE (;56;) (type 7) (param i32 i32 i32)
@@ -18276,43 +17169,37 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 global.get $mem_pointer
@@ -18334,22 +17221,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 local.get 3
@@ -18357,22 +17241,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 3
 local.get 4
@@ -18425,20 +17306,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 4
 i32.add
@@ -18446,20 +17324,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@1;)
 end
 local.get 1
@@ -18650,22 +17525,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 2048
 i32.lt_u
@@ -18684,22 +17556,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 14
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 12
@@ -18709,22 +17578,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -18736,22 +17602,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 3
 local.set 1
 br 3 (;@2;)
@@ -18765,22 +17628,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -18792,22 +17652,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 14
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 12
@@ -18819,22 +17676,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 18
@@ -18846,22 +17700,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 4
 local.set 1
 br 2 (;@2;)
@@ -18939,22 +17790,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 global.get $mem_pointer
 i32.const 40
@@ -18978,20 +17826,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@1;)
 end
 local.get 2
@@ -19003,22 +17848,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -19028,22 +17870,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 2
 local.set 1
 end
@@ -19148,22 +17987,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 2
 i32.const 16
@@ -19238,43 +18074,37 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 0
 global.get $mem_pointer
@@ -19296,22 +18126,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 local.get 2
@@ -19319,22 +18146,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 2
 local.get 4
@@ -19387,20 +18211,17 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 4
 i32.add
@@ -19408,20 +18229,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@1;)
 end
 local.get 3
@@ -19504,7 +18322,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -19516,20 +18334,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 8
 i32.add
@@ -19545,7 +18360,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -19557,20 +18372,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 global.get $mem_pointer
@@ -19580,7 +18392,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -19592,43 +18404,37 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 4
 i32.add
@@ -19764,22 +18570,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 
 )
@@ -19937,22 +18740,19 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 8
 i32.add
@@ -19960,39 +18760,33 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 local.get 0
@@ -20000,22 +18794,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 8
 i32.add
@@ -20023,20 +18814,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@1;)
 end
 local.get 0
@@ -20044,22 +18832,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 8
 i32.add
@@ -20067,20 +18852,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 0
@@ -20088,42 +18870,36 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 i32.const 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc17Dlmalloc$LT$A$GT$13dispose_chunk17h814c7cfd84378e6aE (;66;) (type 0) (param i32 i32)
@@ -20220,22 +18996,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 local.get 2
@@ -20299,43 +19072,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@3;)
 end
 i32.const 0
@@ -20367,22 +19134,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 i32.const 1049968
@@ -20423,22 +19187,19 @@ i32.sub
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050400
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 block ;; label = @3
@@ -20562,43 +19323,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@5;)
 end
 i32.const 0
@@ -20630,22 +19385,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 local.get 1
@@ -20677,22 +19429,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@2;)
 end
 i32.const 0
@@ -20700,22 +19449,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -20742,22 +19488,19 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.const 1
@@ -20765,22 +19508,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 0
 global.get $mem_pointer
@@ -20808,43 +19548,37 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 i32.const 0
@@ -20852,22 +19586,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -20894,22 +19625,19 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 call 106
@@ -20993,22 +19721,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.set 1
 end
@@ -21017,85 +19742,73 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc17Dlmalloc$LT$A$GT$18unlink_large_chunk17hb47d8811580bf409E (;67;) (type 4) (param i32)
@@ -21187,44 +19900,38 @@ call 114
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 4
 call 114
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@1;)
 end
 local.get 2
@@ -21295,20 +20002,17 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 block ;; label = @1
 local.get 1
@@ -21389,20 +20093,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 br_if 1 (;@2;)
 br 2 (;@1;)
@@ -21412,20 +20113,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 br_if 0 (;@2;)
 i32.const 0
@@ -21473,22 +20171,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050380
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 local.get 2
@@ -21496,22 +20191,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @2
 local.get 0
 global.get $mem_pointer
@@ -21540,43 +20232,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 i32.const 20
@@ -21607,41 +20293,35 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 
@@ -21686,43 +20366,37 @@ i64.const 0
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 16
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store align=4
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 2
 i32.shl
@@ -21802,62 +20476,53 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050380
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@1;)
 end
 local.get 1
@@ -21934,106 +20599,91 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 local.get 6
@@ -22041,84 +20691,72 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc17Dlmalloc$LT$A$GT$23release_unused_segments17h3a36e1b255959a68E (;69;) (type 11) (result i32)
@@ -22324,43 +20962,37 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 block ;; label = @5
 i32.const 1049968
@@ -22398,43 +21030,37 @@ i32.sub
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050400
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 1
 i32.add
@@ -22462,22 +21088,19 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050416
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 
 )
@@ -22579,22 +21202,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 local.get 2
@@ -22658,43 +21278,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 2 (;@2;)
 end
 i32.const 0
@@ -22726,22 +21340,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@2;)
 end
 i32.const 1049968
@@ -22782,22 +21393,19 @@ i32.sub
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050400
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 block ;; label = @2
@@ -22924,43 +21532,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@7;)
 end
 i32.const 0
@@ -22992,22 +21594,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 local.get 1
@@ -23039,22 +21638,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 i32.const 0
@@ -23062,22 +21658,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -23104,22 +21697,19 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.const 1
@@ -23127,22 +21717,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 0
 global.get $mem_pointer
@@ -23172,22 +21759,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -23214,22 +21798,19 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 call 106
@@ -23240,43 +21821,37 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 1
 i32.const 0
@@ -23648,22 +22223,19 @@ i32.sub
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -23689,22 +22261,19 @@ i32.sub
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050400
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 global.get $mem_pointer
 i32.const 40
@@ -23760,22 +22329,19 @@ local.tee 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 1
 local.get 4
@@ -23788,22 +22354,19 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.const 1
@@ -23811,22 +22374,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 call 111
 local.tee 2
 i32.const 8
@@ -23853,43 +22413,37 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 2097152
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050408
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.set 2
 end
@@ -23944,22 +22498,19 @@ i32.const -1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050408
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 return
 end
 block ;; label = @2
@@ -23996,22 +22547,19 @@ local.tee 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050416
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 br_if 1 (;@1;)
 call 71
@@ -24084,22 +22632,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.set 1
 end
@@ -24108,85 +22653,73 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 
 )
@@ -24556,43 +23089,37 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@7;)
 end
 i32.const 0
@@ -24604,22 +23131,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 local.get 2
@@ -24858,43 +23382,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@12;)
 end
 i32.const 0
@@ -24924,22 +23442,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 local.get 2
@@ -25064,22 +23579,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.set 7
 end
@@ -25088,85 +23600,73 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 3 (;@7;)
 end
 local.get 0
@@ -25262,22 +23762,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.set 3
 end
@@ -25286,128 +23783,110 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 i32.const 0
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 call 110
 local.set 6
@@ -25418,43 +23897,37 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 0
 call 110
@@ -25688,22 +24161,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 local.set 6
 end
@@ -25712,85 +24182,73 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@3;)
 end
 local.get 0
@@ -25971,22 +24429,19 @@ local.tee 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050400
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -26016,22 +24471,19 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050404
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @11
 block ;; label = @12
 block ;; label = @13
@@ -26176,22 +24628,19 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050412
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.get 5
 i32.add
@@ -26396,22 +24845,19 @@ local.tee 15
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 11
 local.get 5
@@ -26428,22 +24874,19 @@ local.tee 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 15
 local.get 11
 i32.const 1
@@ -26451,22 +24894,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 call 111
 local.tee 12
 i32.const 8
@@ -26493,43 +24933,37 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 2097152
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050408
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 9
 call 105
@@ -26578,123 +25012,105 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 10
 local.get 17
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 i32.const 0
 local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050108
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050100
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050096
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 10
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050104
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 loop ;; label = @12
 local.get 0
 i32.const 4
@@ -26705,22 +25121,19 @@ call 96
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.set 0
 local.get 6
@@ -26820,22 +25233,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 local.set 0
 end
@@ -26844,85 +25254,73 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 9 (;@2;)
 end
 local.get 0
@@ -26948,20 +25346,17 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 0
 global.get $mem_pointer
@@ -26987,22 +25382,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 call 110
 local.tee 0
@@ -27146,43 +25538,37 @@ local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@12;)
 end
 i32.const 0
@@ -27214,22 +25600,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 4
 local.get 2
@@ -27246,22 +25629,19 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -27288,22 +25668,19 @@ local.tee 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 i32.const 1
@@ -27311,22 +25688,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 call 110
 local.set 6
@@ -27340,22 +25714,19 @@ local.tee 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -27383,22 +25754,19 @@ local.tee 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 i32.const 1
@@ -27406,22 +25774,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 2
 call 105
@@ -27468,43 +25833,37 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 call 106
@@ -27521,22 +25880,19 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050412
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 4 (;@3;)
 end
 local.get 0
@@ -27564,22 +25920,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 global.get $mem_pointer
 i32.const 40
@@ -27628,22 +25981,19 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -27670,22 +26020,19 @@ local.tee 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 call 106
@@ -27699,22 +26046,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 global.get $mem_pointer
 i32.const 40
@@ -27740,22 +26084,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 2
 call 104
@@ -27847,22 +26188,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.set 2
 end
@@ -27871,85 +26209,73 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 call 110
 local.set 6
@@ -27960,1429 +26286,1225 @@ i32.const 4095
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050416
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 8
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050108
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050100
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050096
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050112
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050124
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050120
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050132
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050112
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050120
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050128
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050140
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050120
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050128
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050136
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050148
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050128
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050136
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050144
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050156
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050136
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050144
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050152
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050164
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050144
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050152
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050160
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050172
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050152
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050160
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050168
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050180
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050160
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050168
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050176
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050188
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050168
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050176
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050176
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050184
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050184
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050196
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050184
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050192
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050192
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050204
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050192
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050200
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050200
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050212
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050200
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050208
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050208
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050220
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050208
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050216
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050216
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050228
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050216
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050224
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050224
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050236
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050224
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050232
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050232
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050244
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050232
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050240
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050240
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050252
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050248
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050260
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050240
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050248
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050256
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050268
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050248
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050256
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050264
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050276
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050256
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050264
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050272
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050284
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050264
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050272
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050280
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050292
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050272
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050280
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050288
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050300
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050280
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050288
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050296
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050308
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050288
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050296
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050304
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050316
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050296
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050304
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050312
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050324
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050304
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050312
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050320
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050332
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050312
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050320
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050328
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050340
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050320
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050328
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050336
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050348
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050328
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050336
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050344
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050356
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050336
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050344
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050352
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050364
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050344
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050352
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050360
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050372
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050352
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050360
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 1050360
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050368
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 call 111
 local.tee 3
 i32.const 8
@@ -29411,22 +27533,19 @@ local.tee 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 3
 local.get 5
@@ -29443,22 +27562,19 @@ local.tee 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 6
 i32.const 1
@@ -29466,22 +27582,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 call 111
 local.tee 3
 i32.const 8
@@ -29508,43 +27621,37 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 2097152
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050408
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 i32.const 0
 local.set 6
@@ -29579,22 +27686,19 @@ local.tee 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -29622,22 +27726,19 @@ local.tee 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 i32.const 1
@@ -29645,22 +27746,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 2
 call 105
@@ -29697,43 +27795,37 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.const 1
@@ -29741,22 +27833,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 call 111
 local.tee 2
 i32.const 8
@@ -29783,43 +27872,37 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 2097152
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050408
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc17Dlmalloc$LT$A$GT$8memalign17h4975f1e1d24aff71E (;73;) (type 2) (param i32 i32) (result i32)
@@ -29996,22 +28079,19 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 local.get 6
@@ -30019,20 +28099,17 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 block ;; label = @2
 local.get 0
@@ -30223,41 +28300,35 @@ local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 1049280
 local.get 0
@@ -30310,41 +28381,35 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 1049300
 local.get 0
@@ -30430,104 +28495,89 @@ i64.const 1
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 2
 i32.const 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 1049132
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 2
 i32.const 32
@@ -30535,22 +28585,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 2
 i32.const 44
@@ -30558,22 +28605,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 8
 i32.add
@@ -30854,22 +28898,19 @@ local.tee 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 call 96
 local.set 0
 local.get 1
@@ -30879,22 +28920,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 3
 i32.const -12
@@ -30904,22 +28942,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -30948,22 +28983,19 @@ local.tee 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050400
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -30993,22 +29025,19 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050412
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -31038,22 +29067,19 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050404
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 10 (;@1;)
 end
 block ;; label = @11
@@ -31104,43 +29130,37 @@ local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 9
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 br 1 (;@10;)
 end
 i32.const 0
@@ -31172,22 +29192,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050376
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 block ;; label = @10
 local.get 8
@@ -31286,43 +29303,37 @@ local.get 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050392
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050384
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 br_if 7 (;@1;)
 br 5 (;@3;)
@@ -31412,64 +29423,55 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050388
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050396
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 br_if 2 (;@1;)
 end
@@ -31577,62 +29579,53 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 call 76
 unreachable
@@ -31711,41 +29704,35 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i64.const 1
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 32
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 2
 i32.const 32
@@ -31753,22 +29740,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 44
 i32.add
@@ -31802,20 +29786,17 @@ local.tee 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 2
 global.get $mem_pointer
@@ -31840,22 +29821,19 @@ local.tee 6
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 16
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 8
 i32.add
@@ -31863,39 +29841,33 @@ local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 end
 local.get 2
 i32.const 8
@@ -31923,20 +29895,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 12
 i32.add
@@ -31944,20 +29913,17 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 global.get $mem_pointer
 i32.const 41
@@ -31966,7 +29932,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -31981,22 +29947,19 @@ i64.const 1
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 4
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store align=4
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 i32.const 0
 global.get $mem_pointer
 i32.const 44
@@ -32022,20 +29985,17 @@ local.get 6
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 i32.const 12
 i32.const 4
@@ -32068,20 +30028,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 1
 i32.const 8
 i32.add
@@ -32105,60 +30062,51 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 1049248
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 48
 i32.add
@@ -32226,41 +30174,35 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i64.const 1
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 16
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 2
 i32.const 16
@@ -32268,22 +30210,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 28
 i32.add
@@ -32315,20 +30254,17 @@ local.tee 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 2
 global.get $mem_pointer
@@ -32353,20 +30289,17 @@ local.tee 5
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 8
 i32.add
@@ -32374,80 +30307,68 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 5
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 end
 local.get 0
 i32.const 1049248
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 32
 i32.add
@@ -32531,81 +30452,69 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 1049264
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN93_$LT$std..panicking..begin_panic_handler..StrPanicPayload$u20$as$u20$core..panic..BoxMeUp$GT$3get17h5a47fb41c3bdfcd5E (;85;) (type 0) (param i32 i32)
@@ -32615,41 +30524,35 @@ i32.const 1049264
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN3std9panicking20rust_panic_with_hook17h7601402c0a383194E (;86;) (type 5) (param i32 i32 i32 i32 i32)
@@ -32686,22 +30589,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1049964
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 block ;; label = @2
 local.get 6
@@ -32735,22 +30635,19 @@ i32.const 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050424
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
@@ -32776,127 +30673,109 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050420
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 i32.const 1049320
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 i32.const 1049096
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 4
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 global.get $mem_pointer
 i32.const 40
@@ -32927,22 +30806,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1049948
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @3
 i32.const 0
 global.get $mem_pointer
@@ -33051,22 +30927,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 i32.const 0
 global.get $mem_pointer
 i32.const 40
@@ -33198,43 +31071,37 @@ local.get 6
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1049948
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 i32.const 0
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 1050424
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 4
 br_if 1 (;@1;)
 end
@@ -33496,22 +31363,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc5Chunk5inuse17h6a9390afcf3c4f59E (;99;) (type 3) (param i32) (result i32)
@@ -33598,22 +31462,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.add
@@ -33642,22 +31503,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc5Chunk20set_inuse_and_pinuse17hc87585256ab7e20fE (;102;) (type 0) (param i32 i32)
@@ -33669,22 +31527,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.add
@@ -33713,22 +31568,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc5Chunk34set_size_and_pinuse_of_inuse_chunk17h4a3baeef63b4aae1E (;103;) (type 0) (param i32 i32)
@@ -33740,22 +31592,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc5Chunk33set_size_and_pinuse_of_free_chunk17habe76bbe555b1e73E (;104;) (type 0) (param i32 i32)
@@ -33767,22 +31616,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.add
@@ -33790,20 +31636,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc5Chunk20set_free_with_pinuse17h2b5f242508300075E (;105;) (type 7) (param i32 i32 i32)
@@ -33833,22 +31676,19 @@ i32.and
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.const 1
@@ -33856,22 +31696,19 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 1
 i32.add
@@ -33879,20 +31716,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN8dlmalloc8dlmalloc5Chunk11plus_offset17h9b67d52a46bbff2cE (;106;) (type 2) (param i32 i32) (result i32)
@@ -34191,28 +32025,26 @@ global.get $mem_pointer
 i32.const 5
 i32.add
 global.set $mem_pointer
+memory.grow
 local.set 3
 local.get 0
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 0
 local.get 2
@@ -34226,22 +32058,19 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 0
 local.get 3
@@ -34252,20 +32081,17 @@ select
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN61_$LT$dlmalloc..sys..System$u20$as$u20$dlmalloc..Allocator$GT$5remap17hdb996963ff5d078cE (;120;) (type 12) (param i32 i32 i32 i32 i32) (result i32)
@@ -34321,83 +32147,71 @@ i64.const 0
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 0
 i32.const 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 1049384
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 1049336
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 8
 i32.add
@@ -34458,106 +32272,91 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 1049412
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 1049408
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 8
 i32.add
@@ -34578,41 +32377,35 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 8
 i32.add
@@ -34622,20 +32415,17 @@ i64.const 2
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 3
 i32.const 32
 i32.add
@@ -34645,83 +32435,71 @@ i32.const 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 1049924
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 5
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 3
 i32.const 32
@@ -34729,22 +32507,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 3
 i32.const 4
@@ -34752,43 +32527,37 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 8
 i32.add
@@ -36161,104 +33930,89 @@ i64.const 0
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 3
 i32.const 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 1049408
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 3
 i32.const 24
@@ -36266,20 +34020,17 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 2
 call 134
@@ -36325,62 +34076,53 @@ local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 3
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 32
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 4
 local.get 3
@@ -36388,85 +34130,73 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 block ;; label = @2
 block ;; label = @3
@@ -37044,22 +34774,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 1
 i32.const 28
@@ -37083,22 +34810,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 1
 i32.const 24
@@ -37122,22 +34846,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 36
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 12
 i32.add
@@ -37280,43 +35001,37 @@ local.get 9
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 4
 i32.add
@@ -37431,43 +35146,37 @@ local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 10
 local.get 1
 i32.const 20
@@ -38373,22 +36082,19 @@ i32.const 48
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 global.get $mem_pointer
 i32.const 44
@@ -38416,22 +36122,19 @@ i32.const 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 i32.const 20
 i32.add
@@ -38644,43 +36347,37 @@ local.get 6
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 32
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 11
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 0
 local.set 1
 br 1 (;@1;)
@@ -39069,41 +36766,35 @@ i64.const 6709583872402221221
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 0
 i64.const -517914840449640987
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 
 )
 (func $_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17hb73b6a73788677afE (;140;) (type 2) (param i32 i32) (result i32)
@@ -39265,20 +36956,17 @@ i32.add
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const -1
 i32.add
@@ -39343,85 +37031,73 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 1
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 20
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 3
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 block ;; label = @2
 block ;; label = @3
@@ -39436,22 +37112,19 @@ i32.const 1049428
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 2
 local.set 2
 br 2 (;@1;)
@@ -39461,22 +37134,19 @@ i32.const 1049430
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 2
 local.set 2
 br 1 (;@1;)
@@ -39486,22 +37156,19 @@ i32.const 1049432
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 24
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 7
 local.set 2
 end
@@ -39510,22 +37177,19 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 28
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 local.get 5
 global.get $mem_pointer
@@ -39552,20 +37216,17 @@ i32.const 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 56
 i32.add
@@ -39575,20 +37236,17 @@ i32.const 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 88
 i32.add
@@ -39598,83 +37256,71 @@ i64.const 3
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 7
 i32.const 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 1049496
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 23
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 56
@@ -39682,22 +37328,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 96
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 16
@@ -39705,22 +37348,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 8
@@ -39728,22 +37368,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 24
@@ -39751,22 +37388,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 88
 i32.add
@@ -39789,7 +37423,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -39801,20 +37435,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 32
 i32.add
@@ -39830,7 +37461,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -39842,20 +37473,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 5
 global.get $mem_pointer
@@ -39865,7 +37493,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -39877,22 +37505,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 32
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 88
 i32.add
@@ -39902,20 +37527,17 @@ i64.const 4
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
-i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
+i64.store align=4
 local.get 7
 i32.const 84
 i32.add
@@ -39923,20 +37545,17 @@ i32.const 24
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 76
 i32.add
@@ -39944,20 +37563,17 @@ i32.const 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 56
 i32.add
@@ -39967,83 +37583,71 @@ i32.const 22
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 4
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 92
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 1049532
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 88
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 23
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 60
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 56
@@ -40051,22 +37655,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 96
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 32
@@ -40074,22 +37675,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 80
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 16
@@ -40097,22 +37695,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 72
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 8
@@ -40120,22 +37715,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 64
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 local.get 7
 i32.const 24
@@ -40143,22 +37735,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 7
 i32.const 88
 i32.add
@@ -40845,20 +38434,17 @@ local.get 11
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 13
 local.set 7
 local.get 4
@@ -41388,22 +38974,19 @@ i32.const 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 23
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 48
 i32.add
@@ -41411,20 +38994,17 @@ i32.const 1049564
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
@@ -41448,22 +39028,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 3
 i32.const 23
@@ -41471,22 +39048,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 16
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
@@ -41510,22 +39084,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 32
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 6
 global.get $mem_pointer
 i32.const 41
@@ -41534,7 +39105,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -41549,22 +39120,19 @@ local.get 7
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 52
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
@@ -41588,22 +39156,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 40
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 6
 global.get $mem_pointer
@@ -41627,43 +39192,37 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 56
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 8
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 24
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 3
 local.get 3
 i32.const 8
@@ -41671,22 +39230,19 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 44
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 local.get 3
 i32.const 24
@@ -41872,22 +39428,19 @@ local.get 5
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 0
 local.get 4
 i32.const 1
@@ -41895,20 +39448,17 @@ i32.add
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 64
 i32.add
@@ -41929,22 +39479,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 block ;; label = @2
 block ;; label = @3
@@ -41970,22 +39517,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 14
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 12
@@ -41995,22 +39539,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -42022,22 +39563,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 3
 local.set 1
 br 3 (;@1;)
@@ -42047,22 +39585,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 1
 br 2 (;@1;)
@@ -42076,22 +39611,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -42101,22 +39633,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 2
 local.set 1
 br 1 (;@1;)
@@ -42130,22 +39659,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -42157,22 +39683,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 14
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 12
@@ -42184,22 +39707,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 18
@@ -42211,22 +39731,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 4
 local.set 1
 end
@@ -42257,22 +39774,19 @@ local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 8
 i32.add
@@ -42288,7 +39802,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -42300,20 +39814,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 8
 i32.add
@@ -42329,7 +39840,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -42341,20 +39852,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 global.get $mem_pointer
@@ -42364,7 +39872,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -42376,22 +39884,19 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 4
 i32.add
@@ -42463,22 +39968,19 @@ i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 block ;; label = @1
 block ;; label = @2
 block ;; label = @3
@@ -42504,22 +40006,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 14
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 12
@@ -42529,22 +40028,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -42556,22 +40052,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 3
 local.set 1
 br 3 (;@1;)
@@ -42581,22 +40074,19 @@ local.get 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 1
 local.set 1
 br 2 (;@1;)
@@ -42610,22 +40100,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -42635,22 +40122,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 2
 local.set 1
 br 1 (;@1;)
@@ -42664,22 +40148,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 15
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 6
@@ -42691,22 +40172,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 14
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 12
@@ -42718,22 +40196,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 13
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 i32.const 18
@@ -42745,22 +40220,19 @@ i32.or
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 12
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 i32.const 4
 local.set 1
 end
@@ -42819,7 +40291,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -42831,20 +40303,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 8
 i32.add
@@ -42860,7 +40329,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -42872,20 +40341,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i64
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=9
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 1
 global.get $mem_pointer
@@ -42895,7 +40361,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i64.load
+i64.load align=4
 local.tee $i64
 global.get $mem_pointer
 local.get $i64
@@ -42907,43 +40373,37 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 55
 i32.store8 $trace_mem offset=0
-local.set $i64
+local.tee $i64
 global.get $mem_pointer
 local.get $i64
 i64.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i64
 i32.const 8
 i32.add
-i32.store $trace_mem offset=9
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i64
 i64.store
-global.get $mem_pointer
-i32.const 13
-i32.add
-global.set $mem_pointer
 local.get 2
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 2
 i32.const 4
 i32.add
@@ -44226,84 +41686,72 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 8
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 4
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 2
 i32.eqz
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
-global.get $mem_pointer
-local.get $addr_local
+local.set $i32
 i32.const 9
 i32.add
-i32.store $trace_mem offset=5
+local.tee $i32
+global.get $mem_pointer
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 i32.const 0
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 local.get 3
 local.get 4
@@ -44716,7 +42164,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i32.load16_u
+i32.load16_u align=1
 local.tee $i32
 global.get $mem_pointer
 local.get $i32
@@ -44728,20 +42176,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 59
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
-i32.store16
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
+i32.store16 align=1
 local.get 6
 i32.const -2
 i32.add
@@ -44763,7 +42208,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i32.load16_u
+i32.load16_u align=1
 local.tee $i32
 global.get $mem_pointer
 local.get $i32
@@ -44775,20 +42220,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 59
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
-i32.store16
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
+i32.store16 align=1
 local.get 4
 i32.const -4
 i32.add
@@ -44843,7 +42285,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i32.load16_u
+i32.load16_u align=1
 local.tee $i32
 global.get $mem_pointer
 local.get $i32
@@ -44855,20 +42297,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 59
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
-i32.store16
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
+i32.store16 align=1
 end
 block ;; label = @1
 block ;; label = @2
@@ -44896,7 +42335,7 @@ local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-i32.load16_u
+i32.load16_u align=1
 local.tee $i32
 global.get $mem_pointer
 local.get $i32
@@ -44908,20 +42347,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 59
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
-i32.store16
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
+i32.store16 align=1
 br 1 (;@1;)
 end
 local.get 3
@@ -44938,20 +42374,17 @@ i32.add
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 end
 local.get 2
 local.get 1
@@ -45022,20 +42455,17 @@ i32.add
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const -1
 i32.add
@@ -45139,20 +42569,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 i32.const 1
 i32.add
@@ -45257,20 +42684,17 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 4
 i32.add
@@ -45313,20 +42737,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 4
 i32.add
@@ -45379,20 +42800,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 1
 i32.add
@@ -45485,20 +42903,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 i32.const -1
 i32.add
@@ -45606,20 +43021,17 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const -4
 i32.add
@@ -45666,20 +43078,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const -4
 i32.add
@@ -45740,20 +43149,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 6
 i32.const 1
 i32.add
@@ -45858,20 +43264,17 @@ i32.or
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 4
 i32.add
@@ -45914,20 +43317,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 4
 i32.add
@@ -45979,20 +43379,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const 1
 i32.add
@@ -46051,20 +43448,17 @@ global.set $mem_pointer
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 1
 i32.const -1
 i32.add
@@ -46112,20 +43506,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 1
 i32.add
@@ -46162,20 +43553,17 @@ local.get 2
 global.get $mem_pointer
 i32.const 54
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 5
 i32.const 4
 i32.add
@@ -46204,20 +43592,17 @@ local.get 1
 global.get $mem_pointer
 i32.const 58
 i32.store8 $trace_mem offset=0
-local.set $i32
+local.tee $i32
 global.get $mem_pointer
 local.get $i32
 i32.store $trace_mem offset=1
-local.tee $addr_local
+local.set $i32
+local.tee $i32
 global.get $mem_pointer
-local.get $addr_local
-i32.store $trace_mem offset=5
+local.set $i32
+i32.store
 local.get $i32
 i32.store8
-global.get $mem_pointer
-i32.const 9
-i32.add
-global.set $mem_pointer
 local.get 3
 i32.const 1
 i32.add
@@ -46263,7 +43648,7 @@ call 167
 (export "new" (func $new))
 (export "__data_end" (global 1))
 (export "__heap_base" (global 2))
-(elem (;0;) (i32.const 1) func $_ZN4core3ptr58drop_in_place $LT$$RF$core..option..Option$LT$usize$GT$$GT$17h31251f026af8b027E $_ZN42_$LT$$RF$T$u20$as$u20$core..fmt..Debug$GT$3fmt17h13faa5d10322b428E $_ZN4core3ptr30drop_in_place$LT$$RF$usize$GT$17h83c3e7ffb678b72fE $_ZN42_$LT$$RF$T$u20$as$u20$core..fmt..Debug$GT$3fmt17h9a61fbf71f30f14cE $_ZN4core3fmt3num3imp52_$LT$impl$u20$core..fmt..Display$u20$for$u20$u32$GT$3fmt17hbaa66a6ca3ee12c8E $_ZN3std5alloc24default_alloc_error_hook17hab840010b11b64ffE $_ZN4core3ptr100drop_in_place$LT$$RF$mut$u20$std..io..Write..write_fmt..Adapter$LT$alloc..vec..Vec$LT$u8$GT$$GT$$GT$17hd4e2b285c82bbfddE $_ZN50_$LT$$RF$mut$u20$W$u20$as$u20$core..fmt..Write$GT$9write_str17he71ac95e8290658dE $_ZN50_$LT$$RF$mut$u20$W$u20$as$u20$core..fmt..Write$GT$10write_char17h7cac422012c51d26E $_ZN50_$LT$$RF$mut$u20$W$u20$as$u20$core..fmt..Write$GT$9write_fmt17h8ae0b2b6f28f8ca0E $_ZN4core3ptr42drop_in_place$LT$alloc..string..String$GT$17h55fc1a049449355bE $_ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17h2f9122058122ec53E $_ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17h493a5d87ecb9888bE $_ZN93_$LT$std..panicking..begin_panic_handler..StrPanicPayload$u20$as$u20$core..panic..BoxMeUp$GT$8take_box17hb935537982794978E $_ZN93_$LT$std..panicking..begin_panic_handler..StrPanicPayload$u20$as$u20$core..panic..BoxMeUp$GT$3get17h5a47fb41c3bdfcd5E $_ZN4core3ptr70drop_in_place$LT$std..panicking..begin_panic_handler..PanicPayload$GT$17h8c6df4fab5d2c7ebE $_ZN90_$LT$std..panicking..begin_panic_handler..PanicPayload$u20$as$u20$core..panic..BoxMeUp$GT$8take_box17h910c38d4f578a2b7E $_ZN90_$LT$std..panicking..begin_panic_handler..PanicPayload$u20$as$u20$core..panic..BoxMeUp$GT$3get17hdf52e0f41fcdce1bE $_ZN4core3ptr29drop_in_place$LT$$LP$$RP$$GT$17h4601b2f1c809a5c8E $_ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17hc16c025c0c717dd0E $_ZN4core3ops8function6FnOnce9call_once17h76067c467ab7d853E $_ZN42_$LT$$RF$T$u20$as$u20$core..fmt..Debug$GT$3fmt17h492aa3edaecea1b7E $_ZN44_$LT$$RF$T$u20$as$u20$core..fmt..Display$GT$3fmt17hb73b6a73788677afE $_ZN59_$LT$core..fmt..Arguments$u20$as$u20$core..fmt..Display$GT$3fmt17h10a377a6759b4243E $_ZN4core3ptr37drop_in_place$LT$core..fmt..Error$GT$17h20c52a201febd195E $_ZN36_$LT$T$u20$as$u20$core..any..Any$GT$7type_id17hfb753db928a637b4E $_ZN4core3ptr102drop_in_place$LT$$RF$core..iter..adapters..copied..Copied$LT$core..slice..iter..Iter$LT$u8$GT$$GT$$GT$17hfa8c64d5360f8a2aE $_ZN68_$LT$core..fmt..builders..PadAdapter$u20$as$u20$core..fmt..Write$GT$9write_str17hdafde26fcff4b2d8E $_ZN4core3fmt5Write10write_char17h3f59a8cf545d4fe7E $_ZN4core3fmt5Write9write_fmt17h2e6bceee10c37b66E $_ZN50_$LT$$RF$mut$u20$W$u20$as$u20$core..fmt..Write$GT$9write_str17hcaa6cd3ac839b2faE $_ZN50_$LT$$RF$mut$u20$W$u20$as$u20$core..fmt..Write$GT$10write_char17h080db87b87f4d73cE $_ZN50_$LT$$RF$mut$u20$W$u20$as$u20$core..fmt..Write$GT$9write_fmt17hf9a0ca43263b8ba6E) )
+(elem (;0;) (i32.const 1) func 21 10 19 12 138 78 59 66 63 65 61 55 56 86 87 62 84 85 60 57 131 148 142 149 133 141 132 150 152 153 154 155 156 )
 (data $.rodata (;0;) (i32.const 1048576) "assertion failed: 0 < pointee_size && pointee_size <= isize::MAX as usize/rustc/5680fa18feaa87f3ff04063800aec256c3d4b4be/library/core/src/ptr/const_ptr.rs\00\00I\00\10\00Q\00\00\00\1d\03\00\00\09\00\00\00/rustc/5680fa18feaa87f3ff04063800aec256c3d4b4be/library/core/src/iter/traits/exact_size.rs\00\00\ac\00\10\00Z\00\00\00z\00\00\00\09\00\00\00/rustc/5680fa18feaa87f3ff04063800aec256c3d4b4be/library/core/src/alloc/layout.rs\18\01\10\00P\00\00\00\bf\01\00\00)\00\00\00\00\00\00\00\00\00\00\00attempt to divide by zero\00\00\00\01\00\00\00\04\00\00\00\04\00\00\00\02\00\00\00NoneSome\03\00\00\00\04\00\00\00\04\00\00\00\04\00\00\00called `Option::unwrap()` on a `None` value\00\07\00\00\00\04\00\00\00\04\00\00\00\08\00\00\00\09\00\00\00\0a\00\00\00memory allocation of  bytes failed\00\00\08\02\10\00\15\00\00\00\1d\02\10\00\0d\00\00\00library/std/src/alloc.rs<\02\10\00\18\00\00\00U\01\00\00\09\00\00\00library/std/src/panicking.rsd\02\10\00\1c\00\00\00O\02\00\00\1f\00\00\00d\02\10\00\1c\00\00\00P\02\00\00\1e\00\00\00\0b\00\00\00\0c\00\00\00\04\00\00\00\0c\00\00\00\07\00\00\00\08\00\00\00\04\00\00\00\0d\00\00\00\07\00\00\00\08\00\00\00\04\00\00\00\0e\00\00\00\0f\00\00\00\10\00\00\00\10\00\00\00\04\00\00\00\11\00\00\00\12\00\00\00\13\00\00\00\00\00\00\00\01\00\00\00\14\00\00\00library/alloc/src/raw_vec.rscapacity overflow\00\00\00\14\03\10\00\11\00\00\00\f8\02\10\00\1c\00\00\00\0c\02\00\00\05\00\00\00)\00\00\00\19\00\00\00\00\00\00\00\01\00\00\00\1a\00\00\00==!=matchesassertion failed: `(left  right)`\0a  left: ``,\0a right: ``\00_\03\10\00\19\00\00\00x\03\10\00\12\00\00\00\8a\03\10\00\0c\00\00\00\96\03\10\00\01\00\00\00`: \00_\03\10\00\19\00\00\00x\03\10\00\12\00\00\00\8a\03\10\00\0c\00\00\00\b8\03\10\00\03\00\00\00\1b\00\00\00\0c\00\00\00\04\00\00\00\1c\00\00\00\1d\00\00\00\1e\00\00\00    , ,\0a((\0a,library/core/src/fmt/num.rs\00\00\04\10\00\1b\00\00\00i\00\00\00\14\00\00\000x00010203040506070809101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899\00\00\1b\00\00\00\04\00\00\00\04\00\00\00\1f\00\00\00 \00\00\00!\00\00\00range start index  out of range for slice of length \10\05\10\00\12\00\00\00\22\05\10\00\22\00\00\00")
 (@producers
 (language "Rust" "")

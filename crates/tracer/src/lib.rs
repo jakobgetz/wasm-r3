@@ -276,7 +276,19 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
         {
             let (code, typ, offs) = get_store_info(&mut l)?;
             gen_wat.extend(trace_u8(code, offset));
-            gen_wat.extend(trace_store_stack(&typ, offs, offset));
+            // gen_wat.extend(trace_store_stack(&typ, offs, offset));
+            gen_wat.extend(trace_stack_value(Some(&typ), offset));
+            gen_wat.push(format!("local.set {}", typ.to_local()));
+            if let Some(o) = offs {
+                gen_wat.push(format!("i32.const {}", o));
+                gen_wat.push(format!("i32.add"));
+            }
+            gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
+            gen_wat.push(format!("global.get {}", MEM_POINTER));
+            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+            gen_wat.push(format!("i32.store offset={}", offset));
+            *offset += ValType::I32.get_byte_length();
+            gen_wat.push(format!("local.get {}", typ.to_local()));
             gen_wat.push(l);
             gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("table.get") {
@@ -572,10 +584,7 @@ fn adapt_export_func_idx(input: &mut String) -> Result<(), &'static str> {
 
 /// This parses element sections
 /// This needs to increment all function indexes by 2 because we add two imported functions in the beginning
-fn adapt_elem_func_idx(
-    input: &mut String,
-    functions: &Vec<Function>,
-) -> Result<(), &'static str> {
+fn adapt_elem_func_idx(input: &mut String, functions: &Vec<Function>) -> Result<(), &'static str> {
     // (elem (;0;) (i32.const 0) func 4 5)
     // (elem (;1;) (table 1) (i32.const 0) func $func_name 7))
     let mut parts: Vec<String> = input.split_whitespace().map(|s| s.into()).collect();
@@ -708,7 +717,6 @@ fn get_exp_index_func(input: &str, functions: &Vec<Function>) -> Result<usize, &
     if parts.len() > 3 {
         if parts[3].starts_with("$") {
             for (i, f) in functions.iter().enumerate() {
-                dbg!(&f.identifier);
                 if let Some(id) = &f.identifier {
                     if id == parts[3].trim_end_matches(')') {
                         return Ok(i);
@@ -760,10 +768,11 @@ fn get_table_idx_by_table_get(input: &str) -> Result<u32, &'static str> {
 }
 
 fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
-    // load or store can have these 3 forms
+    // load or store can have these 4 forms
     // i32.load
     // i32.load offset=4
     // i32.load offset=4 align=4
+    // i32.load align=4
     let mut parts: Vec<&str> = wasm_text.split_whitespace().collect();
     if parts.len() > 3 {
         return Err("Couldnt parse load or store instruction. To many components");
@@ -774,11 +783,21 @@ fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
         .and_then(|offset_part| offset_part.strip_prefix("offset="))
         .and_then(|number_str| number_str.parse::<u32>().ok());
     if parts.len() < 3 {
-        *wasm_text = parts[0].to_string();
+        if let Some(_) = offset {
+            // dbg!("CHANGE");
+            // dbg!(&wasm_text);
+            *wasm_text = parts[0].to_string();
+            // dbg!(&wasm_text);
+        }
     } else {
+        dbg!("CHANGE");
+        dbg!(&wasm_text);
         *wasm_text = format!("{} {}", parts[0], parts[2]);
+        dbg!(&wasm_text);
+        dbg!(&offset);
     }
     Ok(offset)
+    // Ok(Some(0))
 }
 
 fn get_load_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'static str> {
@@ -1009,6 +1028,17 @@ impl ValType {
             ValType::F64 => 3,
             ValType::Funcref => 4,
             ValType::U8 => 5,
+        }
+    }
+
+    fn get_byte_length(&self) -> u32 {
+        match self {
+            ValType::U8 => 1,
+            ValType::I32 => 4,
+            ValType::I64 => 8,
+            ValType::F32 => 4,
+            ValType::F64 => 8,
+            ValType::Funcref => 4,
         }
     }
 }

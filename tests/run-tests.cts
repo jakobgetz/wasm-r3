@@ -222,7 +222,7 @@ async function runNodeTests(names: string[], options) {
     'mem-exp-host-grow',
     'mem-imp-host-grow',
     'mem-exp-host-grow-no-return',
-    'rust-game-of-life',
+    // 'rust-game-of-life',
   ]
   names = names.filter((n) => !filter.includes(n))
   // names = ["mem-imp-host-grow"]
