@@ -45,7 +45,7 @@ fn generate(args: Vec<String>) -> io::Result<()> {
     let trace = trace
         .map(|e| e.unwrap())
         .filter(|e| call_optimiser.discard_event(e))
-        .filter(|e| shadow_mem_optimiser.discard_event(e))
+        // .filter(|e| shadow_mem_optimiser.discard_event(e))
         .filter(|e| shadow_table_optimiser.discard_event(e))
         .map(|e| func_entry_transformer.transform_event(e))
         .for_each(|e| generator.consume_event(e));

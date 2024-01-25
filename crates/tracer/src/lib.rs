@@ -58,6 +58,7 @@ const LOCAL_I64: &str = "$i64";
 const LOCAL_F32: &str = "$f32";
 const LOCAL_F64: &str = "$f64";
 const INTERNAL_CALL_GLOBAL: &str = "$internal_call";
+const SHADOW_MEM: &str = "$shadow_mem";
 
 pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
     let mut orig_wat = wasmprinter::print_bytes(buffer).unwrap();
@@ -75,6 +76,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
     let mut memories = Vec::new();
     let mut tables = Vec::new();
     let mut func_idx = 0;
+    let mut shadows = Vec::new();
     for l in orig_wat.clone() {
         let l = l.trim();
         if l.starts_with("(type") {
@@ -88,8 +90,11 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
         } else if l.starts_with("(import") && l.contains("(global") {
             globals.push(Global::from_global_import(l)?);
         } else if l.starts_with("(import") && l.contains("(memory") {
+            let mem = extract_definition(l.into(), "(memory")?;
+            shadows.push(transform_to_shadow(mem, SHADOW_MEM)?);
             memories.push(true);
         } else if l.starts_with("(memory") {
+            shadows.push(transform_to_shadow(l.into(), SHADOW_MEM)?);
             memories.push(false);
         } else if l.starts_with("(import") && l.contains("(table") {
             tables.push(Table { public: true });
@@ -253,43 +258,68 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.extend(trace_u8(0x40, offset));
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
             gen_wat.extend(increment_mem_pointer(offset));
+            gen_wat.push(format!("local.get {}", LOCAL_I32));
+            gen_wat.push(format!("memory.grow {}", SHADOW_MEM));
+            gen_wat.push(format!("drop"));
             gen_wat.push(l);
         } else if l.starts_with("i32.load")
             || l.starts_with("i64.load")
             || l.starts_with("f32.load")
             || l.starts_with("f64.load")
         {
-            let (code, typ, offs) = get_load_info(&mut l)?;
+            let (code, typ, offs) = get_load_info(&l)?;
+            // shadow mem opt
+            gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
+            gen_wat.push(l.clone());
+            gen_wat.push(format!("local.tee {}", typ.to_local()));
+            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+            gen_wat.push(to_shadow_mem_instr(&l)?);
+            gen_wat.push(format!("{}.ne", typ.to_string()));
+            gen_wat.push(format!("(if (then"));
+            // instrumentation
             gen_wat.extend(trace_u8(code, offset));
+            gen_wat.push(format!("global.get {}", MEM_POINTER));
+            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
             if let Some(offs) = offs {
                 gen_wat.push(format!("i32.const {}", offs));
                 gen_wat.push("i32.add".into());
             }
-            gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
-            gen_wat.push(l);
-            gen_wat.extend(trace_stack_value(Some(&typ), offset));
+            gen_wat.push(store_value(&ValType::I32, offset));
+            gen_wat.push(format!("global.get {}", MEM_POINTER));
+            gen_wat.push(format!("local.get {}", typ.to_local()));
+            gen_wat.push(store_value(&typ, offset));
             gen_wat.extend(increment_mem_pointer(offset));
+            // end
+            gen_wat.push(") (else))".into());
+            gen_wat.push(format!("local.get {}", typ.to_local()));
         } else if l.contains("i32.store")
             || l.contains("i64.store")
             || l.contains("f32.store")
             || l.contains("f64.store")
         {
-            let (code, typ, offs) = get_store_info(&mut l)?;
-            gen_wat.extend(trace_u8(code, offset));
-            gen_wat.extend(trace_stack_value(Some(&typ), offset));
+            let (code, typ, offs) = get_store_info(&l)?;
             gen_wat.push(format!("local.set {}", typ.to_local()));
-            if let Some(o) = offs {
-                gen_wat.push(format!("i32.const {}", o));
-                gen_wat.push(format!("i32.add"));
-            }
             gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
-            gen_wat.push(format!("global.get {}", MEM_POINTER));
+            gen_wat.push(format!("local.get {}", typ.to_local()));
+            gen_wat.push(to_shadow_mem_instr(&l)?);
             gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(format!("i32.store {} offset={}", TRACE_MEM, offset));
-            *offset += ValType::I32.get_byte_length();
             gen_wat.push(format!("local.get {}", typ.to_local()));
             gen_wat.push(l);
-            gen_wat.extend(increment_mem_pointer(offset));
+            // gen_wat.extend(trace_u8(code, offset));
+            // gen_wat.extend(trace_stack_value(Some(&typ), offset));
+            // gen_wat.push(format!("local.set {}", typ.to_local()));
+            // if let Some(o) = offs {
+            //     gen_wat.push(format!("i32.const {}", o));
+            //     gen_wat.push(format!("i32.add"));
+            // }
+            // gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
+            // gen_wat.push(format!("global.get {}", MEM_POINTER));
+            // gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+            // gen_wat.push(format!("i32.store {} offset={}", TRACE_MEM, offset));
+            // *offset += ValType::I32.get_byte_length();
+            // gen_wat.push(format!("local.get {}", typ.to_local()));
+            // gen_wat.push(l);
+            // gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("table.get") {
             let table_idx = get_table_idx_by_table_get(&l)?;
             gen_wat.extend(trace_u8(0x25, offset));
@@ -335,6 +365,16 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
         } else if l.starts_with("(elem") {
             adapt_elem_func_idx(&mut l, &mut functions)?;
             gen_wat.push(l);
+        } else if l.starts_with("(data") {
+            gen_wat.push(transform_to_shadow(l.clone(), SHADOW_MEM)?);
+            gen_wat.push(l);
+        } else if l.starts_with("(@producers") {
+            let mut closed_bracket = "";
+            while closed_bracket != ")" {
+                if let Some(x) = orig_wat.next() {
+                    closed_bracket = x.trim();
+                }
+            }
         } else if let None = orig_wat.peek() {
             l.pop();
             gen_wat.push(l);
@@ -358,6 +398,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
                 "(global {} (mut i32) (i32.const 0))",
                 INTERNAL_CALL_GLOBAL
             ));
+            gen_wat.extend(shadows.clone());
             gen_wat.push(")".into())
         } else {
             gen_wat.push(l);
@@ -766,7 +807,7 @@ fn get_table_idx_by_table_get(input: &str) -> Result<u32, &'static str> {
     }
 }
 
-fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
+fn get_mem_offset(wasm_text: &String) -> Result<Option<u32>, &'static str> {
     // load or store can have these 4 forms
     // i32.load
     // i32.load offset=4
@@ -781,25 +822,25 @@ fn get_mem_offset(wasm_text: &mut String) -> Result<Option<u32>, &'static str> {
         .find(|&part| part.starts_with("offset="))
         .and_then(|offset_part| offset_part.strip_prefix("offset="))
         .and_then(|number_str| number_str.parse::<u32>().ok());
-    if parts.len() < 3 {
-        if let Some(_) = offset {
-            // dbg!("CHANGE");
-            // dbg!(&wasm_text);
-            *wasm_text = parts[0].to_string();
-            // dbg!(&wasm_text);
-        }
-    } else {
-        // dbg!("CHANGE");
-        // dbg!(&wasm_text);
-        *wasm_text = format!("{} {}", parts[0], parts[2]);
-        // dbg!(&wasm_text);
-        // dbg!(&offset);
-    }
+    // if parts.len() < 3 {
+    //     if let Some(_) = offset {
+    //         // dbg!("CHANGE");
+    //         // dbg!(&wasm_text);
+    //         *wasm_text = parts[0].to_string();
+    //         // dbg!(&wasm_text);
+    //     }
+    // } else {
+    //     // dbg!("CHANGE");
+    //     // dbg!(&wasm_text);
+    //     *wasm_text = format!("{} {}", parts[0], parts[2]);
+    //     // dbg!(&wasm_text);
+    //     // dbg!(&offset);
+    // }
     Ok(offset)
     // Ok(Some(0))
 }
 
-fn get_load_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'static str> {
+fn get_load_info(wat: &String) -> Result<(u8, ValType, Option<u32>), &'static str> {
     let offset = get_mem_offset(wat)?;
     if wat.starts_with("i32.load8") {
         Ok((0x2C, ValType::I32, offset))
@@ -824,7 +865,7 @@ fn get_load_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'stati
     }
 }
 
-fn get_store_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'static str> {
+fn get_store_info(wat: &String) -> Result<(u8, ValType, Option<u32>), &'static str> {
     let offset = get_mem_offset(wat)?;
     if wat.starts_with("i32.store8") {
         Ok((0x3A, ValType::I32, offset))
@@ -986,6 +1027,23 @@ fn trace_return(gen_wat: &mut Vec<String>, offset: &mut u32) {
     gen_wat.extend(check_table());
 }
 
+fn transform_to_shadow(wat: String, identifier: &str) -> Result<String, &'static str> {
+    let mut parts: Vec<&str> = wat
+        .split_ascii_whitespace()
+        .filter(|part| !part.starts_with("(;") && !part.starts_with("$"))
+        .collect();
+    parts.insert(1, identifier);
+    let shadow = parts.join(" ");
+    Ok(shadow)
+}
+
+fn to_shadow_mem_instr(instr: &str) -> Result<String, &'static str> {
+    let mut parts: Vec<&str> = instr.split_whitespace().collect();
+    parts.insert(1, SHADOW_MEM);
+    let shadow = parts.join(" ");
+    Ok(shadow)
+}
+
 #[derive(Clone, Debug)]
 enum ValType {
     U8,
@@ -1038,6 +1096,17 @@ impl ValType {
             ValType::F32 => 4,
             ValType::F64 => 8,
             ValType::Funcref => 4,
+        }
+    }
+
+    fn to_string(&self) -> String {
+        match self {
+            ValType::U8 => panic!("Shouldnt transform u3 to string"),
+            ValType::I32 => "i32".into(),
+            ValType::I64 => "i64".into(),
+            ValType::F32 => "f32".into(),
+            ValType::F64 => "f64".into(),
+            ValType::Funcref => panic!("Shouldnt transform funcref to string"),
         }
     }
 }
@@ -1182,4 +1251,31 @@ impl Function {
 
 struct Table {
     public: bool,
+}
+
+/// please provide something like "(memory" or "(global" or "(table" as keyword
+fn extract_definition(input: String, keyword: &str) -> Result<String, &'static str> {
+    let start_index = input.find(keyword).ok_or("Keyword not found")?;
+
+    // Find the closing bracket ')' after the keyword
+    let mut close_bracket_index = start_index;
+    let mut bracket_count = 1;
+    while close_bracket_index < input.len() && bracket_count > 0 {
+        close_bracket_index += 1;
+        match &input[close_bracket_index..=close_bracket_index] {
+            "(" => bracket_count += 1,
+            ")" => bracket_count -= 1,
+            _ => {}
+        }
+    }
+    if bracket_count != 0 {
+        return Err("Closing bracket not found");
+    }
+
+    // Extract and return the definition
+    if start_index < close_bracket_index {
+        Ok(input[start_index..=close_bracket_index].to_string())
+    } else {
+        Err("Invalid structure in extract definition")
+    }
 }

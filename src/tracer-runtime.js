@@ -92,8 +92,6 @@ function setup() {
                 }
                 bufferView[bufferView.byteLength - 2] = href.length
                 bufferView[bufferView.byteLength - 1] = 1 // 1 for lookup type
-                console.log('bufferView', bufferView)
-                console.log('bufferView32', bufferView32)
 
                 traceWorker.postMessage(message)
                 console.log('reset lookup table pointer')

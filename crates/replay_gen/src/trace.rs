@@ -790,9 +790,6 @@ fn read_i16(reader: &mut BufReader<File>) -> anyhow::Result<i16> {
 fn read_i32(reader: &mut BufReader<File>) -> anyhow::Result<i32> {
     let mut buf = [0; 4];
     reader.read_exact(&mut buf)?;
-    if i32::from_le_bytes(buf.clone()) == 13088 {
-        panic!()
-    }
     Ok(i32::from_le_bytes(buf))
 }
 
