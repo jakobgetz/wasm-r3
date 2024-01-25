@@ -5,7 +5,7 @@
     memory.grow
     i32.const -1
     i32.eq
-    (if (then) (else unreachable))
+    (if (then unreachable) (else))
     i32.const 65533
     i32.const 1
     i32.store

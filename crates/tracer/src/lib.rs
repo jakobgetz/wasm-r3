@@ -92,9 +92,9 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
         } else if l.starts_with("(memory") {
             memories.push(false);
         } else if l.starts_with("(import") && l.contains("(table") {
-            tables.push(true);
+            tables.push(Table { public: true });
         } else if l.starts_with("(table") {
-            tables.push(false);
+            tables.push(Table { public: false });
         } else if l.starts_with("(func") {
             let type_idx = get_type_idx_by_func_def(l)?;
             types_by_functions.insert(func_idx, types.get(type_idx as usize).unwrap().clone());
@@ -110,11 +110,13 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             memories[memory_idx] = true;
         } else if l.starts_with("(export") && l.contains("(table") {
             let table_idx = get_exp_index(l)?;
-            tables[table_idx] = true;
+            tables[table_idx].public = true;
         } else if l.starts_with("(export") && l.contains("(func") {
             let func_idx = get_exp_index_func(l, &functions)?;
             functions.get_mut(func_idx).unwrap().public = true;
             functions.get_mut(func_idx).unwrap().exported = true;
+        } else if l.starts_with("(elem") {
+            elem_func_public(l, &mut functions, &tables)?;
         }
     }
 
@@ -125,7 +127,10 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
         instrumented_calls: 0,
         functions: functions.len(),
         local_functions: functions.iter().filter(|f| !f.imported).count(),
-        public_local_functions: functions.iter().filter(|f| f.public && !f.imported).count(),
+        public_local_functions: functions
+            .iter()
+            .filter(|f| f.in_public_table || f.exported)
+            .count(),
         instrumented_function_entries_based_on_my_own_count: 0,
     };
     func_idx = 0;
@@ -173,7 +178,8 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.push(l);
             gen_wat.push(typ.locals_wat());
             local_count += 6 + typ.results.len();
-            if functions.get(func_idx as usize).unwrap().public {
+            let func = functions.get(func_idx as usize).unwrap();
+            if func.exported || func.in_public_table {
                 // if false {
                 stats.instrumented_function_entries_based_on_my_own_count += 1;
                 gen_wat.push(format!("global.get {}", INTERNAL_CALL_GLOBAL));
@@ -188,7 +194,8 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             }
             func_idx += 1;
         } else if l == "return" {
-            if functions.get((func_idx - 1) as usize).unwrap().exported {
+            let func = functions.get((func_idx - 1) as usize).unwrap();
+            if func.exported || func.in_public_table {
                 trace_return(&mut gen_wat, offset);
             }
             gen_wat.push(l);
@@ -246,6 +253,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.extend(trace_u8(0x40, offset));
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
             gen_wat.extend(increment_mem_pointer(offset));
+            gen_wat.push(l);
         } else if l.starts_with("i32.load")
             || l.starts_with("i64.load")
             || l.starts_with("f32.load")
@@ -314,7 +322,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             adapt_export_func_idx(&mut l)?;
             gen_wat.push(l);
         } else if l.starts_with("(elem") {
-            adapt_elem_func_idx(&mut l)?;
+            adapt_elem_func_idx(&mut l, &mut functions)?;
             gen_wat.push(l);
         } else if let None = orig_wat.peek() {
             l.pop();
@@ -344,7 +352,8 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.push(l);
         }
         if is_new_section(orig_wat.peek()) && inside_func {
-            if functions.get((func_idx - 1) as usize).unwrap().exported {
+            let func = functions.get((func_idx - 1) as usize).unwrap();
+            if func.exported || func.in_public_table {
                 // if false {
                 trace_return(&mut gen_wat, offset);
             }
@@ -561,22 +570,99 @@ fn adapt_export_func_idx(input: &mut String) -> Result<(), &'static str> {
     Ok(())
 }
 
-fn adapt_elem_func_idx(input: &mut String) -> Result<(), &'static str> {
+/// This parses element sections
+/// This needs to increment all function indexes by 2 because we add two imported functions in the beginning
+fn adapt_elem_func_idx(
+    input: &mut String,
+    functions: &Vec<Function>,
+) -> Result<(), &'static str> {
+    // (elem (;0;) (i32.const 0) func 4 5)
+    // (elem (;1;) (table 1) (i32.const 0) func $func_name 7))
     let mut parts: Vec<String> = input.split_whitespace().map(|s| s.into()).collect();
-    let len = parts.len();
-    for i in 5..len {
-        parts[i] = parts[i].trim_end_matches(')').to_string();
-        if parts[i].starts_with("$") {
-            continue;
+    let mut start_idx = 5;
+    if parts.iter().filter(|p| p.starts_with("(")).count() == 4 {
+        if parts[3].trim_end_matches(')').starts_with("$") {
+            return Err("Table index starts with $ in elem section not supported yet");
         }
-        let mut x = parts[i]
-            .parse::<u32>()
-            .map_err(|_| "couldn parse elem number")?;
-        x += 2;
-        parts[i] = x.to_string();
+        start_idx = 7;
+    }
+    let len = parts.len();
+    for i in start_idx..len {
+        parts[i] = parts[i].trim_end_matches(')').to_string();
+        let func_idx = if parts[i].starts_with("$") {
+            functions
+                .iter()
+                .enumerate()
+                .find(|(_, f)| {
+                    if let Some(n) = &f.identifier {
+                        if *n == parts[i] {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .map(|(func_idx, _)| func_idx)
+                .ok_or("Couldnt map func identifier to func idx in elem section")?
+        } else {
+            parts[i]
+                .parse::<usize>()
+                .map_err(|_| "Couldnt func idx in elem section")?
+        };
+        parts[i] = (func_idx + 2).to_string();
     }
     parts.push(")".into());
     *input = parts.join(" ");
+    Ok(())
+}
+
+/// This parses element sections
+/// If the corresponding table is public this also sets the respective functions to public
+fn elem_func_public(
+    input: &str,
+    functions: &mut Vec<Function>,
+    tables: &Vec<Table>,
+) -> Result<(), &'static str> {
+    // (elem (;0;) (i32.const 0) func 4 5)
+    // (elem (;1;) (table 1) (i32.const 0) func $func_name 7))
+    let mut parts: Vec<String> = input.split_whitespace().map(|s| s.into()).collect();
+    let mut start_idx = 5;
+    let mut table_idx = 0;
+    if parts.iter().filter(|p| p.starts_with("(")).count() == 4 {
+        if parts[3].trim_end_matches(')').starts_with("$") {
+            return Err("Table index starts with $ in elem section not supported yet");
+        }
+        table_idx = parts[3]
+            .trim_end_matches(')')
+            .parse::<usize>()
+            .map_err(|_| "Couldnt parse table idx in elem section")?;
+        start_idx = 7;
+    }
+    let len = parts.len();
+    for i in start_idx..len {
+        parts[i] = parts[i].trim_end_matches(')').to_string();
+        let func_idx = if parts[i].starts_with("$") {
+            functions
+                .iter()
+                .enumerate()
+                .find(|(_, f)| {
+                    if let Some(n) = &f.identifier {
+                        if *n == parts[i] {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .map(|(func_idx, _)| func_idx)
+                .ok_or("Couldnt map func identifier to func idx in elem section")?
+        } else {
+            parts[i]
+                .parse::<usize>()
+                .map_err(|_| "Couldnt func idx in elem section")?
+        };
+        if tables.get(table_idx).unwrap().public {
+            functions.get_mut(func_idx).unwrap().in_public_table = true;
+        }
+    }
     Ok(())
 }
 
@@ -744,89 +830,6 @@ fn get_store_info(wat: &mut String) -> Result<(u8, ValType, Option<u32>), &'stat
         Err("Getting store info failed")
     }
 }
-
-// #[derive(Debug)]
-// enum Store {
-//     I32store8,
-//     I32store16,
-//     I32store,
-//     I64store8,
-//     I64store16,
-//     I64store32,
-//     I64store,
-//     F32store,
-//     F64store,
-// }
-
-// impl Store {
-//     fn get_store_info(wat: &str) -> Result<(u8, Store), &'static str> {
-//         if wat.starts_with("i32.store8") {
-//             Ok((0x3A, Store::I32store8))
-//         } else if wat.starts_with("i32.store16") {
-//             Ok((0x3B, Store::I32store16))
-//         } else if wat.starts_with("i32.store") {
-//             Ok((0x36, Store::I32store))
-//         } else if wat.starts_with("i64.store8") {
-//             Ok((0x3C, Store::I64store8))
-//         } else if wat.starts_with("i64.store16") {
-//             Ok((0x3D, Store::I64store16))
-//         } else if wat.starts_with("i64.store32") {
-//             Ok((0x3E, Store::I64store32))
-//         } else if wat.starts_with("i64.store") {
-//             Ok((0x37, Store::I64store))
-//         } else if wat.starts_with("f32.store") {
-//             Ok((0x38, Store::F32store))
-//         } else if wat.starts_with("f64.store") {
-//             Ok((0x39, Store::F64store))
-//         } else {
-//             Err("Getting store info failed")
-//         }
-//     }
-
-//     fn store(&self, offset: &mut u32) -> Vec<String> {
-//         let local = self.to_local();
-//         let instrs = vec![
-//             format!("local.set {}", local),
-//             format!("global.get {}", MEM_POINTER),
-//             format!("local.get {}", local),
-//             self.to_string(),
-//             format!("local.tee {}", LOCAL_ADDR),
-//             format!("global.get {}", MEM_POINTER),
-//             format!("local.get {}", LOCAL_ADDR),
-//             store_value(&ValType::I32, offset),
-//             format!("local.get {}", local),
-//         ];
-//         instrs
-//     }
-
-//     fn to_local(&self) -> &'static str {
-//         match self {
-//             Store::I32store8 => LOCAL_I32,
-//             Store::I32store16 => LOCAL_I32,
-//             Store::I32store => LOCAL_I32,
-//             Store::I64store8 => LOCAL_I64,
-//             Store::I64store16 => LOCAL_I64,
-//             Store::I64store32 => LOCAL_I64,
-//             Store::I64store => LOCAL_I64,
-//             Store::F32store => LOCAL_F32,
-//             Store::F64store => LOCAL_F64,
-//         }
-//     }
-
-//     fn to_string(&self) -> String {
-//         match self {
-//             Store::I32store8 => "i32.store8".into(),
-//             Store::I32store16 => "i32.store16".into(),
-//             Store::I32store => "i32.store".into(),
-//             Store::I64store8 => "i64.store8".into(),
-//             Store::I64store16 => "i64.store16".into(),
-//             Store::I64store32 => "i64.store32".into(),
-//             Store::I64store => "i64.store".into(),
-//             Store::F32store => "f32.store".into(),
-//             Store::F64store => "f64.store".into(),
-//         }
-//     }
-// }
 
 fn get_global_idx(input: &str, globals: &Vec<Global>) -> Result<u32, &'static str> {
     let parts: Vec<&str> = input.split_whitespace().collect();
@@ -1086,12 +1089,13 @@ impl Global {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Function {
     public: bool,
     identifier: Option<String>,
     imported: bool,
     exported: bool,
+    in_public_table: bool,
 }
 
 impl Function {
@@ -1106,6 +1110,7 @@ impl Function {
             identifier,
             imported: false,
             exported: false,
+            in_public_table: false,
         })
     }
 
@@ -1144,4 +1149,8 @@ impl Function {
             Err("No function declaration found")
         }
     }
+}
+
+struct Table {
+    public: bool,
 }
