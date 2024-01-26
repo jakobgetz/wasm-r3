@@ -107,5 +107,17 @@
             "program": "${workspaceFolder}/dist/src/cli/dbg-replay.cjs",
             "args": []
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "quick-test",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/test.js",
+            "runtimeArgs": [
+                "--experimental-wasm-gc",
+            ],
+        }
     ]
 }

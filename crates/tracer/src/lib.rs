@@ -59,6 +59,7 @@ const LOCAL_F32: &str = "$f32";
 const LOCAL_F64: &str = "$f64";
 const INTERNAL_CALL_GLOBAL: &str = "$internal_call";
 const SHADOW_MEM: &str = "$shadow_mem";
+const SHADOW_TABLE: &str = "$shadow_table";
 
 pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
     let mut orig_wat = wasmprinter::print_bytes(buffer).unwrap();
@@ -97,8 +98,13 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             shadows.push(transform_to_shadow(l.into(), SHADOW_MEM)?);
             memories.push(false);
         } else if l.starts_with("(import") && l.contains("(table") {
+            // FOR SHADOW TABLE, THIS CURRENTLY ONLY SUPPORTS 1 TABLE
+            // let table = extract_definition(l.into(), "(table")?;
+            // shadows.push(transform_to_shadow(table, SHADOW_TABLE)?);
             tables.push(Table { public: true });
+            // FOR SHADOW TABLE, THIS CURRENTLY ONLY SUPPORTS 1 TABLE
         } else if l.starts_with("(table") {
+            // shadows.push(transform_to_shadow(l.into(), SHADOW_TABLE)?);
             tables.push(Table { public: false });
         } else if l.starts_with("(func") {
             let type_idx = get_type_idx_by_func_def(l)?;
@@ -208,6 +214,31 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             let called_type_idx = get_type_idx_by_call_indirect(&l)?;
             let called_type = types.get(called_type_idx).unwrap();
             let table_idx = get_table_idx_by_call_indirect(&l)?;
+            // SHADOW TABLE OPTIMISATION
+            // gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
+            // gen_wat.push(format!("table.get"));
+            // gen_wat.push(format!("local.tee {}", LOCAL_FUNCREF));
+            // gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+            // gen_wat.push(format!("table.get {}", SHADOW_TABLE));
+            // gen_wat.push(format!("ref.eq"));
+            // gen_wat.push(format!("(if (then) (else"));
+            // gen_wat.extend(trace_u8(0x11, offset));
+            // gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+            // gen_wat.extend(trace_u32(table_idx, offset));
+            // gen_wat.push(format!("local.get {}", LOCAL_FUNCREF));
+            // gen_wat.extend(save_funcref(offset));
+            // gen_wat.push("drop".into());
+            // gen_wat.extend(increment_mem_pointer(offset));
+            // gen_wat.push(l);
+            // gen_wat.extend(trace_u8(0xFE, offset));
+            // gen_wat.push(format!("global.get {}", MEM_POINTER));
+            // gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+            // gen_wat.push(store_value(&ValType::I32, offset));
+            // gen_wat.extend(trace_u32(called_type.idx, offset));
+            // gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
+            // gen_wat.extend(increment_mem_pointer(offset));
+            // gen_wat.push("))".into());
+            // REPLACE THE FOLLOWING WITH THE ABOVE FOR THE SHADOW MEMORY OPTIMISATION
             gen_wat.extend(trace_u8(0x11, offset));
             gen_wat.extend(trace_u32(table_idx, offset));
             gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
@@ -255,12 +286,14 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
                 gen_wat.push(l);
             }
         } else if l.starts_with("memory.grow") {
-            gen_wat.extend(trace_u8(0x40, offset));
-            gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
-            gen_wat.extend(increment_mem_pointer(offset));
-            gen_wat.push(format!("local.get {}", LOCAL_I32));
+            // gen_wat.extend(trace_u8(0x40, offset));
+            // gen_wat.extend(trace_stack_value(Some(&ValType::I32), offset));
+            // gen_wat.extend(increment_mem_pointer(offset));
+            // gen_wat.push(format!("local.get {}", LOCAL_I32));
+            gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
             gen_wat.push(format!("memory.grow {}", SHADOW_MEM));
             gen_wat.push(format!("drop"));
+            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
             gen_wat.push(l);
         } else if l.starts_with("i32.load")
             || l.starts_with("i64.load")
@@ -305,21 +338,6 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.push(format!("local.get {}", LOCAL_ADDR));
             gen_wat.push(format!("local.get {}", typ.to_local()));
             gen_wat.push(l);
-            // gen_wat.extend(trace_u8(code, offset));
-            // gen_wat.extend(trace_stack_value(Some(&typ), offset));
-            // gen_wat.push(format!("local.set {}", typ.to_local()));
-            // if let Some(o) = offs {
-            //     gen_wat.push(format!("i32.const {}", o));
-            //     gen_wat.push(format!("i32.add"));
-            // }
-            // gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
-            // gen_wat.push(format!("global.get {}", MEM_POINTER));
-            // gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            // gen_wat.push(format!("i32.store {} offset={}", TRACE_MEM, offset));
-            // *offset += ValType::I32.get_byte_length();
-            // gen_wat.push(format!("local.get {}", typ.to_local()));
-            // gen_wat.push(l);
-            // gen_wat.extend(increment_mem_pointer(offset));
         } else if l.starts_with("table.get") {
             let table_idx = get_table_idx_by_table_get(&l)?;
             gen_wat.extend(trace_u8(0x25, offset));
@@ -364,6 +382,11 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.push(l);
         } else if l.starts_with("(elem") {
             adapt_elem_func_idx(&mut l, &mut functions)?;
+            // FOR SHADOW TABLE OPT. THIS SUPPORTS ONLY ONE TABLE CURRENTLY
+            //     gen_wat.push(transform_to_shadow(
+            //         l.clone(),
+            //         &format!("(table {SHADOW_TABLE})"),
+            //     )?);
             gen_wat.push(l);
         } else if l.starts_with("(data") {
             gen_wat.push(transform_to_shadow(l.clone(), SHADOW_MEM)?);
