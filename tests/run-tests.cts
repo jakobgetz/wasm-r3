@@ -1,46 +1,54 @@
-import fs from 'fs/promises'
-import fss from 'fs'
-import path from 'path'
-import cp, { execSync } from 'child_process'
-import express from 'express'
+import fs from "fs/promises";
+import fss from "fs";
+import path from "path";
+import cp, { execSync } from "child_process";
+import express from "express";
 import Generator from "../src/replay-generator.cjs";
 import Tracer, { Trace } from "../src/tracer.cjs";
-import { copyDir, delay, getDirectoryNames, writeWithSpaces, rmSafe, startSpinner, stopSpinner, trimFromLastOccurance } from "./test-utils.cjs";
-import Benchmark from '../src/benchmark.cjs';
+import {
+  copyDir,
+  delay,
+  getDirectoryNames,
+  writeWithSpaces,
+  rmSafe,
+  startSpinner,
+  stopSpinner,
+  trimFromLastOccurance,
+} from "./test-utils.cjs";
+import Benchmark from "../src/benchmark.cjs";
 //@ts-ignore
-import { instrument_wasm } from '../wasabi/wasabi_js.js'
-import { Server } from 'http'
-import Analyser, { AnalysisResult } from '../src/analyser.cjs'
-import commandLineArgs from 'command-line-args'
-import { initPerformance } from '../src/performance.cjs'
-import { generateJavascript } from '../src/js-generator.cjs'
-import { createMeasure } from '../src/performance.cjs'
-import { node_filter, offline_filter, online_filter } from './filter.cjs'
+import { instrument_wasm } from "../wasabi/wasabi_js.js";
+import { Server } from "http";
+import Analyser, { AnalysisResult } from "../src/analyser.cjs";
+import commandLineArgs from "command-line-args";
+import { initPerformance } from "../src/performance.cjs";
+import { generateJavascript } from "../src/js-generator.cjs";
+import { createMeasure } from "../src/performance.cjs";
+import { node_filter, offline_filter, online_filter } from "./filter.cjs";
 
-let extended = false
+let extended = false;
 
 async function cleanUp(testPath: string) {
-  await rmSafe(path.join(testPath, "gen.js"))
-  await rmSafe(path.join(testPath, "replayGen.js"))
-  await rmSafe(path.join(testPath, "index.wasabi.cjs"))
-  await rmSafe(path.join(testPath, "index.wasm"))
-  await rmSafe(path.join(testPath, "trace.r3"))
-  await rmSafe(path.join(testPath, "replay-trace.r3"))
+  await rmSafe(path.join(testPath, "gen.js"));
+  await rmSafe(path.join(testPath, "replayGen.js"));
+  await rmSafe(path.join(testPath, "index.wasabi.cjs"));
+  await rmSafe(path.join(testPath, "index.wasm"));
+  await rmSafe(path.join(testPath, "trace.r3"));
+  await rmSafe(path.join(testPath, "replay-trace.r3"));
   // await rmSafe(path.join(testPath, "replay.js"))
-  await rmSafe(path.join(testPath, "report.txt"))
-  await rmSafe(path.join(testPath, "long.js"))
-  await rmSafe(path.join(testPath, "call-graph.txt"))
-  await rmSafe(path.join(testPath, "replay-call-graph.txt"))
-  await rmSafe(path.join(testPath, "long.cjs"))
-  await rmSafe(path.join(testPath, 'benchmark'))
-  await rmSafe(path.join(testPath, 'test-benchmark'))
+  await rmSafe(path.join(testPath, "report.txt"));
+  await rmSafe(path.join(testPath, "long.js"));
+  await rmSafe(path.join(testPath, "call-graph.txt"));
+  await rmSafe(path.join(testPath, "replay-call-graph.txt"));
+  await rmSafe(path.join(testPath, "long.cjs"));
+  await rmSafe(path.join(testPath, "benchmark"));
+  await rmSafe(path.join(testPath, "test-benchmark"));
 }
 
-
 async function runNodeTest(name: string, options): Promise<TestReport> {
-  const testPath = path.join(process.cwd(), 'tests', 'node', name)
-  await cleanUp(testPath)
-  const testJsPath = path.join(testPath, 'test.js')
+  const testPath = path.join(process.cwd(), "tests", "node", name);
+  await cleanUp(testPath);
+  const testJsPath = path.join(testPath, "test.js");
   const watPath = path.join(testPath, "index.wat");
   const wasmPath = path.join(testPath, "index.wasm");
   const instrumentedPath = path.join(testPath, "instrumented.wasm");
@@ -51,15 +59,22 @@ async function runNodeTest(name: string, options): Promise<TestReport> {
   const mergedWasmPath = path.join(testPath, "merged.wasm");
   const replayTracePath = path.join(testPath, "replay-trace.r3");
   const replayCallGraphPath = path.join(testPath, "replay-call-graph.txt");
-  await cleanUp(testPath)
+  await cleanUp(testPath);
 
   // 1. Instrument with Wasabi !!Please use the newest version
-  const indexRsPath = path.join(testPath, 'index.rs')
-  const indexCPath = path.join(testPath, 'index.c')
-  const p_roundTrip = createMeasure('round-trip time', { description: 'The time it takes to start the browser instance, load the webpage, record the interaction, download the data, and generate the replay', phase: 'all' })
+  const indexRsPath = path.join(testPath, "index.rs");
+  const indexCPath = path.join(testPath, "index.c");
+  const p_roundTrip = createMeasure("round-trip time", {
+    description:
+      "The time it takes to start the browser instance, load the webpage, record the interaction, download the data, and generate the replay",
+    phase: "all",
+  });
   if (fss.existsSync(indexRsPath)) {
-    cp.execSync(`rustc --crate-type cdylib ${indexRsPath} --target wasm32-unknown-unknown --crate-type cdylib -o ${wasmPath}`, { stdio: 'ignore' })
-    cp.execSync(`wasm2wat ${wasmPath} -o ${watPath}`)
+    cp.execSync(
+      `rustc --crate-type cdylib ${indexRsPath} --target wasm32-unknown-unknown --crate-type cdylib -o ${wasmPath}`,
+      { stdio: "ignore" }
+    );
+    cp.execSync(`wasm2wat ${wasmPath} -o ${watPath}`);
   } else if (fss.existsSync(indexCPath)) {
     // TODO
   } else {
@@ -73,325 +88,412 @@ async function runNodeTest(name: string, options): Promise<TestReport> {
   // const wat = await fs.readFile(watPath)
   // const wabtModule = await wabt()
   // const binary = wabtModule.parseWat(watPath, wat).toBinary({})
-  const binary = await fs.readFile(wasmPath)
-  let { instrumented, js } = instrument_wasm(binary)
-  await fs.writeFile(instrumentedPath, Buffer.from(instrumented))
+  const binary = await fs.readFile(wasmPath);
+  let { instrumented, js } = instrument_wasm(binary);
+  await fs.writeFile(instrumentedPath, Buffer.from(instrumented));
 
   // 2. Execute test and generate trace
-  const wasmBinary = await fs.readFile(instrumentedPath)
-  let tracer = new Tracer(eval(js + `\nWasabi`), { extended })
-  let original_instantiate = WebAssembly.instantiate
+  const wasmBinary = await fs.readFile(instrumentedPath);
+  let tracer = new Tracer(eval(js + `\nWasabi`), { extended });
+  let original_instantiate = WebAssembly.instantiate;
   //@ts-ignore
-  WebAssembly.instantiate = async function (bytes: BufferSource, importObject?: WebAssembly.Imports) {
-    const result = await original_instantiate(bytes, importObject)
-    tracer.init()
-    return result
+  WebAssembly.instantiate = async function (
+    bytes: BufferSource,
+    importObject?: WebAssembly.Imports
+  ) {
+    const result = await original_instantiate(bytes, importObject);
+    tracer.init();
+    return result;
   };
   try {
-    await (await import(testJsPath)).default(wasmBinary)
+    await (await import(testJsPath)).default(wasmBinary);
   } catch (e: any) {
-    return { testPath, success: false, reason: e.stack }
+    return { testPath, success: false, reason: e.stack };
   }
-  let trace = tracer.getResult()
+  let trace = tracer.getResult();
   let traceString = trace.toString();
   await fs.writeFile(tracePath, traceString);
 
   // 3. Generate replay binary
   try {
-    trace = Trace.fromString(traceString)
+    trace = Trace.fromString(traceString);
   } catch (e: any) {
-    return { testPath, success: false, reason: e.stack }
+    return { testPath, success: false, reason: e.stack };
   }
-  let replayCode
+  let replayCode;
   try {
     if (options.legacyBackend === true) {
-      replayCode = await new Generator().generateReplay(trace)
-      await generateJavascript(fss.createWriteStream(replayJsPath), replayCode)
+      replayCode = await new Generator().generateReplay(trace);
+      await generateJavascript(fss.createWriteStream(replayJsPath), replayCode);
     } else {
       if (options.jsBackend == true) {
-        execSync(`./crates/target/debug/replay_gen ${tracePath} ${wasmPath} ${replayJsPath}`);
+        execSync(
+          `./crates/target/debug/replay_gen ${tracePath} ${wasmPath} ${replayJsPath}`
+        );
       } else {
-        execSync(`./crates/target/debug/replay_gen ${tracePath} ${wasmPath} ${replayWasmPath}`);
-        execSync(`node ${replayJsPath}`, { cwd: testPath })
-        execSync(`wasm-tools validate -f all  ${replayWasmPath}`)
-        execSync(`wasmtime  ${replayWasmPath}`)
-        return { testPath, roundTripTime: p_roundTrip().duration, success: true }
+        execSync(
+          `./crates/target/debug/replay_gen ${tracePath} ${wasmPath} ${replayWasmPath}`
+        );
+        execSync(`node ${replayJsPath}`, { cwd: testPath });
+        execSync(`wasm-tools validate -f all  ${replayWasmPath}`);
+        execSync(`wasmtime  ${replayWasmPath}`);
+        return {
+          testPath,
+          roundTripTime: p_roundTrip().duration,
+          success: true,
+        };
       }
     }
-    await delay(0)
+    await delay(0);
   } catch (e: any) {
-    return { testPath, success: false, reason: e.stack }
+    return { testPath, success: false, reason: e.stack };
   }
-  let roundTripTime = p_roundTrip().duration
+  let roundTripTime = p_roundTrip().duration;
 
   // 4. Execute replay and generate trace and compare
-  let replayTracer = new Tracer(eval(js + `\nWasabi`), { extended })
+  let replayTracer = new Tracer(eval(js + `\nWasabi`), { extended });
   try {
-    const replayBinary = await import(replayJsPath)
-    const wasm = await replayBinary.instantiate(wasmBinary)
-    replayTracer.init()
-    replayBinary.replay(wasm)
+    const replayBinary = await import(replayJsPath);
+    const wasm = await replayBinary.instantiate(wasmBinary);
+    replayTracer.init();
+    replayBinary.replay(wasm);
   } catch (e: any) {
-    return { testPath, roundTripTime, success: false, reason: e.stack }
+    return { testPath, roundTripTime, success: false, reason: e.stack };
   }
   let replayTraceString = replayTracer.getResult().toString();
   await fs.writeFile(replayTracePath, replayTraceString);
 
-  const result = compareResults(testPath, traceString, replayTraceString)
-  result.roundTripTime = roundTripTime
+  const result = compareResults(testPath, traceString, replayTraceString);
+  result.roundTripTime = roundTripTime;
   if (result.success === false) {
-    return result
+    return result;
   }
 
-  return result
+  return result;
 }
 
-function writeSummary(type: string, testCount: number, successfull: number, roundTripTimes: DOMHighResTimeStamp[]) {
-  const fail = testCount - successfull
-  let avgRoundTripTime = undefined
+function writeSummary(
+  type: string,
+  testCount: number,
+  successfull: number,
+  roundTripTimes: DOMHighResTimeStamp[]
+) {
+  const fail = testCount - successfull;
+  let avgRoundTripTime = undefined;
   if (roundTripTimes.length > 0) {
-    avgRoundTripTime = roundTripTimes.reduce((p, c) => p + c) / roundTripTimes.length
+    avgRoundTripTime =
+      roundTripTimes.reduce((p, c) => p + c) / roundTripTimes.length;
   }
-  console.log(`finished running ${testCount} ${type} testcases. Pass: ${successfull}, Fail: ${fail}, FailRate: ${fail / testCount * 100}%, Avg time: ${avgRoundTripTime}`);
+  console.log(
+    `finished running ${testCount} ${type} testcases. Pass: ${successfull}, Fail: ${fail}, FailRate: ${
+      (fail / testCount) * 100
+    }%, Avg time: ${avgRoundTripTime}`
+  );
 }
 
 async function runNodeTests(names: string[], options) {
   if (names.length === 0) {
-    return
+    return;
   }
-  console.log('==============')
-  console.log('Run node tests')
-  console.log('==============')
+  console.log("==============");
+  console.log("Run node tests");
+  console.log("==============");
   // ignore specific tests
 
-  names = names.filter((n) => !node_filter.includes(n))
+  names = names.filter((n) => !node_filter.includes(n));
   let successfull = 0;
   // names = ["mem-imp-host-grow"]
-  let roundTripTimes = []
+  let roundTripTimes = [];
   for (let name of names) {
-    const testPath = path.join(process.cwd(), 'tests', 'node', name)
-    const cleanUpPerformance = await initPerformance(name, 'node-auto-test', path.join(testPath, 'performance.ndjson'))
-    const report = await runNodeTest(name, options)
-    cleanUpPerformance()
-    await writeReport(name, report)
+    const testPath = path.join(process.cwd(), "tests", "node", name);
+    const cleanUpPerformance = await initPerformance(
+      name,
+      "node-auto-test",
+      path.join(testPath, "performance.ndjson")
+    );
+    const report = await runNodeTest(name, options);
+    cleanUpPerformance();
+    await writeReport(name, report);
     if (report.success === true) {
-      successfull++
+      successfull++;
     }
     if (report.roundTripTime !== undefined) {
-      roundTripTimes.push(report.roundTripTime)
+      roundTripTimes.push(report.roundTripTime);
     }
   }
-  writeSummary('node', names.length, successfull, roundTripTimes);
+  writeSummary("node", names.length, successfull, roundTripTimes);
 }
 
-function compareResults(testPath: string, traceString: string, replayTraceString: string): TestReport {
+function compareResults(
+  testPath: string,
+  traceString: string,
+  replayTraceString: string
+): TestReport {
   if (replayTraceString !== traceString) {
     let reason = `[Expected]\n`;
     reason += traceString;
     reason += `\n\n`;
     reason += `[Actual]\n`;
     reason += replayTraceString;
-    return { testPath, success: false, reason }
+    return { testPath, success: false, reason };
   }
-  return { testPath, success: true }
+  return { testPath, success: true };
 }
 
 async function runOnlineTests(names: string[], options) {
   if (names.length === 0) {
-    return
+    return;
   }
-  console.log('================')
-  console.log('Run online tests')
-  console.log('================')
-  console.log('WARNING: You need a working internet connection')
-  console.log('WARNING: Tests depend on third party websites. If those websites changed since this testsuite was created, it might not work')
+  console.log("================");
+  console.log("Run online tests");
+  console.log("================");
+  console.log("WARNING: You need a working internet connection");
+  console.log(
+    "WARNING: Tests depend on third party websites. If those websites changed since this testsuite was created, it might not work"
+  );
   // ignore specific tests
-  names = names.filter((n) => !online_filter.includes(n))
+  names = names.filter((n) => !online_filter.includes(n));
   let successfull = 0;
-  let roundTripTimes = []
+  let roundTripTimes = [];
   for (let name of names) {
-    const spinner = startSpinner(name)
-    const testPath = path.join(process.cwd(), 'tests', 'online', name)
-    const cleanUpPerformance = await initPerformance(name, 'online-auto-test', path.join(testPath, 'performance.ndjson'))
+    const spinner = startSpinner(name);
+    const testPath = path.join(process.cwd(), "tests", "online", name);
+    const cleanUpPerformance = await initPerformance(
+      name,
+      "online-auto-test",
+      path.join(testPath, "performance.ndjson")
+    );
     await cleanUp(testPath);
-    const report = await testWebPage(testPath, options)
-    stopSpinner(spinner)
-    cleanUpPerformance()
-    await writeReport(name, report)
+    const report = await testWebPage(testPath, options);
+    stopSpinner(spinner);
+    cleanUpPerformance();
+    await writeReport(name, report);
     if (report.success === true) {
-      successfull++
+      successfull++;
     }
     if (report.roundTripTime !== undefined) {
-      roundTripTimes.push(report.roundTripTime)
+      roundTripTimes.push(report.roundTripTime);
     }
   }
-  writeSummary('online', names.length, successfull, roundTripTimes);
+  writeSummary("online", names.length, successfull, roundTripTimes);
 }
 
 async function runOfflineTests(names: string[], options) {
   if (names.length === 0) {
-    return
+    return;
   }
-  console.log('=================')
-  console.log('Run offline tests')
-  console.log('=================')
+  console.log("=================");
+  console.log("Run offline tests");
+  console.log("=================");
   // ignore specific tests
-  names = names.filter((n) => !offline_filter.includes(n))
+  names = names.filter((n) => !offline_filter.includes(n));
   let successfull = 0;
-  let roundTripTimes = []
+  let roundTripTimes = [];
   for (let name of names) {
-    const spinner = startSpinner(name)
-    const testPath = path.join(process.cwd(), 'tests', 'offline', name)
-    const websitePath = path.join(testPath, 'website')
-    await cleanUp(testPath)
-    const server = await startServer(websitePath)
-    let report = await testWebPage(testPath, options)
-    server.close()
-    stopSpinner(spinner)
-    await writeReport(name, report)
+    const spinner = startSpinner(name);
+    const testPath = path.join(process.cwd(), "tests", "offline", name);
+    const websitePath = path.join(testPath, "website");
+    await cleanUp(testPath);
+    const server = await startServer(websitePath);
+    let report = await testWebPage(testPath, options);
+    server.close();
+    stopSpinner(spinner);
+    await writeReport(name, report);
     if (report.success === true) {
-      successfull++
+      successfull++;
     }
     if (report.roundTripTime !== undefined) {
-      roundTripTimes.push(report.roundTripTime)
+      roundTripTimes.push(report.roundTripTime);
     }
   }
-  writeSummary('offline', names.length, successfull, roundTripTimes);
+  writeSummary("offline", names.length, successfull, roundTripTimes);
 }
 
-type Success = { success: true }
-type Failure = { success: false, reason: string }
-type TestReport = { testPath: string, roundTripTime?: DOMHighResTimeStamp } & (Success | Failure)
+type Success = { success: true };
+type Failure = { success: false; reason: string };
+type TestReport = { testPath: string; roundTripTime?: DOMHighResTimeStamp } & (
+  | Success
+  | Failure
+);
 async function writeReport(name: string, report: TestReport) {
-  writeWithSpaces(name)
-  const testReportPath = path.join(report.testPath, 'report.txt')
+  writeWithSpaces(name);
+  const testReportPath = path.join(report.testPath, "report.txt");
   if (report.success === true) {
-    await fs.writeFile(testReportPath, 'Test successfull')
-    process.stdout.write(`\u2713`)
+    await fs.writeFile(testReportPath, "Test successfull");
+    process.stdout.write(`\u2713`);
   } else {
-    process.stdout.write(`\u2717\t\t${testReportPath}`)
-    await fs.writeFile(testReportPath, report.reason)
+    process.stdout.write(`\u2717\t\t${testReportPath}`);
+    await fs.writeFile(testReportPath, report.reason);
   }
   if (report.roundTripTime !== undefined) {
-    process.stdout.write(`\t\tround-trip-time: ${report.roundTripTime}`)
+    process.stdout.write(`\t\tround-trip-time: ${report.roundTripTime}`);
   }
-  process.stdout.write(`\n`)
+  process.stdout.write(`\n`);
 }
 
 function startServer(websitePath: string): Promise<Server> {
-  const app = express()
-  const port = 8000
-  app.use(express.static(websitePath))
-  return new Promise(resolve => {
+  const app = express();
+  const port = 8000;
+  app.use(express.static(websitePath));
+  return new Promise((resolve) => {
     const server = app.listen(port, () => {
       resolve(server);
     });
-  })
+  });
 }
 
-
 async function testWebPage(testPath: string, options): Promise<TestReport> {
-  const testJsPath = path.join(testPath, 'test.js')
-  const benchmarkPath = path.join(testPath, 'benchmark')
-  let analysisResult: AnalysisResult
+  const testJsPath = path.join(testPath, "test.js");
+  const benchmarkPath = path.join(testPath, "benchmark");
+  let analysisResult: AnalysisResult;
   try {
-    const p_roundTrip = createMeasure('round-trip time', { description: 'The time it takes to start the browser instance, load the webpage, record the interaction, download the data, and generate the replay', phase: 'all' })
-    const analyser = new Analyser('./dist/src/tracer.cjs', options)
-    analysisResult = await (await import(testJsPath)).default(analyser)
-    const blockExtended = analyser.getExtended()
+    const p_roundTrip = createMeasure("round-trip time", {
+      description:
+        "The time it takes to start the browser instance, load the webpage, record the interaction, download the data, and generate the replay",
+      phase: "all",
+    });
+    const analyser = new Analyser("./dist/src/tracer.cjs", options);
+    analysisResult = await (await import(testJsPath)).default(analyser);
+    const blockExtended = analyser.getExtended();
 
     // Sometimes during record we stop in the middle of wasm execution
     // we will generate the replay correctly, but it will run until the end
     // so we will end up with a longer replay trace.
     // Thats why we trim our trace to the position where the last wasm routine was finished
     for (let i = 0; i <= analysisResult.length - 1; i++) {
-      analysisResult[i].result = trimFromLastOccurance(analysisResult[i].result, 'ER')
+      analysisResult[i].result = trimFromLastOccurance(
+        analysisResult[i].result,
+        "ER"
+      );
     }
     // process.stdout.write(` -e not available`)
-    const benchmark = Benchmark.fromAnalysisResult(analysisResult)
-    await benchmark.save(benchmarkPath, options)
-    let m = p_roundTrip()
-    let roundTripTime = m.duration
-    let subBenchmarkNames = await getDirectoryNames(benchmarkPath)
+    const benchmark = Benchmark.fromAnalysisResult(analysisResult);
+    await benchmark.save(benchmarkPath, options);
+    let m = p_roundTrip();
+    let roundTripTime = m.duration;
+    let subBenchmarkNames = await getDirectoryNames(benchmarkPath);
     if (subBenchmarkNames.length === 0) {
-      return { testPath, roundTripTime, success: false, reason: 'no benchmark was generated' }
+      return {
+        testPath,
+        roundTripTime,
+        success: false,
+        reason: "no benchmark was generated",
+      };
     }
     if (options.jsBackend != true) {
-      return { testPath, roundTripTime, success: true }
+      return { testPath, roundTripTime, success: true };
     }
 
-    let runtimes = benchmark.instrumentBinaries()
+    let runtimes = benchmark.instrumentBinaries();
     // await copyDir(benchmarkPath, testBenchmarkPath)
-    let results: any = { testPath, success: true }
-    const record = benchmark.getRecord()
+    let results: any = { testPath, success: true };
+    const record = benchmark.getRecord();
     for (let i = 0; i < record.length; i++) {
-      const subBenchmarkPath = path.join(benchmarkPath, subBenchmarkNames[i])
-      const tracePath = path.join(subBenchmarkPath, 'trace.r3')
-      const refTracePath = path.join(subBenchmarkPath, 'trace-ref.r3')
-      await fs.rename(tracePath, refTracePath)
-      const replayPath = path.join(subBenchmarkPath, 'replay.js')
-      const replayTracePath = path.join(subBenchmarkPath, 'trace-replay.r3')
-      let tracer = new Tracer(eval(runtimes[i] + `\nWasabi`), { extended: blockExtended })
-      let replayBinary
+      const subBenchmarkPath = path.join(benchmarkPath, subBenchmarkNames[i]);
+      const tracePath = path.join(subBenchmarkPath, "trace.r3");
+      const refTracePath = path.join(subBenchmarkPath, "trace-ref.r3");
+      await fs.rename(tracePath, refTracePath);
+      const replayPath = path.join(subBenchmarkPath, "replay.js");
+      const replayTracePath = path.join(subBenchmarkPath, "trace-replay.r3");
+      let tracer = new Tracer(eval(runtimes[i] + `\nWasabi`), {
+        extended: blockExtended,
+      });
+      let replayBinary;
       try {
-        replayBinary = (await import(replayPath))
+        replayBinary = await import(replayPath);
       } catch {
-        throw new Error('Apparently this is too stupid to parse the replay file. Even tho it should be written by now')
+        throw new Error(
+          "Apparently this is too stupid to parse the replay file. Even tho it should be written by now"
+        );
       }
-      const wasm = await replayBinary.instantiate(Buffer.from(record[i].binary))
-      tracer.init()
-      await replayBinary.replay(wasm)
-      let traceString = record[i].trace.toString()
-      let replayTraceString = tracer.getResult().toString()
+      const wasm = await replayBinary.instantiate(
+        Buffer.from(record[i].binary)
+      );
+      tracer.init();
+      await replayBinary.replay(wasm);
+      let traceString = record[i].trace.toString();
+      let replayTraceString = tracer.getResult().toString();
       await fs.writeFile(replayTracePath, replayTraceString);
 
       // 5. Check if original trace and replay trace match
-      const newResult = compareResults(testPath, traceString, replayTraceString)
-      results.roundTripTime = roundTripTime
+      const newResult = compareResults(
+        testPath,
+        traceString,
+        replayTraceString
+      );
+      results.roundTripTime = roundTripTime;
       if (newResult.success === false) {
         results.success = false;
         if (results.reason === undefined) {
-          results.reason = ''
+          results.reason = "";
         }
-        results.reason += `\n\n${newResult.reason}`
+        results.reason += `\n\n${newResult.reason}`;
       }
     }
-    return results
+    return results;
   } catch (e: any) {
-    return { testPath, success: false, reason: e.stack }
+    return { testPath, success: false, reason: e.stack };
   }
 }
 
 (async function run() {
   const optionDefinitions = [
-    { name: 'jsBackend', alias: 'j', type: Boolean },
-    { name: 'category', type: String, multiple: true, defaultOption: true },
-    { name: 'testcases', alias: 't', type: String, multiple: true },
-    { name: 'legacyBackend', alias: 'l', type: Boolean },
-    { name: 'firefox', alias: 'f', type: Boolean },
-    { name: 'webkit', alias: 'w', type: Boolean }
-  ]
-  const options = commandLineArgs(optionDefinitions)
-  if (options.category === undefined || options.category.includes('node')) {
-    let testNames = await getDirectoryNames(path.join(process.cwd(), 'tests', 'node'));
+    { name: "jsBackend", alias: "j", type: Boolean },
+    { name: "category", type: String, multiple: true, defaultOption: true },
+    { name: "testcases", alias: "t", type: String, multiple: true },
+    { name: "legacyBackend", alias: "l", type: Boolean },
+    { name: "firefox", alias: "f", type: Boolean },
+    { name: "webkit", alias: "w", type: Boolean },
+  ];
+  const options = commandLineArgs(optionDefinitions);
+  if (options.category === undefined || options.category.includes("node")) {
+    let testNames = await getDirectoryNames(
+      path.join(process.cwd(), "tests", "node")
+    );
     if (options.testcases !== undefined) {
-      testNames = testNames.filter(n => options.testcases.includes(n));
+      testNames = testNames.filter((n) => options.testcases.includes(n));
     }
-    await runNodeTests(testNames, options)
+    await runNodeTests(testNames, options);
   }
-  if (options.category === undefined || options.category.includes('offline')) {
-    let testNames = await getDirectoryNames(path.join(process.cwd(), 'tests', 'offline'))
+  if (options.category === undefined || options.category.includes("offline")) {
+    let testNames = await getDirectoryNames(
+      path.join(process.cwd(), "tests", "offline")
+    );
     if (options.testcases !== undefined) {
-      testNames = testNames.filter(n => options.testcases.includes(n));
+      testNames = testNames.filter((n) => options.testcases.includes(n));
     }
-    await runOfflineTests(testNames, options)
+    await runOfflineTests(testNames, options);
   }
-  if (options.category === undefined || options.category.includes('online')) {
-    let testNames = await getDirectoryNames(path.join(process.cwd(), 'tests', 'online'));
+  if (options.category === undefined || options.category.includes("online")) {
+    let testNames = await getDirectoryNames(
+      path.join(process.cwd(), "tests", "online")
+    );
+    testNames = [
+      "boa",
+      "commanderkeen",
+      "ffmpeg",
+      "fib",
+      "figma-startpage",
+      "funky-kart",
+      "game-of-life",
+      "guiicons",
+      "handy-tools",
+      "heatmap",
+      "jsc",
+      "kittygame",
+      "ogv",
+      "pathfinding",
+      "riconpacker",
+      "rtexviewer",
+      "sandspiel",
+      "sqlgui",
+      "video",
+      "multiplyInt",
+    ];
     if (options.testcases !== undefined) {
-      testNames = testNames.filter(n => options.testcases.includes(n));
+      testNames = testNames.filter((n) => options.testcases.includes(n));
     }
-    await runOnlineTests(testNames, options)
+    await runOnlineTests(testNames, options);
   }
   // process.stdout.write(`done running ${nodeTestNames.length + webTestNames.length} tests\n`);
-})()
+})();

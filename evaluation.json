@@ -1,0 +1,24 @@
+{
+    "boa": {
+        "results": [
+            {
+                "roundTripTime": 16526.543769999997
+            },
+            {
+                "roundTripTime": 16373.593538999998
+            }
+        ],
+        "roundTripTimeMean": 16450.0686545
+    },
+    "game-of-life": {
+        "results": [
+            {
+                "roundTripTime": 860.9658780000009
+            },
+            {
+                "roundTripTime": 845.7639110000018
+            }
+        ],
+        "roundTripTimeMean": 853.3648945000014
+    }
+}

@@ -105,5 +105,15 @@
             "program": "${workspaceFolder}/dist/src/cli/dbg-replay.cjs",
             "args": []
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "eval-perf",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/dist/tests/performance-measure.cjs",
+            "args": []
+        },
     ]
 }
