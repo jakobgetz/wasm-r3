@@ -29,7 +29,8 @@ async function run(names: string[], repeat: number) {
         roundTripTime:
           parsed["round-trip_time"].duration -
           parsed["user_interaction"].duration,
-        replayGenTime: parsed["rust-backend"]
+        replayGenTime: parsed["rust-backend"].duration,
+        traceSize: 
       };
       summary[name].results.push(roundResult);
     }
