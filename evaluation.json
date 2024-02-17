@@ -1,24 +1,77 @@
 {
+    "relativeReplayGenTimeMean": 10.894156820822117,
     "boa": {
         "results": [
             {
-                "roundTripTime": 16526.543769999997
+                "roundTripTime": 16863.510169,
+                "replayGenTime": 2439.325013999998,
+                "traceSize": 134,
+                "relativeReplayGenTime": 18.20391801492536
             },
             {
-                "roundTripTime": 16373.593538999998
+                "roundTripTime": 16467.041454,
+                "replayGenTime": 2600.9163499999995,
+                "traceSize": 134,
+                "relativeReplayGenTime": 19.409823507462683
+            },
+            {
+                "roundTripTime": 16902.492261,
+                "replayGenTime": 2413.2437759999993,
+                "traceSize": 134,
+                "relativeReplayGenTime": 18.009281910447758
+            },
+            {
+                "roundTripTime": 16355.616742000002,
+                "replayGenTime": 2405.872617000001,
+                "traceSize": 134,
+                "relativeReplayGenTime": 17.954273261194036
+            },
+            {
+                "roundTripTime": 16701.355085999996,
+                "replayGenTime": 2394.5561510000007,
+                "traceSize": 134,
+                "relativeReplayGenTime": 17.869822022388064
             }
         ],
-        "roundTripTimeMean": 16450.0686545
+        "roundTripTimeMean": 16658.003142399997,
+        "replayGenTimeMean": 2450.7827816,
+        "relativeReplayGenTimeMean": 18.289423743283578
     },
     "game-of-life": {
         "results": [
             {
-                "roundTripTime": 860.9658780000009
+                "roundTripTime": 944.0050259999971,
+                "replayGenTime": 212.18574600000102,
+                "traceSize": 61,
+                "relativeReplayGenTime": 3.4784548524590333
             },
             {
-                "roundTripTime": 845.7639110000018
+                "roundTripTime": 1525.002942000001,
+                "replayGenTime": 216.19276399999944,
+                "traceSize": 61,
+                "relativeReplayGenTime": 3.5441436721311383
+            },
+            {
+                "roundTripTime": 1514.4425100000008,
+                "replayGenTime": 211.64891299999908,
+                "traceSize": 61,
+                "relativeReplayGenTime": 3.4696543114753946
+            },
+            {
+                "roundTripTime": 1253.0939420000013,
+                "replayGenTime": 215.25659900000028,
+                "traceSize": 61,
+                "relativeReplayGenTime": 3.5287967049180375
+            },
+            {
+                "roundTripTime": 1124.079952,
+                "replayGenTime": 211.8773970000002,
+                "traceSize": 61,
+                "relativeReplayGenTime": 3.4733999508196756
             }
         ],
-        "roundTripTimeMean": 853.3648945000014
+        "roundTripTimeMean": 1272.1248744,
+        "replayGenTimeMean": 213.4322838,
+        "relativeReplayGenTimeMean": 3.4988898983606562
     }
 }
