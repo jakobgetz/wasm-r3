@@ -260,19 +260,18 @@ export class CustomAnalyser implements AnalyserI {
         const p_measureStart = createMeasure('start', { phase: 'record', description: `The time it takes start the chromium browser and open the webpage until the 'load' event is fired.` })
         fss.mkdirSync(this.benchmarkPath);
         this.isRunning = true
-        // this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
-        //     headless, args: [
-        //         // '--disable-web-security',
-        //         '--js-flags="--max_old_space_size=8192"',
-        //         '--enable-experimental-web-platform-features',
-        //         '--experimental-wasm-multi-memory'
-        //     ]
-        // });
+        this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
+            headless, args: [
+                // '--disable-web-security',
+                '--js-flags="--max_old_space_size=8192"',
+                '--enable-experimental-web-platform-features',
+                '--enable-features=WebAssemblyUnlimitedSyncCompilation',
+            ]
+        });
         // this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
         //     headless, args: ['--experimental-wasm-multi-memory', '--start-fullscreen']
         //     // headless, args: ['--start-maximized']
         // });
-        this.browser = await chromium.connectOverCDP('http://localhost:9222');
         let context = await this.browser.newContext()
         this.page = await context.newPage();
         this.page.setDefaultTimeout(120000);
@@ -350,11 +349,11 @@ export class CustomAnalyser implements AnalyserI {
             try {
                 const response = await route.fetch()
                 const headers = response.headers()
-    
+
                 // Remove or modify the CSP header
                 delete headers['content-security-policy'];
                 delete headers['content-security-policy-report-only']
-    
+
                 await route.fulfill({
                     status: response.status(),
                     headers: headers,
