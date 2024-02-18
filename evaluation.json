@@ -1,77 +1,910 @@
 {
-    "relativeReplayGenTimeMean": 10.894156820822117,
+    "relativeReplayGenTimeMean": 5.086102321290375,
+    "loadsRatioMean": 0.030779033368838932,
+    "tableGetsRatioMean": 0,
+    "globalGetsRatioMean": 0,
+    "functionEntriesRatioMean": 0.06982253000279504,
+    "functionExitsRatioMean": 0.06945940934884738,
+    "callsRatioMean": 0.03766181306976812,
+    "callReturnsRatioMean": 0.037653057990765536,
     "boa": {
         "results": [
             {
-                "roundTripTime": 16863.510169,
-                "replayGenTime": 2439.325013999998,
+                "roundTripTime": 16460.161996,
+                "replayGenTime": 2449.783009999999,
                 "traceSize": 134,
-                "relativeReplayGenTime": 18.20391801492536
+                "relativeReplayGenTime": 18.281962761194023
             },
             {
-                "roundTripTime": 16467.041454,
-                "replayGenTime": 2600.9163499999995,
+                "roundTripTime": 16369.581642000001,
+                "replayGenTime": 2410.0746080000026,
                 "traceSize": 134,
-                "relativeReplayGenTime": 19.409823507462683
+                "relativeReplayGenTime": 17.985631402985096
             },
             {
-                "roundTripTime": 16902.492261,
-                "replayGenTime": 2413.2437759999993,
+                "roundTripTime": 16511.633543,
+                "replayGenTime": 2408.303098999997,
                 "traceSize": 134,
-                "relativeReplayGenTime": 18.009281910447758
+                "relativeReplayGenTime": 17.972411186567143
             },
             {
-                "roundTripTime": 16355.616742000002,
-                "replayGenTime": 2405.872617000001,
+                "roundTripTime": 16427.043498,
+                "replayGenTime": 2460.386946999999,
                 "traceSize": 134,
-                "relativeReplayGenTime": 17.954273261194036
+                "relativeReplayGenTime": 18.36109661940298
             },
             {
-                "roundTripTime": 16701.355085999996,
-                "replayGenTime": 2394.5561510000007,
+                "roundTripTime": 16623.687146000004,
+                "replayGenTime": 2408.916878,
                 "traceSize": 134,
-                "relativeReplayGenTime": 17.869822022388064
+                "relativeReplayGenTime": 17.976991626865672
             }
         ],
-        "roundTripTimeMean": 16658.003142399997,
-        "replayGenTimeMean": 2450.7827816,
-        "relativeReplayGenTimeMean": 18.289423743283578
+        "roundTripTimeMean": 16478.421565000004,
+        "replayGenTimeMean": 2427.4929083999996,
+        "relativeReplayGenTimeMean": 18.11561871940298,
+        "stats": {
+            "loads": 529455,
+            "relevantLoads": 86,
+            "tableGets": 1721,
+            "relevantTableGets": 0,
+            "globalGets": 59229,
+            "relevantGlobalGets": 0,
+            "functionEntries": 110419,
+            "relevantFunctionEntries": 6,
+            "functionExits": 110419,
+            "relevantFunctionExits": 6,
+            "calls": 110413,
+            "relevantCalls": 0,
+            "callReturns": 110413,
+            "relevantCallReturns": 0,
+            "loadsRatio": 0.00016243117923147386,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0,
+            "callReturnsRatio": 0,
+            "functionEntriesRatio": 0.00005433847435676831,
+            "functionExitsRatio": 0.00005433847435676831
+        }
+    },
+    "commanderkeen": {
+        "results": [
+            {
+                "roundTripTime": 24218.410781,
+                "replayGenTime": 3204.8514509999986,
+                "traceSize": 153965,
+                "relativeReplayGenTime": 0.02081545449290422
+            },
+            {
+                "roundTripTime": 22635.533936999997,
+                "replayGenTime": 3206.4824750000007,
+                "traceSize": 154049,
+                "relativeReplayGenTime": 0.020814691916208484
+            },
+            {
+                "roundTripTime": 22872.022947999998,
+                "replayGenTime": 3269.787561000001,
+                "traceSize": 154105,
+                "relativeReplayGenTime": 0.021217919996106557
+            },
+            {
+                "roundTripTime": 22730.670883,
+                "replayGenTime": 3168.7612950000002,
+                "traceSize": 154109,
+                "relativeReplayGenTime": 0.020561818550506462
+            },
+            {
+                "roundTripTime": 22925.927475000004,
+                "replayGenTime": 3172.7779179999998,
+                "traceSize": 154087,
+                "relativeReplayGenTime": 0.02059082153588557
+            }
+        ],
+        "roundTripTimeMean": 23076.5132048,
+        "replayGenTimeMean": 3204.5321400000003,
+        "relativeReplayGenTimeMean": 0.02080014129832226,
+        "stats": {
+            "loads": 61475748,
+            "relevantLoads": 151676,
+            "tableGets": 11845,
+            "relevantTableGets": 0,
+            "globalGets": 9617290,
+            "relevantGlobalGets": 0,
+            "functionEntries": 6584015,
+            "relevantFunctionEntries": 1512,
+            "functionExits": 6584015,
+            "relevantFunctionExits": 1107,
+            "calls": 6593247,
+            "relevantCalls": 10744,
+            "callReturns": 6593247,
+            "relevantCallReturns": 10744,
+            "loadsRatio": 0.0024672493614880456,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.001629546109830255,
+            "callReturnsRatio": 0.001629546109830255,
+            "functionEntriesRatio": 0.00022964710742609182,
+            "functionExitsRatio": 0.0001681344893655315
+        }
+    },
+    "ffmpeg": {
+        "results": [
+            {
+                "roundTripTime": 21208.998388,
+                "replayGenTime": 3453.1521979999998,
+                "traceSize": 82,
+                "relativeReplayGenTime": 42.1116121707317
+            },
+            {
+                "roundTripTime": 20728.642083,
+                "replayGenTime": 3284.1246530000026,
+                "traceSize": 82,
+                "relativeReplayGenTime": 40.0503006463415
+            },
+            {
+                "roundTripTime": 20832.782252,
+                "replayGenTime": 3292.608698,
+                "traceSize": 82,
+                "relativeReplayGenTime": 40.153764609756095
+            },
+            {
+                "roundTripTime": 20904.385553,
+                "replayGenTime": 3279.0502970000016,
+                "traceSize": 82,
+                "relativeReplayGenTime": 39.98841825609758
+            },
+            {
+                "roundTripTime": 20891.508180999997,
+                "replayGenTime": 3285.9958860000006,
+                "traceSize": 82,
+                "relativeReplayGenTime": 40.07312056097562
+            }
+        ],
+        "roundTripTimeMean": 20913.2632914,
+        "replayGenTimeMean": 3318.986346400001,
+        "relativeReplayGenTimeMean": 40.4754432487805,
+        "stats": {
+            "loads": 63484,
+            "relevantLoads": 9232,
+            "tableGets": 136,
+            "relevantTableGets": 0,
+            "globalGets": 12371,
+            "relevantGlobalGets": 0,
+            "functionEntries": 7350,
+            "relevantFunctionEntries": 7,
+            "functionExits": 7345,
+            "relevantFunctionExits": 4,
+            "calls": 7470,
+            "relevantCalls": 127,
+            "callReturns": 7465,
+            "relevantCallReturns": 126,
+            "loadsRatio": 0.145422468653519,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.017001338688085676,
+            "callReturnsRatio": 0.016878767582049564,
+            "functionEntriesRatio": 0.0009523809523809524,
+            "functionExitsRatio": 0.0005445881552076242
+        }
+    },
+    "fib": {
+        "results": [
+            {
+                "roundTripTime": 1364.9470600000059,
+                "replayGenTime": 273.3697269999975,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.46739453999995
+            },
+            {
+                "roundTripTime": 1407.742198999993,
+                "replayGenTime": 269.97763800000394,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.399552760000079
+            },
+            {
+                "roundTripTime": 1354.4237309999953,
+                "replayGenTime": 269.53714699999546,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.390742939999909
+            },
+            {
+                "roundTripTime": 2353.399746000003,
+                "replayGenTime": 271.4772499999963,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.4295449999999255
+            },
+            {
+                "roundTripTime": 1368.3263790000055,
+                "replayGenTime": 267.15158299999894,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.343031659999979
+            }
+        ],
+        "roundTripTimeMean": 1569.7678230000006,
+        "replayGenTimeMean": 270.30266899999845,
+        "relativeReplayGenTimeMean": 5.406053379999969,
+        "stats": {
+            "loads": 0,
+            "relevantLoads": 0,
+            "tableGets": 0,
+            "relevantTableGets": 0,
+            "globalGets": 0,
+            "relevantGlobalGets": 0,
+            "functionEntries": 1228009860,
+            "relevantFunctionEntries": 12,
+            "functionExits": 1228009860,
+            "relevantFunctionExits": 12,
+            "calls": 1228009848,
+            "relevantCalls": 0,
+            "callReturns": 1228009848,
+            "relevantCallReturns": 0,
+            "loadsRatio": null,
+            "globalGetsRatio": null,
+            "tableGetsRatio": null,
+            "callsRatio": 0,
+            "callReturnsRatio": 0,
+            "functionEntriesRatio": 9.77190850894308e-9,
+            "functionExitsRatio": 9.77190850894308e-9
+        }
+    },
+    "figma-startpage": {
+        "results": [
+            {
+                "roundTripTime": 3364.5577599999992,
+                "replayGenTime": 313.43197000000055,
+                "traceSize": 520,
+                "relativeReplayGenTime": 0.6027537884615395
+            },
+            {
+                "roundTripTime": 4528.89083,
+                "replayGenTime": 315.59226800000033,
+                "traceSize": 520,
+                "relativeReplayGenTime": 0.6069082076923084
+            },
+            {
+                "roundTripTime": 4933.400597000001,
+                "replayGenTime": 672.8227489999999,
+                "traceSize": 520,
+                "relativeReplayGenTime": 1.2938899019230767
+            },
+            {
+                "roundTripTime": 4798.9015150000005,
+                "replayGenTime": 311.18031299999984,
+                "traceSize": 520,
+                "relativeReplayGenTime": 0.5984236788461536
+            },
+            {
+                "roundTripTime": 3697.6373459999995,
+                "replayGenTime": 310.9773840000007,
+                "traceSize": 520,
+                "relativeReplayGenTime": 0.5980334307692321
+            }
+        ],
+        "roundTripTimeMean": 4264.6776096,
+        "replayGenTimeMean": 384.8009368000003,
+        "relativeReplayGenTimeMean": 0.7400018015384621,
+        "stats": {
+            "loads": 790,
+            "relevantLoads": 0,
+            "tableGets": 0,
+            "relevantTableGets": 0,
+            "globalGets": 405,
+            "relevantGlobalGets": 0,
+            "functionEntries": 350,
+            "relevantFunctionEntries": 2,
+            "functionExits": 349,
+            "relevantFunctionExits": 2,
+            "calls": 586,
+            "relevantCalls": 239,
+            "callReturns": 586,
+            "relevantCallReturns": 239,
+            "loadsRatio": 0,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": null,
+            "callsRatio": 0.40784982935153585,
+            "callReturnsRatio": 0.40784982935153585,
+            "functionEntriesRatio": 0.005714285714285714,
+            "functionExitsRatio": 0.0057306590257879654
+        }
+    },
+    "funky-kart": {
+        "results": [
+            {
+                "roundTripTime": 23892.416303000005,
+                "replayGenTime": 15900.445961000001,
+                "traceSize": 1561228,
+                "relativeReplayGenTime": 0.010184576475056816
+            },
+            {
+                "roundTripTime": 23732.618159999998,
+                "replayGenTime": 15752.099024000003,
+                "traceSize": 1562236,
+                "relativeReplayGenTime": 0.010083047006982301
+            },
+            {
+                "roundTripTime": 24069.187426,
+                "replayGenTime": 16050.052631999999,
+                "traceSize": 1562244,
+                "relativeReplayGenTime": 0.010273716930261854
+            },
+            {
+                "roundTripTime": 25241.753412,
+                "replayGenTime": 17355.667991000002,
+                "traceSize": 1561228,
+                "relativeReplayGenTime": 0.011116677378960665
+            },
+            {
+                "roundTripTime": 23767.573173,
+                "replayGenTime": 15694.714768000002,
+                "traceSize": 1565610,
+                "relativeReplayGenTime": 0.010024664359578696
+            }
+        ],
+        "roundTripTimeMean": 24140.7096948,
+        "replayGenTimeMean": 16150.596075200001,
+        "relativeReplayGenTimeMean": 0.010336536430168066,
+        "stats": {
+            "loads": 39585013,
+            "relevantLoads": 1473846,
+            "tableGets": 736697,
+            "relevantTableGets": 0,
+            "globalGets": 512592,
+            "relevantGlobalGets": 0,
+            "functionEntries": 2068164,
+            "relevantFunctionEntries": 1441,
+            "functionExits": 2068164,
+            "relevantFunctionExits": 1433,
+            "calls": 2131698,
+            "relevantCalls": 64975,
+            "callReturns": 2131698,
+            "relevantCallReturns": 64975,
+            "loadsRatio": 0.037232424301591106,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.03048039637884916,
+            "callReturnsRatio": 0.03048039637884916,
+            "functionEntriesRatio": 0.0006967532555445313,
+            "functionExitsRatio": 0.0006928850903506685
+        }
     },
     "game-of-life": {
         "results": [
             {
-                "roundTripTime": 944.0050259999971,
-                "replayGenTime": 212.18574600000102,
+                "roundTripTime": 938.3537570000008,
+                "replayGenTime": 212.75368699999854,
                 "traceSize": 61,
-                "relativeReplayGenTime": 3.4784548524590333
+                "relativeReplayGenTime": 3.4877653606557137
             },
             {
-                "roundTripTime": 1525.002942000001,
-                "replayGenTime": 216.19276399999944,
+                "roundTripTime": 1371.930547,
+                "replayGenTime": 254.0502859999997,
                 "traceSize": 61,
-                "relativeReplayGenTime": 3.5441436721311383
+                "relativeReplayGenTime": 4.1647587868852405
             },
             {
-                "roundTripTime": 1514.4425100000008,
-                "replayGenTime": 211.64891299999908,
+                "roundTripTime": 968.4019649999991,
+                "replayGenTime": 236.0654830000003,
                 "traceSize": 61,
-                "relativeReplayGenTime": 3.4696543114753946
+                "relativeReplayGenTime": 3.869925950819677
             },
             {
-                "roundTripTime": 1253.0939420000013,
-                "replayGenTime": 215.25659900000028,
+                "roundTripTime": 913.1408130000018,
+                "replayGenTime": 211.1181230000002,
                 "traceSize": 61,
-                "relativeReplayGenTime": 3.5287967049180375
+                "relativeReplayGenTime": 3.460952836065577
             },
             {
-                "roundTripTime": 1124.079952,
-                "replayGenTime": 211.8773970000002,
+                "roundTripTime": 898.3562580000016,
+                "replayGenTime": 213.9238889999997,
                 "traceSize": 61,
-                "relativeReplayGenTime": 3.4733999508196756
+                "relativeReplayGenTime": 3.5069489999999948
             }
         ],
-        "roundTripTimeMean": 1272.1248744,
-        "replayGenTimeMean": 213.4322838,
-        "relativeReplayGenTimeMean": 3.4988898983606562
+        "roundTripTimeMean": 1018.0366680000006,
+        "replayGenTimeMean": 225.58229359999967,
+        "relativeReplayGenTimeMean": 3.6980703868852403,
+        "stats": {
+            "loads": 9150,
+            "relevantLoads": 40,
+            "tableGets": 0,
+            "relevantTableGets": 0,
+            "globalGets": 0,
+            "relevantGlobalGets": 0,
+            "functionEntries": 410,
+            "relevantFunctionEntries": 10,
+            "functionExits": 410,
+            "relevantFunctionExits": 10,
+            "calls": 400,
+            "relevantCalls": 0,
+            "callReturns": 400,
+            "relevantCallReturns": 0,
+            "loadsRatio": 0.004371584699453552,
+            "globalGetsRatio": null,
+            "tableGetsRatio": null,
+            "callsRatio": 0,
+            "callReturnsRatio": 0,
+            "functionEntriesRatio": 0.024390243902439025,
+            "functionExitsRatio": 0.024390243902439025
+        }
+    },
+    "guiicons": {
+        "results": [
+            {
+                "roundTripTime": 5710.160947999999,
+                "replayGenTime": 540.1791329999996,
+                "traceSize": 2012,
+                "relativeReplayGenTime": 0.26847869433399585
+            },
+            {
+                "roundTripTime": 5585.531406,
+                "replayGenTime": 403.91778200000044,
+                "traceSize": 2012,
+                "relativeReplayGenTime": 0.20075436481113343
+            },
+            {
+                "roundTripTime": 6990.2921369999995,
+                "replayGenTime": 452.6416370000006,
+                "traceSize": 8229,
+                "relativeReplayGenTime": 0.05500566739579543
+            },
+            {
+                "roundTripTime": 6153.504582,
+                "replayGenTime": 399.43212700000004,
+                "traceSize": 2012,
+                "relativeReplayGenTime": 0.19852491401590458
+            },
+            {
+                "roundTripTime": 5633.103582,
+                "replayGenTime": 399.85195100000055,
+                "traceSize": 2012,
+                "relativeReplayGenTime": 0.19873357405566627
+            }
+        ],
+        "roundTripTimeMean": 6014.518531,
+        "replayGenTimeMean": 439.20452600000027,
+        "relativeReplayGenTimeMean": 0.1842994429224991,
+        "stats": {
+            "loads": 4663989,
+            "relevantLoads": 7233,
+            "tableGets": 298,
+            "relevantTableGets": 0,
+            "globalGets": 1286933,
+            "relevantGlobalGets": 0,
+            "functionEntries": 147267,
+            "relevantFunctionEntries": 25,
+            "functionExits": 147267,
+            "relevantFunctionExits": 8,
+            "calls": 147584,
+            "relevantCalls": 342,
+            "callReturns": 147584,
+            "relevantCallReturns": 342,
+            "loadsRatio": 0.0015508184088770364,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.0023173243712055506,
+            "callReturnsRatio": 0.0023173243712055506,
+            "functionEntriesRatio": 0.00016975968818540475,
+            "functionExitsRatio": 0.00005432310021932952
+        }
+    },
+    "handy-tools": {
+        "results": [
+            {
+                "roundTripTime": 13221.796073999996,
+                "replayGenTime": 1281.5036360000013,
+                "traceSize": 1432,
+                "relativeReplayGenTime": 0.8949047737430177
+            },
+            {
+                "roundTripTime": 13037.347574000001,
+                "replayGenTime": 1284.538786000001,
+                "traceSize": 1432,
+                "relativeReplayGenTime": 0.897024291899442
+            },
+            {
+                "roundTripTime": 12964.056216,
+                "replayGenTime": 1279.9062940000003,
+                "traceSize": 1432,
+                "relativeReplayGenTime": 0.8937893114525142
+            },
+            {
+                "roundTripTime": 13011.843331,
+                "replayGenTime": 1278.5823430000019,
+                "traceSize": 1432,
+                "relativeReplayGenTime": 0.8928647646648058
+            },
+            {
+                "roundTripTime": 12853.688824,
+                "replayGenTime": 1278.3055620000014,
+                "traceSize": 1432,
+                "relativeReplayGenTime": 0.8926714818435764
+            }
+        ],
+        "roundTripTimeMean": 13017.746403799998,
+        "replayGenTimeMean": 1280.5673242000012,
+        "relativeReplayGenTimeMean": 0.8942509247206711,
+        "stats": {
+            "loads": 146373,
+            "relevantLoads": 1098,
+            "tableGets": 954,
+            "relevantTableGets": 0,
+            "globalGets": 57125,
+            "relevantGlobalGets": 0,
+            "functionEntries": 8789,
+            "relevantFunctionEntries": 44,
+            "functionExits": 8789,
+            "relevantFunctionExits": 6,
+            "calls": 8877,
+            "relevantCalls": 132,
+            "callReturns": 8877,
+            "relevantCallReturns": 132,
+            "loadsRatio": 0.007501383451866123,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.01486988847583643,
+            "callReturnsRatio": 0.01486988847583643,
+            "functionEntriesRatio": 0.0050062578222778474,
+            "functionExitsRatio": 0.0006826715212197064
+        }
+    },
+    "heatmap": {
+        "results": [
+            {
+                "roundTripTime": 427032.860581,
+                "replayGenTime": 5785.224127000023,
+                "traceSize": 519849,
+                "relativeReplayGenTime": 0.011128662605872135
+            },
+            {
+                "roundTripTime": 411691.45645099995,
+                "replayGenTime": 5800.273262000002,
+                "traceSize": 520711,
+                "relativeReplayGenTime": 0.011139141024483835
+            },
+            {
+                "roundTripTime": 428943.589662,
+                "replayGenTime": 5733.316148999962,
+                "traceSize": 523949,
+                "relativeReplayGenTime": 0.010942508047538905
+            },
+            {
+                "roundTripTime": 413695.028482,
+                "replayGenTime": 5733.905574000033,
+                "traceSize": 522213,
+                "relativeReplayGenTime": 0.010980013086614147
+            },
+            {
+                "roundTripTime": 411250.07081699994,
+                "replayGenTime": 5744.8481129999855,
+                "traceSize": 520881,
+                "relativeReplayGenTime": 0.011029098993820057
+            }
+        ],
+        "roundTripTimeMean": 418522.6011986,
+        "replayGenTimeMean": 5759.513445000001,
+        "relativeReplayGenTimeMean": 0.011043884751665817,
+        "stats": {
+            "loads": 846062545,
+            "relevantLoads": 415671,
+            "tableGets": 436068,
+            "relevantTableGets": 0,
+            "globalGets": 127647265,
+            "relevantGlobalGets": 0,
+            "functionEntries": 24612241,
+            "relevantFunctionEntries": 121,
+            "functionExits": 24612241,
+            "relevantFunctionExits": 21,
+            "calls": 24664128,
+            "relevantCalls": 52008,
+            "callReturns": 24664128,
+            "relevantCallReturns": 52008,
+            "loadsRatio": 0.0004913005574546501,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.002108649452354448,
+            "callReturnsRatio": 0.002108649452354448,
+            "functionEntriesRatio": 0.000004916252851579017,
+            "functionExitsRatio": 8.532339659765236e-7
+        }
+    },
+    "jsc": {
+        "results": [
+            {
+                "roundTripTime": 20078.055171,
+                "replayGenTime": 3689.558681999999,
+                "traceSize": 86888,
+                "relativeReplayGenTime": 0.04246338599116102
+            },
+            {
+                "roundTripTime": 19624.730236,
+                "replayGenTime": 3673.2607309999985,
+                "traceSize": 86888,
+                "relativeReplayGenTime": 0.04227581174615595
+            },
+            {
+                "roundTripTime": 19613.340052,
+                "replayGenTime": 3685.0300400000015,
+                "traceSize": 86888,
+                "relativeReplayGenTime": 0.042411265537243364
+            },
+            {
+                "roundTripTime": 19654.324376,
+                "replayGenTime": 3674.850201999998,
+                "traceSize": 86888,
+                "relativeReplayGenTime": 0.042294105077801285
+            },
+            {
+                "roundTripTime": 19545.227044,
+                "replayGenTime": 3642.55041,
+                "traceSize": 86888,
+                "relativeReplayGenTime": 0.041922364538256145
+            }
+        ],
+        "roundTripTimeMean": 19703.1353758,
+        "replayGenTimeMean": 3673.050012999999,
+        "relativeReplayGenTimeMean": 0.04227338657812356,
+        "stats": {
+            "loads": 495847,
+            "relevantLoads": 85966,
+            "tableGets": 938,
+            "relevantTableGets": 0,
+            "globalGets": 154008,
+            "relevantGlobalGets": 0,
+            "functionEntries": 294388,
+            "relevantFunctionEntries": 9,
+            "functionExits": 294388,
+            "relevantFunctionExits": 5,
+            "calls": 294801,
+            "relevantCalls": 422,
+            "callReturns": 294801,
+            "relevantCallReturns": 422,
+            "loadsRatio": 0.1733720280651088,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.0014314741130457495,
+            "callReturnsRatio": 0.0014314741130457495,
+            "functionEntriesRatio": 0.00003057189831107246,
+            "functionExitsRatio": 0.00001698438795059581
+        }
+    },
+    "pathfinding": {
+        "results": [
+            {
+                "roundTripTime": 1699.3553660000007,
+                "replayGenTime": 433.37889799999994,
+                "traceSize": 33112,
+                "relativeReplayGenTime": 0.013088273073206086
+            },
+            {
+                "roundTripTime": 1282.3320869999998,
+                "replayGenTime": 292.870895,
+                "traceSize": 23118,
+                "relativeReplayGenTime": 0.012668522147244572
+            },
+            {
+                "roundTripTime": 4382.039733,
+                "replayGenTime": 938.6281610000005,
+                "traceSize": 89204,
+                "relativeReplayGenTime": 0.010522265380476218
+            },
+            {
+                "roundTripTime": 1230.4237910000002,
+                "replayGenTime": 297.00789299999997,
+                "traceSize": 20932,
+                "relativeReplayGenTime": 0.014189178912669595
+            },
+            {
+                "roundTripTime": 8855.384533000004,
+                "replayGenTime": 1755.6207930000019,
+                "traceSize": 142442,
+                "relativeReplayGenTime": 0.012325162473146979
+            }
+        ],
+        "roundTripTimeMean": 3489.907102000001,
+        "replayGenTimeMean": 743.5013280000005,
+        "relativeReplayGenTimeMean": 0.01255868039734869,
+        "stats": {
+            "loads": 13169020,
+            "relevantLoads": 0,
+            "tableGets": 5,
+            "relevantTableGets": 0,
+            "globalGets": 1300425,
+            "relevantGlobalGets": 0,
+            "functionEntries": 1498648,
+            "relevantFunctionEntries": 169,
+            "functionExits": 1498648,
+            "relevantFunctionExits": 169,
+            "calls": 1515055,
+            "relevantCalls": 16576,
+            "callReturns": 1515055,
+            "relevantCallReturns": 16576,
+            "loadsRatio": 0,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.010940856932586606,
+            "callReturnsRatio": 0.010940856932586606,
+            "functionEntriesRatio": 0.0001127683085020632,
+            "functionExitsRatio": 0.0001127683085020632
+        }
+    },
+    "riconpacker": {
+        "results": [
+            {
+                "roundTripTime": 6103.808046000001,
+                "replayGenTime": 478.0113449999999,
+                "traceSize": 3105,
+                "relativeReplayGenTime": 0.15394890338164247
+            },
+            {
+                "roundTripTime": 5750.700392000001,
+                "replayGenTime": 481.4430059999995,
+                "traceSize": 1993,
+                "relativeReplayGenTime": 0.2415669874560961
+            },
+            {
+                "roundTripTime": 5409.965439,
+                "replayGenTime": 472.24612999999954,
+                "traceSize": 1993,
+                "relativeReplayGenTime": 0.2369523983943801
+            },
+            {
+                "roundTripTime": 5159.077350000001,
+                "replayGenTime": 471.573633,
+                "traceSize": 1993,
+                "relativeReplayGenTime": 0.2366149688911189
+            },
+            {
+                "roundTripTime": 5840.134606,
+                "replayGenTime": 467.0890609999997,
+                "traceSize": 1993,
+                "relativeReplayGenTime": 0.23436480732563958
+            }
+        ],
+        "roundTripTimeMean": 5652.737166600001,
+        "replayGenTimeMean": 474.0726349999997,
+        "relativeReplayGenTimeMean": 0.22068961308977544,
+        "stats": {
+            "loads": 6021030,
+            "relevantLoads": 1481,
+            "tableGets": 508,
+            "relevantTableGets": 0,
+            "globalGets": 1529098,
+            "relevantGlobalGets": 0,
+            "functionEntries": 191249,
+            "relevantFunctionEntries": 161,
+            "functionExits": 191249,
+            "relevantFunctionExits": 59,
+            "calls": 192324,
+            "relevantCalls": 1236,
+            "callReturns": 192324,
+            "relevantCallReturns": 1236,
+            "loadsRatio": 0.00024597120426239367,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.006426655019654334,
+            "callReturnsRatio": 0.006426655019654334,
+            "functionEntriesRatio": 0.0008418344671083247,
+            "functionExitsRatio": 0.0003084983450893861
+        }
+    },
+    "sqlgui": {
+        "results": [
+            {
+                "roundTripTime": 3494.1096150000003,
+                "replayGenTime": 597.9888929999997,
+                "traceSize": 5838,
+                "relativeReplayGenTime": 0.10243043730729698
+            },
+            {
+                "roundTripTime": 3353.9096329999998,
+                "replayGenTime": 596.3849480000003,
+                "traceSize": 5835,
+                "relativeReplayGenTime": 0.10220821730934025
+            },
+            {
+                "roundTripTime": 3311.021051,
+                "replayGenTime": 601.9839679999995,
+                "traceSize": 5838,
+                "relativeReplayGenTime": 0.10311475984926337
+            },
+            {
+                "roundTripTime": 3548.277559,
+                "replayGenTime": 595.2378710000003,
+                "traceSize": 5839,
+                "relativeReplayGenTime": 0.10194174875834908
+            },
+            {
+                "roundTripTime": 3466.045438,
+                "replayGenTime": 594.5288460000002,
+                "traceSize": 5839,
+                "relativeReplayGenTime": 0.10182031957526977
+            }
+        ],
+        "roundTripTimeMean": 3434.6726592,
+        "replayGenTimeMean": 597.2249052,
+        "relativeReplayGenTimeMean": 0.10230309655990388,
+        "stats": {
+            "loads": 140609,
+            "relevantLoads": 3840,
+            "tableGets": 2591,
+            "relevantTableGets": 0,
+            "globalGets": 12672,
+            "relevantGlobalGets": 0,
+            "functionEntries": 23319,
+            "relevantFunctionEntries": 213,
+            "functionExits": 23319,
+            "relevantFunctionExits": 213,
+            "calls": 23875,
+            "relevantCalls": 769,
+            "callReturns": 23875,
+            "relevantCallReturns": 769,
+            "loadsRatio": 0.027309773912053994,
+            "globalGetsRatio": 0,
+            "tableGetsRatio": 0,
+            "callsRatio": 0.03220942408376963,
+            "callReturnsRatio": 0.03220942408376963,
+            "functionEntriesRatio": 0.009134182426347613,
+            "functionExitsRatio": 0.009134182426347613
+        }
+    },
+    "multiplyInt": {
+        "results": [
+            {
+                "roundTripTime": 1316.3937230000001,
+                "replayGenTime": 267.03784799999994,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.340756959999998
+            },
+            {
+                "roundTripTime": 1312.1379210000005,
+                "replayGenTime": 312.0749880000003,
+                "traceSize": 50,
+                "relativeReplayGenTime": 6.241499760000006
+            },
+            {
+                "roundTripTime": 1283.9583009999997,
+                "replayGenTime": 269.0358580000002,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.380717160000004
+            },
+            {
+                "roundTripTime": 1337.2398569999996,
+                "replayGenTime": 268.077679,
+                "traceSize": 50,
+                "relativeReplayGenTime": 5.36155358
+            },
+            {
+                "roundTripTime": 1440.7092499999999,
+                "replayGenTime": 473.2215210000004,
+                "traceSize": 50,
+                "relativeReplayGenTime": 9.464430420000008
+            }
+        ],
+        "roundTripTimeMean": 1338.0878103999999,
+        "replayGenTimeMean": 317.88957880000015,
+        "relativeReplayGenTimeMean": 6.357791576000002,
+        "stats": {
+            "loads": 0,
+            "relevantLoads": 0,
+            "tableGets": 0,
+            "relevantTableGets": 0,
+            "globalGets": 0,
+            "relevantGlobalGets": 0,
+            "functionEntries": 12,
+            "relevantFunctionEntries": 12,
+            "functionExits": 12,
+            "relevantFunctionExits": 12,
+            "calls": 0,
+            "relevantCalls": 0,
+            "callReturns": 0,
+            "relevantCallReturns": 0,
+            "loadsRatio": null,
+            "globalGetsRatio": null,
+            "tableGetsRatio": null,
+            "callsRatio": null,
+            "callReturnsRatio": null,
+            "functionEntriesRatio": 1,
+            "functionExitsRatio": 1
+        }
     }
 }

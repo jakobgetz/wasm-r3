@@ -1,0 +1,16 @@
+{
+    "loads": 529455,
+    "relevantLoads": 86,
+    "tableGets": 1721,
+    "relevantTableGets": 0,
+    "globalGets": 59229,
+    "relevantGlobalGets": 0,
+    "functionEntries": 110419,
+    "relevantFunctionEntries": 6,
+    "functionExits": 110419,
+    "relevantFunctionExits": 6,
+    "calls": 110413,
+    "relevantCalls": 0,
+    "callReturns": 0,
+    "relevantCallReturns": 0
+}

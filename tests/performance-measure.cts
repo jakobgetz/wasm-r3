@@ -3,8 +3,15 @@ import cp from "child_process";
 import path from "path";
 
 async function run(names: string[], repeat: number) {
-  const summary: { [key: string]: any } = {
+  const summary = {
     relativeReplayGenTimeMean: 0,
+    loadsRatioMean: 0,
+    tableGetsRatioMean: 0,
+    globalGetsRatioMean: 0,
+    functionEntriesRatioMean: 0,
+    functionExitsRatioMean: 0,
+    callsRatioMean: 0,
+    callReturnsRatioMean: 0,
   };
   for (let name of names) {
     summary[name] = {
@@ -14,12 +21,14 @@ async function run(names: string[], repeat: number) {
       relativeReplayGenTimeMean: 0,
     };
   }
+  let firstEntry = true;
   for (let i = 0; i < repeat; i++) {
     for (let name of names) {
       cp.execSync(`npm t -- online -j -t ${name}`);
       const testPath = path.join("tests/online", name);
       const performancePath = path.join(testPath, "performance.ndjson");
-      const tracePath = path.join(testPath, "benchmark/bin_0/trace-ref.r3");
+      const subBenchmarkPath = path.join(testPath, "benchmark/bin_0");
+      const tracePath = path.join(subBenchmarkPath, "trace-ref.r3");
       const jsons = await fs.readFile(performancePath, "utf8");
       const results = jsons.split("\n").filter((r) => r !== "");
       let parsed = {};
@@ -39,21 +48,81 @@ async function run(names: string[], repeat: number) {
         relativeReplayGenTime: parsed["rust-backend"].duration / traceSize,
       };
       summary[name].results.push(roundResult);
+      if (firstEntry === true) {
+        const statsPath = path.join(subBenchmarkPath, "stats.json");
+        const statsString = await fs.readFile(statsPath, "utf-8");
+        let stats = JSON.parse(statsString);
+        // if division by 0, infinity gets assigned which turns into null when written to json
+        stats.loadsRatio = stats.relevantLoads / stats.loads;
+        stats.globalGetsRatio = stats.relevantGlobalGets / stats.globalGets;
+        stats.tableGetsRatio = stats.relevantTableGets / stats.tableGets;
+        stats.callsRatio = stats.relevantCalls / stats.calls;
+        stats.callReturnsRatio = stats.relevantCallReturns / stats.callReturns;
+        stats.functionEntriesRatio =
+          stats.relevantFunctionEntries / stats.functionEntries;
+        stats.functionExitsRatio =
+          stats.relevantFunctionExits / stats.functionExits;
+        summary[name].stats = stats;
+      }
     }
+    firstEntry = false;
   }
+  let loadsValues = 0;
+  let tableGetsValues = 0;
+  let globalGetsValues = 0;
+  let functionEntriesValues = 0;
+  let functionExitsValues = 0;
+  let callsValues = 0;
+  let callReturnsValues = 0;
   for (let name of names) {
-    for (let result of summary[name].results) {
-      summary[name].roundTripTimeMean += result.roundTripTime;
-      summary[name].replayGenTimeMean += result.replayGenTime;
-      summary[name].relativeReplayGenTimeMean += result.relativeReplayGenTime;
+    const current = summary[name];
+    const stats = current.stats;
+    for (let result of current.results) {
+      current.roundTripTimeMean += result.roundTripTime;
+      current.replayGenTimeMean += result.replayGenTime;
+      current.relativeReplayGenTimeMean += result.relativeReplayGenTime;
     }
-    summary[name].roundTripTimeMean /= repeat;
-    summary[name].replayGenTimeMean /= repeat;
-    summary[name].relativeReplayGenTimeMean /= repeat;
-    summary.relativeReplayGenTimeMean +=
-      summary[name].relativeReplayGenTimeMean;
+    current.roundTripTimeMean /= repeat;
+    current.replayGenTimeMean /= repeat;
+    current.relativeReplayGenTimeMean /= repeat;
+    summary.relativeReplayGenTimeMean += current.relativeReplayGenTimeMean;
+    if (Number.isFinite(stats.loadsRatio)) {
+      summary.loadsRatioMean += stats.loadsRatio;
+      loadsValues++;
+    }
+    if (Number.isFinite(stats.tableGetsRatio)) {
+      summary.tableGetsRatioMean += stats.tableGetsRatio;
+      tableGetsValues++;
+    }
+    if (Number.isFinite(stats.globalGetsRatio)) {
+      summary.globalGetsRatioMean += stats.globalGetsRatio;
+      globalGetsValues++;
+    }
+    if (Number.isFinite(stats.functionEntriesRatio)) {
+      summary.functionEntriesRatioMean += stats.functionEntriesRatio;
+      functionEntriesValues++;
+    }
+    if (Number.isFinite(stats.functionExitsRatio)) {
+      summary.functionExitsRatioMean += stats.functionExitsRatio;
+      functionExitsValues++;
+    }
+    if (Number.isFinite(stats.callsRatio)) {
+      summary.callsRatioMean += stats.callsRatio;
+      callsValues++;
+    }
+    if (Number.isFinite(stats.callReturnsRatio)) {
+      summary.callReturnsRatioMean += stats.callReturnsRatio;
+      callReturnsValues++;
+    }
   }
   summary.relativeReplayGenTimeMean /= names.length;
+  summary.loadsRatioMean /= loadsValues;
+  summary.tableGetsRatioMean /= tableGetsValues;
+  summary.globalGetsRatioMean /= globalGetsValues;
+  summary.functionEntriesRatioMean /= functionEntriesValues;
+  summary.functionExitsRatioMean /= functionExitsValues;
+  summary.callsRatioMean /= callsValues;
+  summary.callReturnsRatioMean /= callReturnsValues;
   await fs.writeFile("evaluation.json", JSON.stringify(summary));
 }
 
@@ -69,14 +138,14 @@ const names = [
   "handy-tools",
   "heatmap",
   "jsc",
-  "kittygame",
-  "ogv",
+  // "kittygame",
+  // "ogv",
   "pathfinding",
   "riconpacker",
-  "rtexviewer",
+  // "rtexviewer",
   //   "sandspiel",
   "sqlgui",
-  "video",
+  // "video",
   "multiplyInt",
 ];
 run(names, 5);
