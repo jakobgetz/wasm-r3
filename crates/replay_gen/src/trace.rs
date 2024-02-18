@@ -504,7 +504,7 @@ impl fmt::Display for F64 {
         if self.0.is_infinite() {
             write!(f, "Infinity")
         } else if self.0.is_nan() {
-            write!(f, "nan")
+            write!(f, "NaN")
         } else {
             write!(f, "{}", self.0)
         }
