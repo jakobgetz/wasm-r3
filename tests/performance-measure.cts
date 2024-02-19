@@ -4,7 +4,9 @@ import path from "path";
 
 async function run(names: string[], repeat: number) {
   const summary = {
+    replayGenTimeMean: 0,
     relativeReplayGenTimeMean: 0,
+    avgRoundTripTime: 0,
     loadsRatioMean: 0,
     tableGetsRatioMean: 0,
     globalGetsRatioMean: 0,
@@ -85,6 +87,7 @@ async function run(names: string[], repeat: number) {
     current.roundTripTimeMean /= repeat;
     current.replayGenTimeMean /= repeat;
     current.relativeReplayGenTimeMean /= repeat;
+    summary.replayGenTimeMean += current.replayGenTime;
     summary.relativeReplayGenTimeMean += current.relativeReplayGenTimeMean;
     if (Number.isFinite(stats.loadsRatio)) {
       summary.loadsRatioMean += stats.loadsRatio;
@@ -115,6 +118,8 @@ async function run(names: string[], repeat: number) {
       callReturnsValues++;
     }
   }
+  summary.avgRoundTripTime /= names.length;
+  summary.replayGenTimeMean /= names.length;
   summary.relativeReplayGenTimeMean /= names.length;
   summary.loadsRatioMean /= loadsValues;
   summary.tableGetsRatioMean /= tableGetsValues;
@@ -131,7 +136,7 @@ const names = [
   "commanderkeen",
   "ffmpeg",
   "fib",
-  "figma-startpage",
+  "fig",
   "funky-kart",
   "game-of-life",
   "guiicons",
@@ -140,7 +145,7 @@ const names = [
   "jsc",
   // "kittygame",
   // "ogv",
-  "pathfinding",
+  "jsc",
   "riconpacker",
   // "rtexviewer",
   //   "sandspiel",
