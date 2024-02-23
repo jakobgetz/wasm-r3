@@ -317,14 +317,13 @@ export class CustomAnalyser implements AnalyserI {
             const binPath = path.join(subBenchmarkPath, binName)
             const watPath = path.join(subBenchmarkPath, watName)
             const jsPath = path.join(subBenchmarkPath, replayName)
-            console.log(i, "wasm2wat buffer...")
-            execSync(`wasm2wat ${binPath} -o ${watPath}`)
+            execSync(`wasm-tools print ${binPath} -o ${watPath}`)
             console.log(i, "done")
             console.log(i, "stringify trace...")
-            execSync(`./target/debug/replay_gen stringify ${tracePath} ${binPath} ${traceTextPath}`)
+            execSync(`./target/release/replay_gen stringify ${tracePath} ${binPath} ${traceTextPath}`)
             console.log(i, "done")
             console.log(i, "generate replay...")
-            execSync(`./target/debug/replay_gen generate ${tracePath} ${binPath} true ${jsPath}`);
+            execSync(`./target/release/replay_gen generate ${tracePath} ${binPath} true ${jsPath}`);
             console.log(i, "done")
         })
         p_measureCodeGen()
@@ -423,7 +422,8 @@ export class CustomAnalyser implements AnalyserI {
                 console.log(e.message)
             }
         }))
-        return originalWasmBuffer.flat(1) as { buffer: any, href: string }[]
+        // TODO: is it okay to filter undefined?
+        return originalWasmBuffer.flat(1).filter(v => v != undefined) as { buffer: any, href: string }[]
     }
 
     private async constructInitScript() {

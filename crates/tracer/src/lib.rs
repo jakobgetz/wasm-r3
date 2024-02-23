@@ -389,7 +389,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             //     )?);
             gen_wat.push(l);
         } else if l.starts_with("(data") {
-            gen_wat.push(transform_to_shadow(l.clone(), SHADOW_MEM)?);
+            // gen_wat.push(transform_to_shadow(l.clone(), SHADOW_MEM)?);
             gen_wat.push(l);
         } else if l.starts_with("(@producers") {
             let mut closed_bracket = "";
