@@ -12,6 +12,6 @@ export default async function test(analyser) {
     position: { x: 500, y: 500 },
   })
 
-  await delay(50000)
+  await delay(50_000)
   return await analyser.stop()
 }

@@ -55,7 +55,7 @@ pub enum BinCodes {
     FuncEntry = 0x02,
     TableEntry = 0x03,
     FuncReturn = 0x0F,
-    MemGrow = 0x40,
+    MemGrow = 0x3F,
     // TABLE_GROW = 0x02;
     // IMPORT_CALL = 0x02;
     // IMPORT_RETURN = 0x02;
@@ -191,7 +191,8 @@ pub enum WasmEvent {
         valtype: ValType,
     },
     Call {
-        idx: usize,
+        idx: i32,
+        indirect: bool,
     },
     CallIndirect {
         tableidx: usize,
@@ -258,7 +259,7 @@ impl WasmEvent {
                     BinCodes::StoreI64_16 => WasmEvent::decode_store(reader, StoreValue::I16(0), &ValType::I64),
                     BinCodes::StoreI64_32 => WasmEvent::decode_store(reader, StoreValue::I32(0), &ValType::I64),
                     BinCodes::Call => WasmEvent::decode_call(reader),
-                    BinCodes::CallIndirect => WasmEvent::decode_call_indirect(reader, lookup),
+                    BinCodes::CallIndirect => WasmEvent::decode_call_indirect(reader),
                     BinCodes::CallIndirectReturn => WasmEvent::decode_indirect_call_return(reader, module_types, lookup),
                     BinCodes::GlobalGet => WasmEvent::decode_global_get(reader),
                     BinCodes::GlobalSet => WasmEvent::decode_global_set(reader),
@@ -318,21 +319,6 @@ impl WasmEvent {
             read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
         let funcidx = *lookup.get(lookupidx).unwrap();
         Ok(vec![WasmEvent::TableGet { tableidx, idx, funcidx }])
-    }
-
-    fn decode_call_indirect(reader: &mut BufReader<File>, lookup: &Vec<i32>) -> Result<Vec<Self>, ErrorKind> {
-        let tableidx = read_i32(reader)
-            .map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode tableidx for table.get")))?
-            as usize;
-        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode table idx for table.get")))?
-            as usize;
-        let lookupidx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode funcidx for table.get")))? as usize;
-        let funcidx = *lookup.get(lookupidx).unwrap();
-        Ok(vec![
-            WasmEvent::TableGet { tableidx, idx, funcidx },
-            WasmEvent::CallIndirect { tableidx, idx, funcidx },
-        ])
     }
 
     fn decode_indirect_call_return(
@@ -444,9 +430,13 @@ impl WasmEvent {
     }
 
     fn decode_call(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
-        let idx =
-            read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for call")))? as usize;
-        Ok(vec![WasmEvent::Call { idx }])
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for call")))?;
+        Ok(vec![WasmEvent::Call { idx, indirect: false }])
+    }
+
+    fn decode_call_indirect(reader: &mut BufReader<File>) -> Result<Vec<Self>, ErrorKind> {
+        let idx = read_i32(reader).map_err(|_| ErrorKind::TraceEntryIncomplete(String::from("decode func idx for call")))?;
+        Ok(vec![WasmEvent::Call { idx, indirect: true }])
     }
 
     // fn decode_load(reader: &mut BufReader<File>, mut data: LoadValue) -> Result<Vec<Self>, ErrorKind> {
@@ -742,7 +732,7 @@ impl FromStr for WasmEvent {
                 params: split_list(components.get(4).unwrap()),
             }),
             "ER" => Ok(WasmEvent::FuncReturn),
-            "IC" => Ok(WasmEvent::Call { idx: components[1].parse().unwrap() }),
+            "IC" => Ok(WasmEvent::Call { idx: components[1].parse().unwrap(), indirect: false }),
             "IR" => Ok(WasmEvent::CallReturn {
                 idx: components[1].parse().unwrap(),
                 results: split_list(components.get(3).unwrap()),
@@ -787,7 +777,7 @@ impl Display for WasmEvent {
             }
             WasmEvent::Store { idx, offset, data } => write!(f, "Store idx={} offset={} data={}\n", idx, offset, data),
             WasmEvent::MemGrow { idx, amount } => {
-                write!(f, "MG;{};{}\n", idx, amount)
+                write!(f, "MemoryGrow idx={} pages={}\n", idx, amount)
             }
             WasmEvent::TableGet { tableidx, idx, funcidx } => {
                 write!(f, "table.get idx={} offset={} funcidx={}\n", tableidx, idx, funcidx)
@@ -811,7 +801,13 @@ impl Display for WasmEvent {
                 )
             }
             WasmEvent::FuncReturn => write!(f, "FuncExit\n"),
-            WasmEvent::Call { idx } => write!(f, "Call funcidx={}\n", idx),
+            WasmEvent::Call { idx, indirect } => {
+                if *indirect {
+                    write!(f, "CallIndirect funcidx={}\n", idx)
+                } else {
+                    write!(f, "Call funcidx={}\n", idx)
+                }
+            }
             WasmEvent::CallReturn { idx, results } => {
                 write!(f, "CallReturn funcidx={} results={}\n", idx, join_vec(results))
             }

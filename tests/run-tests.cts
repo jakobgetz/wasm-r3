@@ -93,6 +93,10 @@ async function runNodeTestCustom(name: string, options): Promise<TestReport> {
     await test.default(wasmBinary);
     check_mem();
     execSync(
+      `wasm2wat test.wasm -o ${path.join(benchmarkPath, "instrumented.wat")} --enable-multi-memory`
+    );
+    // fs.rm('test.wasm')
+    execSync(
       `./target/release/replay_gen stringify ${tracePath} ${wasmPath} ${traceStringPath}`
     );
 

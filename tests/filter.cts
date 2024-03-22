@@ -28,6 +28,21 @@ export const node_filter = [
   // multiplyDouble
   // multiplyInt
   // virtualkc
+  "glob-exp-host-mod-detection",
+  "glob-exp-host-mod-f32",
+  "glob-exp-host-mod-f64",
+  "glob-exp-host-mod-i32",
+  "glob-exp-host-mod-i64",
+  "glob-exp-host-mod-multiple",
+  "glob-exp-host-mod-param",
+  "glob-exp-not-mut",
+  "glob-imp-const",
+  "glob-imp-different-init",
+  "glob-imp-different-value",
+  "glob-imp-f64",
+  "glob-imp-infinity",
+  "glob-imp-nan",
+  "glob-imp-no-init",
 ];
 
 export const offline_filter = [

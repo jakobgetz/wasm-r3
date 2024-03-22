@@ -297,8 +297,8 @@ impl TraceOptimiser for CallOptimiser {
                     false
                 }
             }
-            WasmEvent::Call { idx } => {
-                if let None = self.import_functions.get(*idx) {
+            WasmEvent::Call { idx, .. } => {
+                if let None = self.import_functions.get(*idx as usize) {
                     false
                 } else {
                     self.call_stack.push(Scope::External);

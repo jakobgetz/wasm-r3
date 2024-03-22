@@ -16,6 +16,7 @@ pub struct IRGenerator {
     pub replay: Replay,
     state: State,
     flag: bool,
+    idx: u32,
 }
 
 pub struct Replay {
@@ -333,6 +334,7 @@ impl IRGenerator {
                 last_table_get: 0,
             },
             flag: true,
+            idx: 0,
         }
     }
 
@@ -347,6 +349,7 @@ impl IRGenerator {
     }
 
     pub fn consume_event(&mut self, event: WasmEvent) {
+        self.idx += 1;
         match event {
             WasmEvent::FuncEntry { idx, params } => {
                 match self.replay.funcs.get(&idx) {
@@ -475,10 +478,18 @@ impl IRGenerator {
                     valtype: valtype.clone(),
                 });
             }
-            WasmEvent::Call { idx } => {
-                self.replay.funcs.get_mut(&idx).unwrap().bodys.push(Some(vec![]));
-                self.state.host_call_stack.push(idx);
-                self.state.last_func = idx;
+            WasmEvent::Call { idx, .. } => {
+                let func_idx = idx as usize;
+                match self.replay.funcs.get_mut(&func_idx) {
+                    Some(f) => f.bodys.push(Some(vec![])),
+                    None => {
+                        dbg!(idx);
+                        dbg!(func_idx);
+                        panic!();
+                    }
+                }
+                self.state.host_call_stack.push(func_idx);
+                self.state.last_func = func_idx;
             }
             WasmEvent::CallReturn { idx: _idx, results } => {
                 self.flag = false;
@@ -491,22 +502,43 @@ impl IRGenerator {
             WasmEvent::TableSet { tableidx: _, idx: _, funcidx: _ } => {}
             WasmEvent::GlobalSet { idx: _, value: _, valtype: _ } => {}
             WasmEvent::CallIndirect { tableidx: _, idx, funcidx: _ } => {
-                if let Some(f) = self.replay.funcs.get_mut(&idx) {
-                    f.bodys.push(Some(vec![]));
-                    self.state.host_call_stack.push(idx);
-                    self.state.last_func = idx;
-                }
+                panic!(); // dont use this event anymore
+                          // if let Some(f) = self.replay.funcs.get_mut(&idx) {
+                          //     f.bodys.push(Some(vec![]));
+                          //     self.state.host_call_stack.push(idx);
+                          //     self.state.last_func = idx;
+                          // }
             }
         }
     }
     fn splice_event(&mut self, event: HostEvent) {
         let flag = self.flag;
         let idx = self.state.host_call_stack.last().unwrap();
+        let last_func_idx = self.state.last_func;
+        let event_idx = self.idx;
         let current_context = self.idx_to_cxt(*idx);
 
         if flag {
             if let Some(current_context) = current_context {
-                current_context.insert(current_context.len() - 1, event)
+                // if current_context.is_empty() {
+                //     dbg!(event_idx);
+                //     dbg!(&event);
+                // }
+                // dbg!(&current_context);
+                match current_context.last() {
+                    Some(e) => match e {
+                        HostEvent::ExportCall { .. } | HostEvent::ExportCallTable { .. } => {}
+                        _ => {
+                            current_context.push(event);
+                            return;
+                        }
+                    },
+                    None => {
+                        current_context.push(event);
+                        return
+                    }
+                }
+                current_context.insert(current_context.len() - 1, event);
             }
         } else {
             let last_idx = &self.state.last_func;
