@@ -3,7 +3,7 @@
 // - setup(wasabiBinary) you need to call this to make the next function available
 // - instrument_wasm() a function that takes a wasm buffer and instruments it with wasabi.
 // - the setupAnalysis function returns a new Analysis instance when given the Wasabi object
-export function setup(filePath) {
+export function setup(filePath, disable_shadow_opt) {
     let i = 0
     // const p_timeToFirstInstantiate = performanceEvent('time until instantiation of first wasm module in this context')
     const printWelcome = function () {
@@ -47,7 +47,7 @@ export function setup(filePath) {
         printWelcome()
         let result
         try {
-            const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer));
+            const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer), disable_shadow_opt);
             // console.log('stats', stats)
             // console.log('instrumented', instrumented)
             buffer = new Uint8Array(instrumented)

@@ -88,7 +88,7 @@ async function runNodeTestCustom(name: string, options): Promise<TestReport> {
       `import fs from 'fs';\n${testText};\n${runtime};`
     );
     let test = await import(testJsRuntimePath);
-    let check_mem = test.setup(tracePath);
+    let check_mem = test.setup(tracePath, options.disableShadowOpt);
     let wasmBinary = fss.readFileSync(wasmPath);
     await test.default(wasmBinary);
     check_mem();
@@ -111,7 +111,7 @@ async function runNodeTestCustom(name: string, options): Promise<TestReport> {
     await fs.rm(replayPath);
     await fs.writeFile(replayPath, `${replay};\n${runtime};`);
     let replayBinary = await import(replayPath);
-    let check_mem_2 = replayBinary.setup(replayTracePath);
+    let check_mem_2 = replayBinary.setup(replayTracePath, options.disableShadowOpt);
     let wasm = await replayBinary.instantiate(wasmBinary);
     await replayBinary.replay(wasm);
     check_mem_2();
@@ -477,6 +477,7 @@ async function testWebPageCustomInstrumentation(
   try {
     const analyser = new CustomAnalyser(benchmarkPath, {
       javascript: options.jsBackend,
+      disableShadowOpt: options.disableShadowOpt,
     });
     const test = await import(testJsPath);
     analysisResult = await test.default(analyser);
@@ -633,6 +634,7 @@ async function testWebPage(testPath: string, options): Promise<TestReport> {
     { name: "webkitFrontend", alias: "w", type: Boolean },
     { name: "jsBackend", alias: "j", type: Boolean },
     { name: "legacyBackend", alias: "l", type: Boolean },
+    { name: "disableShadowOpt", alias: "d", type: Boolean }
   ];
   const options = commandLineArgs(optionDefinitions);
   if (options.customFrontend === true) {

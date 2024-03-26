@@ -29,8 +29,8 @@ pub struct Stats {
 }
 
 #[wasm_bindgen]
-pub fn instrument_wasm_js(buffer: &[u8]) -> Result<JsValue, JsValue> {
-    let output = instrument_wasm(buffer).map_err(|e| JsValue::from_str(e))?;
+pub fn instrument_wasm_js(buffer: &[u8], disable_shadow_opt: bool) -> Result<JsValue, JsValue> {
+    let output = instrument_wasm(buffer, disable_shadow_opt).map_err(|e| JsValue::from_str(e))?;
     // let uint8_array = js_sys::Uint8Array::new_with_length(buffer.len() as u32);
     // uint8_array.copy_from(&buffer);
 
@@ -72,7 +72,7 @@ const EXTERNAL: u8 = 0;
 const IN_ENVIRONMENT: &str = "$in_environment";
 const CALLED_FROM_ENV: &str = "$table_call";
 
-pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
+pub fn instrument_wasm(buffer: &[u8], disable_shadow_opt: bool) -> Result<Output, &'static str> {
     let mut orig_wat = wasmprinter::print_bytes(buffer).unwrap();
     // fs::write("tests/wat.wat", &orig_wat).expect("Couldnt write wat");
     if orig_wat == "(module)" {
@@ -351,14 +351,16 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             || l.starts_with("f64.load")
         {
             let (code, typ, offs) = get_load_info(&l)?;
-            // shadow mem opt
             gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
             gen_wat.push(l.clone());
             gen_wat.push(format!("local.tee {}", typ.to_local()));
-            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(to_shadow_mem_instr(&l)?);
-            gen_wat.push(format!("{}.ne", typ.to_string()));
-            gen_wat.push(format!("(if (then"));
+            if !disable_shadow_opt {
+                // shadow mem opt
+                gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+                gen_wat.push(to_shadow_mem_instr(&l)?);
+                gen_wat.push(format!("{}.ne", typ.to_string()));
+                gen_wat.push(format!("(if (then"));
+            }
             // instrumentation
             gen_wat.extend(trace_u8(code, offset));
             gen_wat.push(format!("global.get {}", MEM_POINTER));
@@ -377,20 +379,24 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             gen_wat.push(load_to_trace(code, offset)?);
             gen_wat.extend(increment_mem_pointer(offset));
             // end
-            gen_wat.push(") (else))".into());
-            gen_wat.push(format!("local.get {}", typ.to_local()));
+            if !disable_shadow_opt {
+                gen_wat.push(") (else))".into());
+                gen_wat.push(format!("local.get {}", typ.to_local()));
+            }
         } else if l.contains("i32.store")
             || l.contains("i64.store")
             || l.contains("f32.store")
             || l.contains("f64.store")
         {
-            let (code, typ, offs) = get_store_info(&l)?;
-            gen_wat.push(format!("local.set {}", typ.to_local()));
-            gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
-            gen_wat.push(format!("local.get {}", typ.to_local()));
-            gen_wat.push(to_shadow_mem_instr(&l)?);
-            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(format!("local.get {}", typ.to_local()));
+            if !disable_shadow_opt {
+                let (code, typ, offs) = get_store_info(&l)?;
+                gen_wat.push(format!("local.set {}", typ.to_local()));
+                gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
+                gen_wat.push(format!("local.get {}", typ.to_local()));
+                gen_wat.push(to_shadow_mem_instr(&l)?);
+                gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+                gen_wat.push(format!("local.get {}", typ.to_local()));
+            }
             gen_wat.push(l);
         } else if l.starts_with("table.get") {
             if IGNORE_TABLE == false {

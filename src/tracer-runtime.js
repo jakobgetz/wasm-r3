@@ -136,7 +136,7 @@ function setup() {
       href,
     });
     console.log("Instrumenting...");
-    const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer));
+    const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer), disableShadowOpt);
     // const customEvent = new CustomEvent("instrumented", {
     //   detail: {
     //     message: "Instrumentation done",
@@ -201,7 +201,7 @@ function setup() {
       href,
     });
     console.log("Instrumenting...");
-    const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer));
+    const { instrumented, stats } = instrument_wasm_js(new Uint8Array(buffer), disableShadowOpt);
     const customEvent = new CustomEvent("instrumented", {
       detail: {
         message: "Instrumentation done",
