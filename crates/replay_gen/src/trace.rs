@@ -830,10 +830,17 @@ impl Display for WasmEvent {
             WasmEvent::CallIndirect { tableidx, idx, funcidx } => {
                 write!(f, "CallIndirect tableidx={} offset={} funcidx={}\n", tableidx, idx, funcidx)
             }
-            _ => {
-                /* Ignore rest for now*/
-                Ok(())
+            WasmEvent::TableSet { tableidx, idx, funcidx } => {
+                write!(f, "TableSet tableidx={} idx={} funcidx={}", tableidx, idx, funcidx)
             }
+            WasmEvent::GlobalSet { idx, value, valtype } => {
+                write!(f, "GlobalSet idx={} value={} valtype={}", idx, value, valtype)
+            }
+            WasmEvent::ImportGlobal { idx, module, name, mutable, initial, value } => write!(
+                f,
+                "TableSet idx={} module={} name={} mutable={} initial={} value={}",
+                idx, module, name, mutable, initial, value
+            ),
         }
     }
 }
