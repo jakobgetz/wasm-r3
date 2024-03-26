@@ -118,6 +118,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
                 public: true,
                 elem: HashMap::new(),
                 elem_vec: Vec::new(),
+                has_imported_function: false
             });
             // FOR SHADOW TABLE, THIS CURRENTLY ONLY SUPPORTS 1 TABLE
             // }
@@ -128,6 +129,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
                 public: false,
                 elem: HashMap::new(),
                 elem_vec: Vec::new(),
+                has_imported_function: false
             });
             // }
         } else if l.starts_with("(func") {
@@ -158,12 +160,13 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             functions.get_mut(func_idx).unwrap().exported = true;
         } else if l.starts_with("(elem") {
             // if IGNORE_TABLE == false {
-            elem_func_public(l, &mut functions, &tables)?;
+            elem_func_public(l, &mut functions, &mut tables)?;
             // }
             elem_offset = parse_elem(l, &mut tables, &functions)?;
         }
     }
 
+    dbg!(tables.get(0).unwrap().has_imported_function);
     // Second loop: generate the instrumented module
     let mut gen_wat = Vec::new();
     let mut stats = Stats {
@@ -287,70 +290,74 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
             // }
             gen_wat.push(l);
         } else if l.starts_with("call_indirect") {
-            let called_type_idx = get_type_idx_by_call_indirect(&l)?;
-            let called_type = types.get(called_type_idx).unwrap();
-            // check if import call
-            gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
-            gen_wat.push(format!("i32.const 4"));
-            gen_wat.push(format!("i32.mul"));
-            gen_wat.push(format!("i32.load {}", FUNC_MAP_MEM));
-            gen_wat.push(format!("local.tee {}", LOCAL_I32));
-            gen_wat.push(format!("i32.const -1"));
-            gen_wat.push(format!("i32.ne"));
-            gen_wat.push(format!("(if (type {}) (then", called_type_idx));
-            // call stack opt
-            gen_wat.push(format!("global.get {}", CALL_STACK_ADDR));
-            gen_wat.push(format!("i32.const 1"));
-            gen_wat.push(format!("i32.add"));
-            gen_wat.push(format!("global.set {}", CALL_STACK_ADDR));
-            gen_wat.push(format!("global.get {}", CALL_STACK_ADDR));
-            gen_wat.push(format!("i32.const {}", EXTERNAL));
-            gen_wat.push(format!("i32.store8 {}", CALL_STACK));
-            // instrument call
-            gen_wat.extend(trace_u8(0x11, offset));
-            gen_wat.push(format!("global.get {}", MEM_POINTER));
-            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(store_value(&ValType::I32, offset));
-            gen_wat.extend(increment_mem_pointer(offset));
-            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(l.clone());
-            // call stack opt
-            gen_wat.push(format!("global.get {}", CALL_STACK_ADDR));
-            gen_wat.push(format!("i32.const 1"));
-            gen_wat.push(format!("i32.sub"));
-            gen_wat.push(format!("global.set {}", CALL_STACK_ADDR));
-            // instrument call return
-            gen_wat.extend(trace_u8(0xFF, offset));
-            gen_wat.push(format!("global.get {}", MEM_POINTER));
-            gen_wat.push(format!("local.get {}", LOCAL_I32));
-            gen_wat.push(store_value(&ValType::I32, offset));
-            gen_wat.extend(trace_u32(called_type.idx, offset));
-            gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
-            gen_wat.extend(increment_mem_pointer(offset));
-            // grow shadow mem
-            if !memories.is_empty() {
-                gen_wat.push(format!("memory.size"));
-                gen_wat.push(format!("memory.size {}", SHADOW_MEM));
-                gen_wat.push(format!("i32.ne"));
-                gen_wat.push(format!("(if (then"));
-                gen_wat.extend(trace_u8(0x3F, offset));
-                gen_wat.push(format!("global.get {}", MEM_POINTER));
-                gen_wat.push(format!("memory.size"));
-                gen_wat.push(format!("memory.size {}", SHADOW_MEM));
-                gen_wat.push(format!("i32.sub"));
+            if !tables.is_empty() && tables.get(0).unwrap().has_imported_function {
+                let called_type_idx = get_type_idx_by_call_indirect(&l)?;
+                let called_type = types.get(called_type_idx).unwrap();
+                // check if import call
+                gen_wat.push(format!("local.tee {}", LOCAL_ADDR));
+                gen_wat.push(format!("i32.const 4"));
+                gen_wat.push(format!("i32.mul"));
+                gen_wat.push(format!("i32.load {}", FUNC_MAP_MEM));
                 gen_wat.push(format!("local.tee {}", LOCAL_I32));
-                gen_wat.push(store_value(&ValType::I32, offset));
+                gen_wat.push(format!("i32.const -1"));
+                gen_wat.push(format!("i32.ne"));
+                gen_wat.push(format!("(if (type {}) (then", called_type_idx));
+                // call stack opt
+                gen_wat.push(format!("global.get {}", CALL_STACK_ADDR));
+                gen_wat.push(format!("i32.const 1"));
+                gen_wat.push(format!("i32.add"));
+                gen_wat.push(format!("global.set {}", CALL_STACK_ADDR));
+                gen_wat.push(format!("global.get {}", CALL_STACK_ADDR));
+                gen_wat.push(format!("i32.const {}", EXTERNAL));
+                gen_wat.push(format!("i32.store8 {}", CALL_STACK));
+                // instrument call
+                gen_wat.extend(trace_u8(0x11, offset));
+                gen_wat.push(format!("global.get {}", MEM_POINTER));
                 gen_wat.push(format!("local.get {}", LOCAL_I32));
-                gen_wat.push(format!("memory.grow {}", SHADOW_MEM));
-                gen_wat.push(format!("drop"));
+                gen_wat.push(store_value(&ValType::I32, offset));
                 gen_wat.extend(increment_mem_pointer(offset));
-                gen_wat.push(format!(") (else))"));
+                gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+                gen_wat.push(l.clone());
+                // call stack opt
+                gen_wat.push(format!("global.get {}", CALL_STACK_ADDR));
+                gen_wat.push(format!("i32.const 1"));
+                gen_wat.push(format!("i32.sub"));
+                gen_wat.push(format!("global.set {}", CALL_STACK_ADDR));
+                // instrument call return
+                gen_wat.extend(trace_u8(0xFF, offset));
+                gen_wat.push(format!("global.get {}", MEM_POINTER));
+                gen_wat.push(format!("local.get {}", LOCAL_I32));
+                gen_wat.push(store_value(&ValType::I32, offset));
+                gen_wat.extend(trace_u32(called_type.idx, offset));
+                gen_wat.extend(trace_stack_value(called_type.results.get(0), offset));
+                gen_wat.extend(increment_mem_pointer(offset));
+                // grow shadow mem
+                if !memories.is_empty() {
+                    gen_wat.push(format!("memory.size"));
+                    gen_wat.push(format!("memory.size {}", SHADOW_MEM));
+                    gen_wat.push(format!("i32.ne"));
+                    gen_wat.push(format!("(if (then"));
+                    gen_wat.extend(trace_u8(0x3F, offset));
+                    gen_wat.push(format!("global.get {}", MEM_POINTER));
+                    gen_wat.push(format!("memory.size"));
+                    gen_wat.push(format!("memory.size {}", SHADOW_MEM));
+                    gen_wat.push(format!("i32.sub"));
+                    gen_wat.push(format!("local.tee {}", LOCAL_I32));
+                    gen_wat.push(store_value(&ValType::I32, offset));
+                    gen_wat.push(format!("local.get {}", LOCAL_I32));
+                    gen_wat.push(format!("memory.grow {}", SHADOW_MEM));
+                    gen_wat.push(format!("drop"));
+                    gen_wat.extend(increment_mem_pointer(offset));
+                    gen_wat.push(format!(") (else))"));
+                }
+                gen_wat.push(format!(") (else"));
+                // here is the normal uninstrumented call
+                gen_wat.push(format!("local.get {}", LOCAL_ADDR));
+                gen_wat.push(l);
+                gen_wat.push(format!("))"));
+            } else {
+                gen_wat.push(l);
             }
-            gen_wat.push(format!(") (else"));
-            // here is the normal uninstrumented call
-            gen_wat.push(format!("local.get {}", LOCAL_ADDR));
-            gen_wat.push(l);
-            gen_wat.push(format!("))"));
         } else if l.starts_with("call") {
             stats.calls += 1;
             let called_func_idx = get_func_idx_by_call_instr(&mut l, &functions)?;
@@ -566,7 +573,7 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
                 "(global {} (mut i32) (i32.const 1))",
                 CALL_STACK_ADDR
             ));
-            if !tables.is_empty() {
+            if !tables.is_empty() && tables.get(0).unwrap().has_imported_function {
                 gen_wat.push(format!("(memory {} {})", FUNC_MAP_MEM, FUNC_MEM_PAGES));
                 let data = format!(
                     "(data (memory {}) (i32.const {}) \"{}\")",
@@ -621,8 +628,6 @@ pub fn instrument_wasm(buffer: &[u8]) -> Result<Output, &'static str> {
 fn init_func_map_mem(functions: &mut Vec<Function>, tables: &Vec<Table>) -> String {
     let mut m = String::new();
     functions.sort_by_key(|f| f.in_table_at_index);
-    dbg!(&functions);
-    dbg!(tables);
     for e in &tables.get(0).unwrap().elem_vec {
         let f = functions.into_iter().find(|f| f.func_idx == *e).unwrap();
         // if f.in_table_at_index == -1 {
@@ -901,7 +906,7 @@ fn adapt_elem_func_idx(input: &mut String, functions: &Vec<Function>) -> Result<
 fn elem_func_public(
     input: &str,
     functions: &mut Vec<Function>,
-    tables: &Vec<Table>,
+    tables: &mut Vec<Table>,
 ) -> Result<(), &'static str> {
     // (elem (;0;) (i32.const 0) func 4 5)
     // (elem (;1;) (table 1) (i32.const 0) func $func_name 7))
@@ -942,6 +947,9 @@ fn elem_func_public(
         };
         let func = functions.get_mut(func_idx).unwrap();
         func.in_table_at_index = i as i32 - 4;
+        if func.imported {
+            tables.get_mut(table_idx).unwrap().has_imported_function = true;
+        }
         if tables.get(table_idx).unwrap().public {
             func.in_public_table = true;
         }
@@ -1632,6 +1640,7 @@ struct Table {
     public: bool,
     elem: HashMap<u32, u32>,
     elem_vec: Vec<u32>,
+    has_imported_function: bool
 }
 
 /// please provide something like "(memory" or "(global" or "(table" as keyword
