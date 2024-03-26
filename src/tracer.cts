@@ -174,6 +174,16 @@ export class Trace {
                     value: parseNumber(components[3]),
                     valtype: components[4] as ValType,
                 }
+            case 'IG':
+                return {
+                    type: 'ImportGlobal',
+                    idx: parseInt(components[1]),
+                    module: components[2],
+                    name: components[3],
+                    initial: parseNumber(components[6]),
+                    value: components[4] as ValType,
+                    mutable: parseInt(components[5]) === 1
+                }
             case 'FE':
                 return {
                     type: 'FuncEntry',
@@ -282,15 +292,10 @@ export default class Analysis implements AnalysisI<Trace> {
                     if (CALLED_WITH_TABLE_GET) {
                         if (!this.Wasabi.module.tables.some((table, i) => {
                             for (let tableIndex = 0; tableIndex < table.length; tableIndex++) {
-                                let funcidx
-                                try {
-                                    funcidx = this.resolveFuncIdx(table, tableIndex)
+                                const funcidx = this.resolveFuncIdx(table, tableIndex)
                                     if (funcidx === location.func) {
                                         this.trace.push(`TC;${location.func};${this.getName(this.Wasabi.module.info.tables[i])};${tableIndex};${args.join(',')}`)
                                         return true
-                                    }
-                                } catch {
-                                    // do nothing
                                 }
                             }
                             return false
@@ -555,6 +560,11 @@ export default class Analysis implements AnalysisI<Trace> {
         })
         // Init Globals
         this.shadowGlobals = this.Wasabi.module.globals.map(g => g.value)
+        this.Wasabi.module.info.globals.forEach((g, idx) => {
+            if (g.import !== null) {
+                this.trace.push(`IG;${idx};${g.import[0]};${g.import[1]};${g.valType};${g.mutability === 'Mut' ? 1 : 0};${this.Wasabi.module.globals[idx].value}`)
+            }
+        })
     }
 
     private debugLoad(op: LoadOp, addr: number, byteLength: number) {

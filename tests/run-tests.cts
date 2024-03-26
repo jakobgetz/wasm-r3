@@ -43,6 +43,10 @@ async function cleanUp(testPath: string) {
   await rmSafe(path.join(testPath, "replay-call-graph.txt"));
   await rmSafe(path.join(testPath, "long.cjs"));
   await rmSafe(path.join(testPath, frontend));
+  // delete ablation study directories
+  await rmSafe(path.join(testPath, 'noopt'));
+  await rmSafe(path.join(testPath, 'split'));
+  await rmSafe(path.join(testPath, 'merge'));
   await rmSafe(path.join(testPath, "test-benchmark"));
   await rmSafe(path.join(testPath, "test-runtime.js"));
 }
@@ -285,8 +289,7 @@ function writeSummary(
       roundTripTimes.reduce((p, c) => p + c) / roundTripTimes.length;
   }
   console.log(
-    `finished running ${testCount} ${type} testcases. Pass: ${successfull}, Fail: ${fail}, FailRate: ${
-      (fail / testCount) * 100
+    `finished running ${testCount} ${type} testcases. Pass: ${successfull}, Fail: ${fail}, FailRate: ${(fail / testCount) * 100
     }%, Avg time: ${avgRoundTripTime}`
   );
 }
@@ -399,6 +402,9 @@ async function runOnlineTests(names: string[], options) {
     }
   }
   writeSummary("online", names.length, successfull, roundTripTimes);
+  if (successfull !== names.length) {
+    process.exit(1);
+  }
 }
 
 async function runOfflineTests(names: string[], options) {
@@ -479,9 +485,7 @@ async function testWebPageCustomInstrumentation(
 
   let analysisResult: AnalysisResult;
   try {
-    const analyser = new CustomAnalyser(benchmarkPath, {
-      javascript: options.jsBackend,
-    });
+    const analyser = new CustomAnalyser(benchmarkPath, options);
     const test = await import(testJsPath);
     analysisResult = await test.default(analyser);
     const subBenchmarkNames = await fs.readdir(benchmarkPath);
@@ -524,6 +528,7 @@ async function testWebPageCustomInstrumentation(
         `./target/release/replay_gen stringify ${replayTracePath} ${wasmPath} ${replayTextTracePath}`
       );
       let traceString = await fs.readFile(traceTextPath, "utf-8");
+      traceString = trimFromLastOccurance(traceString, 'FuncExit')
       let replayTraceString = await fs.readFile(replayTextTracePath, "utf-8");
       const comparison = compareResults(
         testPath,
@@ -555,9 +560,9 @@ async function testWebPage(testPath: string, options): Promise<TestReport> {
     // we will generate the replay correctly, but it will run until the end
     // so we will end up with a longer replay trace.
     // Thats why we trim our trace to the position where the last wasm routine was finished
-    // for (let i = 0; i <= analysisResult.length - 1; i++) {
-    //   analysisResult[i].result = trimFromLastOccurance(analysisResult[i].result, 'ER')
-    // }
+    for (let i = 0; i <= analysisResult.length - 1; i++) {
+      analysisResult[i].result = trimFromLastOccurance(analysisResult[i].result, 'ER')
+    }
     // process.stdout.write(` -e not available`)
     const benchmark = Benchmark.fromAnalysisResult(analysisResult);
     await benchmark.save(benchmarkPath, options);
@@ -632,11 +637,14 @@ async function testWebPage(testPath: string, options): Promise<TestReport> {
   const optionDefinitions = [
     { name: "category", type: String, multiple: true, defaultOption: true },
     { name: "testcases", alias: "t", type: String, multiple: true },
+    { name: "port", alias: "p", type: Number },
     { name: "customFrontend", alias: "c", type: Boolean },
     { name: "firefoxFrontend", alias: "f", type: Boolean },
     { name: "webkitFrontend", alias: "w", type: Boolean },
     { name: "jsBackend", alias: "j", type: Boolean },
     { name: "legacyBackend", alias: "l", type: Boolean },
+    { name: "noRecord", type: Boolean },
+    { name: "evalRecord", type: Boolean },
   ];
   const options = commandLineArgs(optionDefinitions);
   if (options.customFrontend === true) {

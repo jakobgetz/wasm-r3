@@ -10,8 +10,9 @@ use crate::irgen::{FunctionTy, HostEvent, INIT_INDEX};
 use crate::trace::{ValType, F64};
 use crate::{irgen::Replay, write};
 
-pub fn generate_replay_wasm(replay_path: &Path, code: &Replay) -> std::io::Result<()> {
-    let mut module_set: HashSet<&String> = code.module.imports.iter().map(|import| &import.module).collect();
+pub fn generate_replay_wasm(replay_path: &Path, code: &Replay, merge_store: bool) -> std::io::Result<()> {
+    let binding = code.imported_modules();
+    let mut module_set: HashSet<&String> = binding.iter().collect();
     let binding = "main".to_string();
     module_set.insert(&binding);
     for current_module in module_set.clone() {
@@ -165,14 +166,22 @@ pub fn generate_replay_wasm(replay_path: &Path, code: &Replay) -> std::io::Resul
                     for event in body {
                         match event {
                             HostEvent::MutateMemory { addr, data, import: _, name: _ } => {
-                                memory_writes.insert(addr, data);
+                                if merge_store {
+                                    memory_writes.insert(addr, data);
+                                } else {
+                                    bodystr += &hostevent_to_wat(event, code);
+                                }
                             }
                             HostEvent::ExportCall { .. } | HostEvent::ExportCallTable { .. } => {
-                                if memory_writes.len() > 0 {
-                                    merge_memory_writes(&mut bodystr, memory_writes, &mut data_segments);
-                                    memory_writes = BTreeMap::new();
+                                if merge_store {
+                                    if memory_writes.len() > 0 {
+                                        merge_memory_writes(&mut bodystr, memory_writes, &mut data_segments);
+                                        memory_writes = BTreeMap::new();
+                                    }
+                                    bodystr += &hostevent_to_wat(event, code);
+                                } else {
+                                    bodystr += &hostevent_to_wat(event, code);
                                 }
-                                bodystr += &hostevent_to_wat(event, code);
                             }
                             _ => bodystr += &hostevent_to_wat(event, code),
                         }
@@ -425,17 +434,23 @@ fn generate_single_wasm(replay_path: &Path, module_set: &HashSet<&String>, code:
         "--enable-reference-types",
         "--enable-multimemory",
         "--enable-bulk-memory",
+        "--enable-threads",
         "--debuginfo",
     ]
     .iter()
     .cloned()
     .chain(module_args.iter().map(|s| s.as_str()))
     .chain(["-o", "merged_1.wasm"]);
-    let _output = Command::new("wasm-merge")
+    let output = Command::new("wasm-merge")
         .current_dir(replay_path.parent().unwrap())
-        .args(args)
+        .args(args.clone())
         .output()
         .expect("Failed to execute wasm-merge");
+    assert!(
+        output.status.success(),
+        "Failed to execute wasm-merge first time: {:?}",
+        output
+    );
 
     let module_list = code.imported_modules();
     for module in &module_list {
@@ -509,6 +524,7 @@ fn generate_single_wasm(replay_path: &Path, module_set: &HashSet<&String>, code:
         "--enable-reference-types",
         "--enable-multimemory",
         "--enable-bulk-memory",
+        "--enable-threads",
         "--debuginfo",
         "merged_1.wasm",
         "index",
@@ -517,18 +533,24 @@ fn generate_single_wasm(replay_path: &Path, module_set: &HashSet<&String>, code:
     .cloned()
     .chain(module_args.iter().map(|s| s.as_str()))
     .chain(["-o", "merged_2.wasm"]);
-    let _output = Command::new("wasm-merge")
+    let output = Command::new("wasm-merge")
         .current_dir(replay_path.parent().unwrap())
         .args(args)
         .output()
         .expect("Failed to execute wasm-merge");
+    assert!(
+        output.status.success(),
+        "Failed to execute wasm-merge second time: {:?}",
+        output
+    );
 
-    let _output = Command::new("wasm-opt")
+    let output = Command::new("wasm-opt")
         .current_dir(replay_path.parent().unwrap())
         .args([
             "--enable-reference-types",
             "--enable-gc",
             "--enable-bulk-memory",
+            "--enable-threads",
             "--debuginfo",
             // for handling inlining of imported globals. Without this glob-merge node test will fail.
             "--simplify-globals",
@@ -538,6 +560,7 @@ fn generate_single_wasm(replay_path: &Path, module_set: &HashSet<&String>, code:
         ])
         .output()
         .expect("Failed to execute wasm-opt");
+    assert!(output.status.success(), "Failed to execute wasm-opt: {:?}", output);
     Ok(())
 }
 

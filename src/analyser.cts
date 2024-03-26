@@ -1,4 +1,4 @@
-import { Browser, chromium, Frame, Page, Worker } from 'playwright'
+import { Browser, chromium, firefox, Frame, Page, webkit, Worker } from 'playwright'
 import { createMeasure, StopMeasure } from './performance.cjs'
 import fs from 'fs/promises'
 import fss from 'fs'
@@ -7,7 +7,7 @@ import acorn from 'acorn'
 import { trimFromLastOccurance } from '../tests/test-utils.cjs'
 import { WebSocketServer } from 'ws';
 import path from 'path'
-import { execSync } from 'child_process'
+import { exec, execSync } from 'child_process'
 import { askQuestion } from './util.cjs'
 
 export interface AnalysisI<T> {
@@ -24,7 +24,7 @@ export type AnalysisResult = {
     wasm: number[]
 }[]
 
-type Options = { extended?: boolean, noRecord?: boolean }
+type Options = { extended?: boolean, noRecord?: boolean, evalRecord?: boolean, firefox?: boolean, webkit?: boolean }
 export class Analyser implements AnalyserI {
 
     private analysisPath: string
@@ -47,9 +47,42 @@ export class Analyser implements AnalyserI {
         }
         const p_measureStart = createMeasure('start', { phase: 'record', description: `The time it takes start the chromium browser and open the webpage until the 'load' event is fired.` })
         this.isRunning = true
-        this.browser = await chromium.launch({ // chromium version: 119.0.6045.9 (Developer Build) (x86_64); V8 version: V8 11.9.169.3; currently in node I run version 11.8.172.13-node.12
-            headless, args: ['--experimental-wasm-multi-memory']
-        });
+        let browserType = this.options.firefox ? firefox : this.options.webkit ? webkit : chromium;
+        if (this.options.evalRecord) {
+            let cmd = `${chromium.executablePath()} --headless --remote-debugging-port=0 --js-flags='--slow-histograms'`
+            let chromiumProcess = exec(cmd, (err, stdout, stderr) => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+                console.log(stdout)
+            })
+
+            let remoteDebuggingUrlPromise = new Promise<string>((resolve, reject) => {
+                chromiumProcess.stderr.on('data', (data) => {
+                    const match = data.toString().match(/DevTools listening on (ws:\/\/.+)/);
+                    if (match) {
+                        const remoteDebuggingUrl = match[1];
+                        resolve(remoteDebuggingUrl);
+                    }
+                });
+            });
+            process.on('exit', () => {
+                chromiumProcess.kill();
+            });
+            // Use the remoteDebuggingUrlPromise
+            let port = await remoteDebuggingUrlPromise;
+            this.browser = await chromium.connectOverCDP(port);
+        } else {
+            this.browser = await browserType.launch({
+                headless, args: [
+                    // '--disable-web-security',
+                    '--js-flags="--max_old_space_size=8192"',
+                    '--enable-experimental-web-platform-features',
+                    '--experimental-wasm-multi-memory'
+                ], downloadsPath: 'Downloads'
+            });
+        }
         this.page = await this.browser.newPage();
         this.page.setDefaultTimeout(120000);
         if (this.options.noRecord !== true) {
@@ -71,13 +104,16 @@ export class Analyser implements AnalyserI {
         this.contexts = this.contexts.concat(this.page.frames())
         const p_measureDataDownload = createMeasure('data download', { phase: 'record', description: `The time it takes to download all data from the browser.` })
         const p_measureTraceDownload = createMeasure('trace download', { phase: 'record', description: `The time it takes to download all traces from the browser.` })
-        // const traces = (await this.getResults()).map(t => trimFromLastOccurance(t, 'ER'))
-        const traces = await this.getResults()
+        const traces = (await this.getResults()).map(t => trimFromLastOccurance(t, 'ER'))
         p_measureTraceDownload()
         const p_measureBufferDownload = createMeasure('buffer download', { phase: 'record', description: `The time it takes to download all wasm binaries from the browser.` })
         const originalWasmBuffer = await this.getBuffers()
         p_measureBufferDownload()
         p_measureDataDownload()
+        if (this.options.evalRecord) {
+            await getHistogram(this.page)
+            process.exit(0)
+        }
         this.contexts = []
         this.browser.close()
         this.isRunning = false
@@ -198,12 +234,14 @@ export class CustomAnalyser implements AnalyserI {
     private benchmarkPath: string
     private javascript: boolean;
     private wss: WebSocketServer;
+    private port: number;
 
-    constructor(benchmarkPath: string, options: { javascript: boolean }) {
+    constructor(benchmarkPath: string, options: any) {
         this.benchmarkPath = benchmarkPath;
         this.javascript = options.javascript;
+        this.port = options.port ?? 8080;
 
-        this.wss = new WebSocketServer({ port: 8080, maxPayload: 1_000_000_000 });
+        this.wss = new WebSocketServer({ port: this.port, maxPayload: 1_000_000_000 });
         let traceContexts: { [context: string]: fss.WriteStream } = {}
         let lookupContexts: { [context: string]: fss.WriteStream } = {}
         let nextSubbenchmarkIndex = 0
@@ -439,9 +477,20 @@ export class CustomAnalyser implements AnalyserI {
 
     private async constructInitScript() {
         const tracerScript = await fs.readFile('./dist/tracer.js') + '\n'
-        const setupScript = await fs.readFile('./src/tracer-runtime.js') + '\n'
+        let setupScript = await fs.readFile('./src/tracer-runtime.js', 'utf-8')
+        setupScript = setupScript.replace('8080', `${this.port}`) + '\n'
         return tracerScript + ';' + setupScript + ';'
     }
+}
+
+async function getHistogram(page: Page) {
+    await page.goto('chrome://histograms/')
+    let ems = await page.locator('css=span.histogram-header-text').allTextContents()
+    for (let s of ems) {
+        console.log(s)
+    }
+    let histogramValue = ems.find(value => value.startsWith('Histogram: V8.ExecuteMicroSeconds'))
+    console.log(histogramValue)
 }
 
 function convertUint8ArrayToI32Array(uint8Array: Uint8Array) {
